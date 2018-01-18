@@ -1,0 +1,13 @@
+grammar polymorphic.Csv with org.eclipse.xtext.xbase.Xtype
+
+generate csv "http://www.Csv.polymorphic"
+
+Model:
+	'target' target=QualifiedName
+	'language' language=ID
+	(actions+=Actions)*;
+
+Actions:
+	{OpenCSV} 'read' name=ID file=STRING |
+	{PrintCSV} 'print' name=ID |
+	{SaveCSV} 'save' name=ID;

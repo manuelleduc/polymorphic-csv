@@ -1,0 +1,16 @@
+
+\.metadata/
+
+polymorphic\.csv/\.launch/
+
+polymorphic\.csv/bin/
+
+polymorphic\.csv/\.antlr-generator-3\.2\.0-patch\.jar
+
+polymorphic\.csv\.ide/bin/
+
+polymorphic\.csv\.tests/bin/
+
+polymorphic\.csv\.ui/bin/
+
+polymorphic\.csv\.ui\.tests/bin/

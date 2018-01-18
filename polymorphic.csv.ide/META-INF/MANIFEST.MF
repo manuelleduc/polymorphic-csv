@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: polymorphic.csv.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: polymorphic.csv.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: polymorphic.csv,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: polymorphic.ide.contentassist.antlr,
+ polymorphic.ide.contentassist.antlr.internal
+
