@@ -1,0 +1,4 @@
+target printz.my.Csv
+language Java
+read f1 "/tmp/test.csv"
+print f1
