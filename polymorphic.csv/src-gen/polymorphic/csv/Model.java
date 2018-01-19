@@ -16,8 +16,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link polymorphic.csv.Model#getTarget <em>Target</em>}</li>
- *   <li>{@link polymorphic.csv.Model#getLanguage <em>Language</em>}</li>
+ *   <li>{@link polymorphic.csv.Model#getConstraints <em>Constraints</em>}</li>
+ *   <li>{@link polymorphic.csv.Model#getLanguages <em>Languages</em>}</li>
  *   <li>{@link polymorphic.csv.Model#getActions <em>Actions</em>}</li>
  * </ul>
  *
@@ -28,56 +28,36 @@ import org.eclipse.emf.ecore.EObject;
 public interface Model extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Target</b></em>' attribute.
+   * Returns the value of the '<em><b>Constraints</b></em>' containment reference list.
+   * The list contents are of type {@link polymorphic.csv.Constraint}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Target</em>' attribute isn't clear,
+   * If the meaning of the '<em>Constraints</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Target</em>' attribute.
-   * @see #setTarget(String)
-   * @see polymorphic.csv.CsvPackage#getModel_Target()
-   * @model
+   * @return the value of the '<em>Constraints</em>' containment reference list.
+   * @see polymorphic.csv.CsvPackage#getModel_Constraints()
+   * @model containment="true"
    * @generated
    */
-  String getTarget();
+  EList<Constraint> getConstraints();
 
   /**
-   * Sets the value of the '{@link polymorphic.csv.Model#getTarget <em>Target</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Target</em>' attribute.
-   * @see #getTarget()
-   * @generated
-   */
-  void setTarget(String value);
-
-  /**
-   * Returns the value of the '<em><b>Language</b></em>' attribute.
+   * Returns the value of the '<em><b>Languages</b></em>' containment reference list.
+   * The list contents are of type {@link polymorphic.csv.Language}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Language</em>' attribute isn't clear,
+   * If the meaning of the '<em>Languages</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Language</em>' attribute.
-   * @see #setLanguage(String)
-   * @see polymorphic.csv.CsvPackage#getModel_Language()
-   * @model
+   * @return the value of the '<em>Languages</em>' containment reference list.
+   * @see polymorphic.csv.CsvPackage#getModel_Languages()
+   * @model containment="true"
    * @generated
    */
-  String getLanguage();
-
-  /**
-   * Sets the value of the '{@link polymorphic.csv.Model#getLanguage <em>Language</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Language</em>' attribute.
-   * @see #getLanguage()
-   * @generated
-   */
-  void setLanguage(String value);
+  EList<Language> getLanguages();
 
   /**
    * Returns the value of the '<em><b>Actions</b></em>' containment reference list.

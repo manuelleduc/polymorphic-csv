@@ -31,6 +31,7 @@ public class CsvParser extends AbstractContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
+					put(grammarAccess.getConstraintAccess().getAlternatives_2(), "rule__Constraint__Alternatives_2");
 					put(grammarAccess.getActionsAccess().getAlternatives(), "rule__Actions__Alternatives");
 					put(grammarAccess.getJvmTypeReferenceAccess().getAlternatives(), "rule__JvmTypeReference__Alternatives");
 					put(grammarAccess.getJvmArgumentTypeReferenceAccess().getAlternatives(), "rule__JvmArgumentTypeReference__Alternatives");
@@ -38,6 +39,8 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1(), "rule__XImportDeclaration__Alternatives_1");
 					put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1_0_3(), "rule__XImportDeclaration__Alternatives_1_0_3");
 					put(grammarAccess.getModelAccess().getGroup(), "rule__Model__Group__0");
+					put(grammarAccess.getConstraintAccess().getGroup(), "rule__Constraint__Group__0");
+					put(grammarAccess.getLanguageAccess().getGroup(), "rule__Language__Group__0");
 					put(grammarAccess.getActionsAccess().getGroup_0(), "rule__Actions__Group_0__0");
 					put(grammarAccess.getActionsAccess().getGroup_1(), "rule__Actions__Group_1__0");
 					put(grammarAccess.getActionsAccess().getGroup_2(), "rule__Actions__Group_2__0");
@@ -72,9 +75,13 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXImportDeclarationAccess().getGroup(), "rule__XImportDeclaration__Group__0");
 					put(grammarAccess.getXImportDeclarationAccess().getGroup_1_0(), "rule__XImportDeclaration__Group_1_0__0");
 					put(grammarAccess.getQualifiedNameInStaticImportAccess().getGroup(), "rule__QualifiedNameInStaticImport__Group__0");
-					put(grammarAccess.getModelAccess().getTargetAssignment_1(), "rule__Model__TargetAssignment_1");
-					put(grammarAccess.getModelAccess().getLanguageAssignment_3(), "rule__Model__LanguageAssignment_3");
-					put(grammarAccess.getModelAccess().getActionsAssignment_4(), "rule__Model__ActionsAssignment_4");
+					put(grammarAccess.getModelAccess().getConstraintsAssignment_3(), "rule__Model__ConstraintsAssignment_3");
+					put(grammarAccess.getModelAccess().getLanguagesAssignment_7(), "rule__Model__LanguagesAssignment_7");
+					put(grammarAccess.getModelAccess().getActionsAssignment_9(), "rule__Model__ActionsAssignment_9");
+					put(grammarAccess.getConstraintAccess().getNameAssignment_0(), "rule__Constraint__NameAssignment_0");
+					put(grammarAccess.getConstraintAccess().getTrueAssignment_2_0(), "rule__Constraint__TrueAssignment_2_0");
+					put(grammarAccess.getLanguageAccess().getNameAssignment_0(), "rule__Language__NameAssignment_0");
+					put(grammarAccess.getLanguageAccess().getTargetAssignment_2(), "rule__Language__TargetAssignment_2");
 					put(grammarAccess.getActionsAccess().getNameAssignment_0_2(), "rule__Actions__NameAssignment_0_2");
 					put(grammarAccess.getActionsAccess().getFileAssignment_0_3(), "rule__Actions__FileAssignment_0_3");
 					put(grammarAccess.getActionsAccess().getNameAssignment_1_2(), "rule__Actions__NameAssignment_1_2");

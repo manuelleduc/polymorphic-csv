@@ -1,18 +1,19 @@
 package polymorphic.generator.csv
 
 import org.eclipse.xtext.generator.IFileSystemAccess2
+import polymorphic.csv.Language
 import polymorphic.csv.Model
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 
 class JavaCsvGenerator implements ICsvGenerator {
 
-	override generate(Model content, IFileSystemAccess2 fsa) {
+	override generate(Model content, Language language, IFileSystemAccess2 fsa) {
 
-		val className = content.target.split("\\.").reverse.head
-		val package = content.target.split("\\.").reverse.tail.toList.reverse.join(".")
+		val className = language.target.split("\\.").reverse.head
+		val package = language.target.split("\\.").reverse.tail.toList.reverse.join(".")
 
-		fsa.generateFile('''«content.target.replaceAll("\\.", "/")».java''', '''
+		fsa.generateFile('''«language.target.replaceAll("\\.", "/")».java''', '''
 			package «package»;
 
 			import java.io.*;
@@ -147,6 +148,10 @@ class JavaCsvGenerator implements ICsvGenerator {
 '''
 	System.out.println(«open.name».serialize(';'));
 '''
+	}
+	
+	override def properties() {
+		newHashMap("java" -> true)
 	}
 
 }

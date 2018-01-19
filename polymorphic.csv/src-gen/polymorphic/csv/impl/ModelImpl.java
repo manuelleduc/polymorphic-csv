@@ -5,7 +5,6 @@ package polymorphic.csv.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -13,14 +12,15 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import polymorphic.csv.Actions;
+import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvPackage;
+import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 
 /**
@@ -31,8 +31,8 @@ import polymorphic.csv.Model;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link polymorphic.csv.impl.ModelImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link polymorphic.csv.impl.ModelImpl#getLanguage <em>Language</em>}</li>
+ *   <li>{@link polymorphic.csv.impl.ModelImpl#getConstraints <em>Constraints</em>}</li>
+ *   <li>{@link polymorphic.csv.impl.ModelImpl#getLanguages <em>Languages</em>}</li>
  *   <li>{@link polymorphic.csv.impl.ModelImpl#getActions <em>Actions</em>}</li>
  * </ul>
  *
@@ -41,44 +41,24 @@ import polymorphic.csv.Model;
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model
 {
   /**
-   * The default value of the '{@link #getTarget() <em>Target</em>}' attribute.
+   * The cached value of the '{@link #getConstraints() <em>Constraints</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTarget()
+   * @see #getConstraints()
    * @generated
    * @ordered
    */
-  protected static final String TARGET_EDEFAULT = null;
+  protected EList<Constraint> constraints;
 
   /**
-   * The cached value of the '{@link #getTarget() <em>Target</em>}' attribute.
+   * The cached value of the '{@link #getLanguages() <em>Languages</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTarget()
+   * @see #getLanguages()
    * @generated
    * @ordered
    */
-  protected String target = TARGET_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #getLanguage() <em>Language</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getLanguage()
-   * @generated
-   * @ordered
-   */
-  protected static final String LANGUAGE_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getLanguage() <em>Language</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getLanguage()
-   * @generated
-   * @ordered
-   */
-  protected String language = LANGUAGE_EDEFAULT;
+  protected EList<Language> languages;
 
   /**
    * The cached value of the '{@link #getActions() <em>Actions</em>}' containment reference list.
@@ -116,9 +96,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getTarget()
+  public EList<Constraint> getConstraints()
   {
-    return target;
+    if (constraints == null)
+    {
+      constraints = new EObjectContainmentEList<Constraint>(Constraint.class, this, CsvPackage.MODEL__CONSTRAINTS);
+    }
+    return constraints;
   }
 
   /**
@@ -126,35 +110,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTarget(String newTarget)
+  public EList<Language> getLanguages()
   {
-    String oldTarget = target;
-    target = newTarget;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.MODEL__TARGET, oldTarget, target));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getLanguage()
-  {
-    return language;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setLanguage(String newLanguage)
-  {
-    String oldLanguage = language;
-    language = newLanguage;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.MODEL__LANGUAGE, oldLanguage, language));
+    if (languages == null)
+    {
+      languages = new EObjectContainmentEList<Language>(Language.class, this, CsvPackage.MODEL__LANGUAGES);
+    }
+    return languages;
   }
 
   /**
@@ -181,6 +143,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case CsvPackage.MODEL__CONSTRAINTS:
+        return ((InternalEList<?>)getConstraints()).basicRemove(otherEnd, msgs);
+      case CsvPackage.MODEL__LANGUAGES:
+        return ((InternalEList<?>)getLanguages()).basicRemove(otherEnd, msgs);
       case CsvPackage.MODEL__ACTIONS:
         return ((InternalEList<?>)getActions()).basicRemove(otherEnd, msgs);
     }
@@ -197,10 +163,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case CsvPackage.MODEL__TARGET:
-        return getTarget();
-      case CsvPackage.MODEL__LANGUAGE:
-        return getLanguage();
+      case CsvPackage.MODEL__CONSTRAINTS:
+        return getConstraints();
+      case CsvPackage.MODEL__LANGUAGES:
+        return getLanguages();
       case CsvPackage.MODEL__ACTIONS:
         return getActions();
     }
@@ -218,11 +184,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case CsvPackage.MODEL__TARGET:
-        setTarget((String)newValue);
+      case CsvPackage.MODEL__CONSTRAINTS:
+        getConstraints().clear();
+        getConstraints().addAll((Collection<? extends Constraint>)newValue);
         return;
-      case CsvPackage.MODEL__LANGUAGE:
-        setLanguage((String)newValue);
+      case CsvPackage.MODEL__LANGUAGES:
+        getLanguages().clear();
+        getLanguages().addAll((Collection<? extends Language>)newValue);
         return;
       case CsvPackage.MODEL__ACTIONS:
         getActions().clear();
@@ -242,11 +210,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case CsvPackage.MODEL__TARGET:
-        setTarget(TARGET_EDEFAULT);
+      case CsvPackage.MODEL__CONSTRAINTS:
+        getConstraints().clear();
         return;
-      case CsvPackage.MODEL__LANGUAGE:
-        setLanguage(LANGUAGE_EDEFAULT);
+      case CsvPackage.MODEL__LANGUAGES:
+        getLanguages().clear();
         return;
       case CsvPackage.MODEL__ACTIONS:
         getActions().clear();
@@ -265,33 +233,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case CsvPackage.MODEL__TARGET:
-        return TARGET_EDEFAULT == null ? target != null : !TARGET_EDEFAULT.equals(target);
-      case CsvPackage.MODEL__LANGUAGE:
-        return LANGUAGE_EDEFAULT == null ? language != null : !LANGUAGE_EDEFAULT.equals(language);
+      case CsvPackage.MODEL__CONSTRAINTS:
+        return constraints != null && !constraints.isEmpty();
+      case CsvPackage.MODEL__LANGUAGES:
+        return languages != null && !languages.isEmpty();
       case CsvPackage.MODEL__ACTIONS:
         return actions != null && !actions.isEmpty();
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (target: ");
-    result.append(target);
-    result.append(", language: ");
-    result.append(language);
-    result.append(')');
-    return result.toString();
   }
 
 } //ModelImpl

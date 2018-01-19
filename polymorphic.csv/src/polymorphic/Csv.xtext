@@ -3,9 +3,20 @@ grammar polymorphic.Csv with org.eclipse.xtext.xbase.Xtype
 generate csv "http://www.Csv.polymorphic"
 
 Model:
-	'target' target=QualifiedName
-	'language' language=ID
+	{Model}
+	'constraints' '{'
+	constraints+=Constraint*
+	'}'
+	'languages' '{'
+	languages+=Language*
+	'}'
 	(actions+=Actions)*;
+
+Constraint:
+	name=ID '=' (true?='true' | 'false');
+
+Language:
+	name=ID '(' target=QualifiedName ')';
 
 Actions:
 	{OpenCSV} 'read' name=ID file=STRING |

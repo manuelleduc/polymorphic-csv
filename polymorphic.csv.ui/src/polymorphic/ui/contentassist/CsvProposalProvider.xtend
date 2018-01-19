@@ -17,8 +17,8 @@ class CsvProposalProvider extends AbstractCsvProposalProvider {
 	
 	val generators = new GeneratorCollection
 	
-	override completeModel_Language(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		super.completeModel_Language(model, assignment, context, acceptor)
+	override completeLanguage_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		super.completeLanguage_Name(model, assignment, context, acceptor)
 		generators.map.forEach[p1, p2|
 			acceptor.accept(createCompletionProposal(p1, context))
 		]

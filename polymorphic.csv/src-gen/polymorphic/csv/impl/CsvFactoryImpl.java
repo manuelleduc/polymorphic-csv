@@ -66,6 +66,8 @@ public class CsvFactoryImpl extends EFactoryImpl implements CsvFactory
     switch (eClass.getClassifierID())
     {
       case CsvPackage.MODEL: return createModel();
+      case CsvPackage.CONSTRAINT: return createConstraint();
+      case CsvPackage.LANGUAGE: return createLanguage();
       case CsvPackage.ACTIONS: return createActions();
       case CsvPackage.OPEN_CSV: return createOpenCSV();
       case CsvPackage.PRINT_CSV: return createPrintCSV();
@@ -84,6 +86,28 @@ public class CsvFactoryImpl extends EFactoryImpl implements CsvFactory
   {
     ModelImpl model = new ModelImpl();
     return model;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Constraint createConstraint()
+  {
+    ConstraintImpl constraint = new ConstraintImpl();
+    return constraint;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Language createLanguage()
+  {
+    LanguageImpl language = new LanguageImpl();
+    return language;
   }
 
   /**

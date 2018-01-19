@@ -20,7 +20,9 @@ class CsvGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val content = resource.contents.head as Model
-		generators.map.get(content.language.toLowerCase).generate(content, fsa)
+		content.languages.forEach[language|
+			generators.map.get(language.name.toLowerCase).generate(content, language, fsa)
+		]
 	}
 
 }

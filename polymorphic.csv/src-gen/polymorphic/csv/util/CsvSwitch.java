@@ -80,6 +80,20 @@ public class CsvSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case CsvPackage.CONSTRAINT:
+      {
+        Constraint constraint = (Constraint)theEObject;
+        T result = caseConstraint(constraint);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case CsvPackage.LANGUAGE:
+      {
+        Language language = (Language)theEObject;
+        T result = caseLanguage(language);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case CsvPackage.ACTIONS:
       {
         Actions actions = (Actions)theEObject;
@@ -127,6 +141,38 @@ public class CsvSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseModel(Model object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Constraint</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Constraint</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseConstraint(Constraint object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Language</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Language</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseLanguage(Language object)
   {
     return null;
   }

@@ -76,57 +76,81 @@ ruleModel returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='target'
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getModelAccess().getModelAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='constraints'
 		{
-			newLeafNode(otherlv_0, grammarAccess.getModelAccess().getTargetKeyword_0());
+			newLeafNode(otherlv_1, grammarAccess.getModelAccess().getConstraintsKeyword_1());
+		}
+		otherlv_2='{'
+		{
+			newLeafNode(otherlv_2, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_2());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getTargetQualifiedNameParserRuleCall_1_0());
+					newCompositeNode(grammarAccess.getModelAccess().getConstraintsConstraintParserRuleCall_3_0());
 				}
-				lv_target_1_0=ruleQualifiedName
+				lv_constraints_3_0=ruleConstraint
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
 					}
-					set(
+					add(
 						$current,
-						"target",
-						lv_target_1_0,
-						"org.eclipse.xtext.xbase.Xtype.QualifiedName");
+						"constraints",
+						lv_constraints_3_0,
+						"polymorphic.Csv.Constraint");
 					afterParserOrEnumRuleCall();
 				}
 			)
-		)
-		otherlv_2='language'
+		)*
+		otherlv_4='}'
 		{
-			newLeafNode(otherlv_2, grammarAccess.getModelAccess().getLanguageKeyword_2());
+			newLeafNode(otherlv_4, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_4());
+		}
+		otherlv_5='languages'
+		{
+			newLeafNode(otherlv_5, grammarAccess.getModelAccess().getLanguagesKeyword_5());
+		}
+		otherlv_6='{'
+		{
+			newLeafNode(otherlv_6, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_6());
 		}
 		(
 			(
-				lv_language_3_0=RULE_ID
 				{
-					newLeafNode(lv_language_3_0, grammarAccess.getModelAccess().getLanguageIDTerminalRuleCall_3_0());
+					newCompositeNode(grammarAccess.getModelAccess().getLanguagesLanguageParserRuleCall_7_0());
 				}
+				lv_languages_7_0=ruleLanguage
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getModelRule());
+						$current = createModelElementForParent(grammarAccess.getModelRule());
 					}
-					setWithLastConsumed(
+					add(
 						$current,
-						"language",
-						lv_language_3_0,
-						"org.eclipse.xtext.xbase.Xtype.ID");
+						"languages",
+						lv_languages_7_0,
+						"polymorphic.Csv.Language");
+					afterParserOrEnumRuleCall();
 				}
 			)
-		)
+		)*
+		otherlv_8='}'
+		{
+			newLeafNode(otherlv_8, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_8());
+		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getActionsActionsParserRuleCall_4_0());
+					newCompositeNode(grammarAccess.getModelAccess().getActionsActionsParserRuleCall_9_0());
 				}
-				lv_actions_4_0=ruleActions
+				lv_actions_9_0=ruleActions
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
@@ -134,12 +158,138 @@ ruleModel returns [EObject current=null]
 					add(
 						$current,
 						"actions",
-						lv_actions_4_0,
+						lv_actions_9_0,
 						"polymorphic.Csv.Actions");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
+	)
+;
+
+// Entry rule entryRuleConstraint
+entryRuleConstraint returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getConstraintRule()); }
+	iv_ruleConstraint=ruleConstraint
+	{ $current=$iv_ruleConstraint.current; }
+	EOF;
+
+// Rule Constraint
+ruleConstraint returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			(
+				lv_name_0_0=RULE_ID
+				{
+					newLeafNode(lv_name_0_0, grammarAccess.getConstraintAccess().getNameIDTerminalRuleCall_0_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getConstraintRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_0_0,
+						"org.eclipse.xtext.xbase.Xtype.ID");
+				}
+			)
+		)
+		otherlv_1='='
+		{
+			newLeafNode(otherlv_1, grammarAccess.getConstraintAccess().getEqualsSignKeyword_1());
+		}
+		(
+			(
+				(
+					lv_true_2_0='true'
+					{
+						newLeafNode(lv_true_2_0, grammarAccess.getConstraintAccess().getTrueTrueKeyword_2_0_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getConstraintRule());
+						}
+						setWithLastConsumed($current, "true", true, "true");
+					}
+				)
+			)
+			    |
+			otherlv_3='false'
+			{
+				newLeafNode(otherlv_3, grammarAccess.getConstraintAccess().getFalseKeyword_2_1());
+			}
+		)
+	)
+;
+
+// Entry rule entryRuleLanguage
+entryRuleLanguage returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getLanguageRule()); }
+	iv_ruleLanguage=ruleLanguage
+	{ $current=$iv_ruleLanguage.current; }
+	EOF;
+
+// Rule Language
+ruleLanguage returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			(
+				lv_name_0_0=RULE_ID
+				{
+					newLeafNode(lv_name_0_0, grammarAccess.getLanguageAccess().getNameIDTerminalRuleCall_0_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getLanguageRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_0_0,
+						"org.eclipse.xtext.xbase.Xtype.ID");
+				}
+			)
+		)
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getLanguageAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getLanguageAccess().getTargetQualifiedNameParserRuleCall_2_0());
+				}
+				lv_target_2_0=ruleQualifiedName
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getLanguageRule());
+					}
+					set(
+						$current,
+						"target",
+						lv_target_2_0,
+						"org.eclipse.xtext.xbase.Xtype.QualifiedName");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getLanguageAccess().getRightParenthesisKeyword_3());
+		}
 	)
 ;
 

@@ -26,7 +26,9 @@ import org.eclipse.xtext.xtype.XFunctionTypeRef;
 import org.eclipse.xtext.xtype.XImportDeclaration;
 import org.eclipse.xtext.xtype.XImportSection;
 import org.eclipse.xtext.xtype.XtypePackage;
+import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvPackage;
+import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -47,6 +49,12 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
 		if (epackage == CsvPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
+			case CsvPackage.CONSTRAINT:
+				sequence_Constraint(context, (Constraint) semanticObject); 
+				return; 
+			case CsvPackage.LANGUAGE:
+				sequence_Language(context, (Language) semanticObject); 
+				return; 
 			case CsvPackage.MODEL:
 				sequence_Model(context, (Model) semanticObject); 
 				return; 
@@ -183,10 +191,43 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     Constraint returns Constraint
+	 *
+	 * Constraint:
+	 *     (name=ID true?='true'?)
+	 */
+	protected void sequence_Constraint(ISerializationContext context, Constraint semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Language returns Language
+	 *
+	 * Constraint:
+	 *     (name=ID target=QualifiedName)
+	 */
+	protected void sequence_Language(ISerializationContext context, Language semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.LANGUAGE__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.LANGUAGE__NAME));
+			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.LANGUAGE__TARGET) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.LANGUAGE__TARGET));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getLanguageAccess().getNameIDTerminalRuleCall_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getLanguageAccess().getTargetQualifiedNameParserRuleCall_2_0(), semanticObject.getTarget());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     (target=QualifiedName language=ID actions+=Actions*)
+	 *     (constraints+=Constraint* languages+=Language* actions+=Actions*)
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

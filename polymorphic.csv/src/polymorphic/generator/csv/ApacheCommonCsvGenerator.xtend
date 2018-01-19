@@ -5,14 +5,15 @@ import polymorphic.csv.Model
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.generator.csv.ICsvGenerator
+import polymorphic.csv.Language
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
 
-	override generate(Model content, IFileSystemAccess2 fsa) {
-		val className = content.target.split("\\.").reverse.head
-		val package = content.target.split("\\.").reverse.tail.toList.reverse.join(".")
+	override generate(Model content, Language language, IFileSystemAccess2 fsa) {
+		val className = language.target.split("\\.").reverse.head
+		val package = language.target.split("\\.").reverse.tail.toList.reverse.join(".")
 
-		fsa.generateFile('''«content.target.replaceAll("\\.", "/")».java''', '''
+		fsa.generateFile('''«language.target.replaceAll("\\.", "/")».java''', '''
 		
 			/*
 			<dependency>
@@ -166,6 +167,10 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 		'''
 			System.out.println(textFileContentsToString("«file»"));
 		'''
+	}
+	
+	override def properties() {
+		newHashMap("java" -> true, "maven" -> true)
 	}
 
 }
