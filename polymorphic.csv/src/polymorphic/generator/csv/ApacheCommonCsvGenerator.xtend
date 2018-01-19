@@ -1,53 +1,69 @@
-package polymorphic.generator
+package polymorphic.generator.csv
 
-import polymorphic.csv.Model
 import org.eclipse.xtext.generator.IFileSystemAccess2
+import polymorphic.csv.Model
+import polymorphic.csv.OpenCSV
+import polymorphic.csv.PrintCSV
+import polymorphic.generator.csv.ICsvGenerator
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
-	
+
 	override generate(Model content, IFileSystemAccess2 fsa) {
 		val className = content.target.split("\\.").reverse.head
 		val package = content.target.split("\\.").reverse.tail.toList.reverse.join(".")
 
 		fsa.generateFile('''«content.target.replaceAll("\\.", "/")».java''', '''
+		
+			/*
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-csv</artifactId>
+				<version>1.5</version>
+			</dependency>
+			*/
 			package «package»;
-
+			
 			import java.io.*;
 			import java.util.*;
 			import org.apache.commons.csv.*;
 			 
 			public class «className» {
 			  private static final String NL = System.getProperty("line.separator");
-«««			  private static final String FILENAME_IR = "data/csvtest_in.csv";
+			«««			  private static final String FILENAME_IR = "data/csvtest_in.csv";
 «««			  private static final String FILENAME_OR = "data/csvtest_sum.csv";
-«««			  private static final String COL_NAME_SUM = "SUM, \"integers\""; // demonstrate white space, comma & quote handling
+«««			  private static final String COL_NAME_SUM = "SUM,ntegers\""; // demonstrwhite space, comma & quhand
 			 
 			  public static void main(String[] args) {
-			    Reader iCvs = null;
-			    Writer oCvs = null;
-			    System.out.println(textFileContentsToString(FILENAME_IR));
-			    try {
-			      iCvs = new BufferedReader(new FileReader(FILENAME_IR));
-			      oCvs = new BufferedWriter(new FileWriter(FILENAME_OR));
-			      processCsv(iCvs, oCvs);
-			    }
-			    catch (IOException ex) {
-			      ex.printStackTrace();
-			    }
-			    finally {
-			      try {
-			        if (iCvs != null) { iCvs.close(); }
-			        if (oCvs != null) { oCvs.close(); }
-			      }
-			      catch (IOException ex) {
-			        ex.printStackTrace();
-			      }
-			    }
-			    System.out.println(textFileContentsToString(FILENAME_OR));
-			    return;
+«««			    Reader iCvs = null;
+«««			    Writer oCvs = null;
+			    
+			    «FOR action : content.actions»
+				«action.javaAction(className)»
+			«ENDFOR»
+			
+«««			System.out.println(textFileContentsToString(FILENAME_IR));
+«««			try {
+«««			  iCvs = new BufferedReader(new FileReader(FILENAME_IR));
+«««			  oCvs = new BufferedWriter(new FileWriter(FILENAME_OR));
+«««			  processCsv(iCvs, oCvs);
+«««			}
+«««			catch (IOException ex) {
+«««			  ex.printStackTrace();
+«««			}
+«««			finally {
+«««			  try {
+«««			    if (iCvs != null) { iCvs.close(); }
+«««			    if (oCvs != null) { oCvs.close(); }
+«««			  }
+«««			  catch (IOException ex) {
+«««			    ex.printStackTrace();
+«««			  }
+«««			}
+«««			System.out.println(textFileContentsToString(FILENAME_OR));
+«««			return;
 			  }
 			 
-			  public static void processCsv(Reader iCvs, Writer oCvs) throws IOException {
+			  public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {
 			    CSVPrinter printer = null;
 			    try {
 			      printer = new CSVPrinter(oCvs, CSVFormat.DEFAULT.withRecordSeparator(NL));
@@ -59,7 +75,7 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			      oCvsHeaders.add(COL_NAME_SUM);
 			      printer.printRecord(oCvsHeaders);
 			      for (CSVRecord record : records) {
-			        oCvsRecord = record2list(record, oCvsHeaders);
+			        oCvsRecord = record2list(record, oCvsHeaders, COL_NAME_SUM);
 			        printer.printRecord(oCvsRecord);
 			      }
 			    }
@@ -71,7 +87,7 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			    return;
 			  }
 			 
-			  private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders) {
+			  private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders, String COL_NAME_SUM) {
 			    List<String> cvsRecord;
 			    Map<String, String> rMap = record.toMap();
 			    long recNo = record.getRecordNumber();
@@ -138,5 +154,18 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			}
 		''')
 	}
-	
+
+	def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
+		''''''
+	}
+
+	def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
+
+		// probably easier with a good scoping...
+		val file = (open.eContainer as Model).actions.filter(OpenCSV).filter[it.name == open.name].head.file
+		'''
+			System.out.println(textFileContentsToString("«file»"));
+		'''
+	}
+
 }

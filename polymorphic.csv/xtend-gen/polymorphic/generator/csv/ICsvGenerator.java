@@ -1,4 +1,4 @@
-package polymorphic.generator;
+package polymorphic.generator.csv;
 
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import polymorphic.csv.Model;

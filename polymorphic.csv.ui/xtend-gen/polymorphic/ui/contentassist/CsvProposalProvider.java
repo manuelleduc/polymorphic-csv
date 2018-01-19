@@ -3,6 +3,13 @@
  */
 package polymorphic.ui.contentassist;
 
+import java.util.function.BiConsumer;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
+import polymorphic.generator.GeneratorCollection;
+import polymorphic.generator.csv.ICsvGenerator;
 import polymorphic.ui.contentassist.AbstractCsvProposalProvider;
 
 /**
@@ -11,4 +18,14 @@ import polymorphic.ui.contentassist.AbstractCsvProposalProvider;
  */
 @SuppressWarnings("all")
 public class CsvProposalProvider extends AbstractCsvProposalProvider {
+  private final GeneratorCollection generators = new GeneratorCollection();
+  
+  @Override
+  public void completeModel_Language(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+    super.completeModel_Language(model, assignment, context, acceptor);
+    final BiConsumer<String, ICsvGenerator> _function = (String p1, ICsvGenerator p2) -> {
+      acceptor.accept(this.createCompletionProposal(p1, context));
+    };
+    this.generators.getMap().forEach(_function);
+  }
 }

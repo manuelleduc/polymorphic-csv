@@ -1,4 +1,4 @@
-package polymorphic.generator;
+package polymorphic.generator.csv;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +12,7 @@ import polymorphic.csv.Actions;
 import polymorphic.csv.Model;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
-import polymorphic.generator.ICsvGenerator;
+import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
 public class JavaCsvGenerator implements ICsvGenerator {

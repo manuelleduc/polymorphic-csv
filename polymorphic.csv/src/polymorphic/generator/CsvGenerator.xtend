@@ -3,7 +3,6 @@
  */
 package polymorphic.generator
 
-import com.google.inject.Inject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
@@ -16,22 +15,12 @@ import polymorphic.csv.Model
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class CsvGenerator extends AbstractGenerator {
-	
-	@Inject JavaCsvGenerator java;
-	@Inject ApacheCommonCsvGenerator apacheCommon;
+
+	private GeneratorCollection generators = new GeneratorCollection
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val content = resource.contents.head as Model
-		
-		switch (content.language.toLowerCase) {
-			case "java":
-				java.generate(content, fsa)
-			case "apache_common":
-				apacheCommon.generate(content, fsa)
-				
-		}
-
+		generators.map.get(content.language.toLowerCase).generate(content, fsa)
 	}
 
-	
 }

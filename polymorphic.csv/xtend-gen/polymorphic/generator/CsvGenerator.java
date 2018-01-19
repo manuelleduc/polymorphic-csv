@@ -3,7 +3,6 @@
  */
 package polymorphic.generator;
 
-import com.google.inject.Inject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
@@ -11,8 +10,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import polymorphic.csv.Model;
-import polymorphic.generator.ApacheCommonCsvGenerator;
-import polymorphic.generator.JavaCsvGenerator;
+import polymorphic.generator.GeneratorCollection;
 
 /**
  * Generates code from your model files on save.
@@ -21,26 +19,12 @@ import polymorphic.generator.JavaCsvGenerator;
  */
 @SuppressWarnings("all")
 public class CsvGenerator extends AbstractGenerator {
-  @Inject
-  private JavaCsvGenerator java;
-  
-  @Inject
-  private ApacheCommonCsvGenerator apacheCommon;
+  private GeneratorCollection generators = new GeneratorCollection();
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EObject _head = IterableExtensions.<EObject>head(resource.getContents());
     final Model content = ((Model) _head);
-    String _lowerCase = content.getLanguage().toLowerCase();
-    if (_lowerCase != null) {
-      switch (_lowerCase) {
-        case "java":
-          this.java.generate(content, fsa);
-          break;
-        case "apache_common":
-          this.apacheCommon.generate(content, fsa);
-          break;
-      }
-    }
+    this.generators.getMap().get(content.getLanguage().toLowerCase()).generate(content, fsa);
   }
 }
