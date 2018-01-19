@@ -21,8 +21,8 @@ public class CsvProposalProvider extends AbstractCsvProposalProvider {
   private final GeneratorCollection generators = new GeneratorCollection();
   
   @Override
-  public void completeModel_Language(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
-    super.completeModel_Language(model, assignment, context, acceptor);
+  public void completeLanguage_Name(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+    super.completeLanguage_Name(model, assignment, context, acceptor);
     final BiConsumer<String, ICsvGenerator> _function = (String p1, ICsvGenerator p2) -> {
       acceptor.accept(this.createCompletionProposal(p1, context));
     };

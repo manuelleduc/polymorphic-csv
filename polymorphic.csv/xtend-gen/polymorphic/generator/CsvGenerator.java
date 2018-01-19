@@ -3,12 +3,14 @@
  */
 package polymorphic.generator;
 
+import java.util.function.Consumer;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.generator.GeneratorCollection;
 
@@ -25,6 +27,9 @@ public class CsvGenerator extends AbstractGenerator {
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EObject _head = IterableExtensions.<EObject>head(resource.getContents());
     final Model content = ((Model) _head);
-    this.generators.getMap().get(content.getLanguage().toLowerCase()).generate(content, fsa);
+    final Consumer<Language> _function = (Language language) -> {
+      this.generators.getMap().get(language.getName().toLowerCase()).generate(content, language, fsa);
+    };
+    content.getLanguages().forEach(_function);
   }
 }

@@ -68,22 +68,22 @@ public interface CsvPackage extends EPackage
   int MODEL = 0;
 
   /**
-   * The feature id for the '<em><b>Target</b></em>' attribute.
+   * The feature id for the '<em><b>Constraints</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__TARGET = 0;
+  int MODEL__CONSTRAINTS = 0;
 
   /**
-   * The feature id for the '<em><b>Language</b></em>' attribute.
+   * The feature id for the '<em><b>Languages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__LANGUAGE = 1;
+  int MODEL__LANGUAGES = 1;
 
   /**
    * The feature id for the '<em><b>Actions</b></em>' containment reference list.
@@ -104,6 +104,80 @@ public interface CsvPackage extends EPackage
   int MODEL_FEATURE_COUNT = 3;
 
   /**
+   * The meta object id for the '{@link polymorphic.csv.impl.ConstraintImpl <em>Constraint</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see polymorphic.csv.impl.ConstraintImpl
+   * @see polymorphic.csv.impl.CsvPackageImpl#getConstraint()
+   * @generated
+   */
+  int CONSTRAINT = 1;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONSTRAINT__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>True</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONSTRAINT__TRUE = 1;
+
+  /**
+   * The number of structural features of the '<em>Constraint</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONSTRAINT_FEATURE_COUNT = 2;
+
+  /**
+   * The meta object id for the '{@link polymorphic.csv.impl.LanguageImpl <em>Language</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see polymorphic.csv.impl.LanguageImpl
+   * @see polymorphic.csv.impl.CsvPackageImpl#getLanguage()
+   * @generated
+   */
+  int LANGUAGE = 2;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LANGUAGE__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Target</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LANGUAGE__TARGET = 1;
+
+  /**
+   * The number of structural features of the '<em>Language</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LANGUAGE_FEATURE_COUNT = 2;
+
+  /**
    * The meta object id for the '{@link polymorphic.csv.impl.ActionsImpl <em>Actions</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -111,7 +185,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getActions()
    * @generated
    */
-  int ACTIONS = 1;
+  int ACTIONS = 3;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -139,7 +213,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getOpenCSV()
    * @generated
    */
-  int OPEN_CSV = 2;
+  int OPEN_CSV = 4;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -176,7 +250,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getPrintCSV()
    * @generated
    */
-  int PRINT_CSV = 3;
+  int PRINT_CSV = 5;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -204,7 +278,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getSaveCSV()
    * @generated
    */
-  int SAVE_CSV = 4;
+  int SAVE_CSV = 6;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -236,26 +310,26 @@ public interface CsvPackage extends EPackage
   EClass getModel();
 
   /**
-   * Returns the meta object for the attribute '{@link polymorphic.csv.Model#getTarget <em>Target</em>}'.
+   * Returns the meta object for the containment reference list '{@link polymorphic.csv.Model#getConstraints <em>Constraints</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Target</em>'.
-   * @see polymorphic.csv.Model#getTarget()
+   * @return the meta object for the containment reference list '<em>Constraints</em>'.
+   * @see polymorphic.csv.Model#getConstraints()
    * @see #getModel()
    * @generated
    */
-  EAttribute getModel_Target();
+  EReference getModel_Constraints();
 
   /**
-   * Returns the meta object for the attribute '{@link polymorphic.csv.Model#getLanguage <em>Language</em>}'.
+   * Returns the meta object for the containment reference list '{@link polymorphic.csv.Model#getLanguages <em>Languages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Language</em>'.
-   * @see polymorphic.csv.Model#getLanguage()
+   * @return the meta object for the containment reference list '<em>Languages</em>'.
+   * @see polymorphic.csv.Model#getLanguages()
    * @see #getModel()
    * @generated
    */
-  EAttribute getModel_Language();
+  EReference getModel_Languages();
 
   /**
    * Returns the meta object for the containment reference list '{@link polymorphic.csv.Model#getActions <em>Actions</em>}'.
@@ -267,6 +341,70 @@ public interface CsvPackage extends EPackage
    * @generated
    */
   EReference getModel_Actions();
+
+  /**
+   * Returns the meta object for class '{@link polymorphic.csv.Constraint <em>Constraint</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Constraint</em>'.
+   * @see polymorphic.csv.Constraint
+   * @generated
+   */
+  EClass getConstraint();
+
+  /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.Constraint#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see polymorphic.csv.Constraint#getName()
+   * @see #getConstraint()
+   * @generated
+   */
+  EAttribute getConstraint_Name();
+
+  /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.Constraint#isTrue <em>True</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>True</em>'.
+   * @see polymorphic.csv.Constraint#isTrue()
+   * @see #getConstraint()
+   * @generated
+   */
+  EAttribute getConstraint_True();
+
+  /**
+   * Returns the meta object for class '{@link polymorphic.csv.Language <em>Language</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Language</em>'.
+   * @see polymorphic.csv.Language
+   * @generated
+   */
+  EClass getLanguage();
+
+  /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.Language#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see polymorphic.csv.Language#getName()
+   * @see #getLanguage()
+   * @generated
+   */
+  EAttribute getLanguage_Name();
+
+  /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.Language#getTarget <em>Target</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Target</em>'.
+   * @see polymorphic.csv.Language#getTarget()
+   * @see #getLanguage()
+   * @generated
+   */
+  EAttribute getLanguage_Target();
 
   /**
    * Returns the meta object for class '{@link polymorphic.csv.Actions <em>Actions</em>}'.
@@ -364,20 +502,20 @@ public interface CsvPackage extends EPackage
     EClass MODEL = eINSTANCE.getModel();
 
     /**
-     * The meta object literal for the '<em><b>Target</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Constraints</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute MODEL__TARGET = eINSTANCE.getModel_Target();
+    EReference MODEL__CONSTRAINTS = eINSTANCE.getModel_Constraints();
 
     /**
-     * The meta object literal for the '<em><b>Language</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Languages</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute MODEL__LANGUAGE = eINSTANCE.getModel_Language();
+    EReference MODEL__LANGUAGES = eINSTANCE.getModel_Languages();
 
     /**
      * The meta object literal for the '<em><b>Actions</b></em>' containment reference list feature.
@@ -386,6 +524,58 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EReference MODEL__ACTIONS = eINSTANCE.getModel_Actions();
+
+    /**
+     * The meta object literal for the '{@link polymorphic.csv.impl.ConstraintImpl <em>Constraint</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see polymorphic.csv.impl.ConstraintImpl
+     * @see polymorphic.csv.impl.CsvPackageImpl#getConstraint()
+     * @generated
+     */
+    EClass CONSTRAINT = eINSTANCE.getConstraint();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CONSTRAINT__NAME = eINSTANCE.getConstraint_Name();
+
+    /**
+     * The meta object literal for the '<em><b>True</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CONSTRAINT__TRUE = eINSTANCE.getConstraint_True();
+
+    /**
+     * The meta object literal for the '{@link polymorphic.csv.impl.LanguageImpl <em>Language</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see polymorphic.csv.impl.LanguageImpl
+     * @see polymorphic.csv.impl.CsvPackageImpl#getLanguage()
+     * @generated
+     */
+    EClass LANGUAGE = eINSTANCE.getLanguage();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LANGUAGE__NAME = eINSTANCE.getLanguage_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Target</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LANGUAGE__TARGET = eINSTANCE.getLanguage_Target();
 
     /**
      * The meta object literal for the '{@link polymorphic.csv.impl.ActionsImpl <em>Actions</em>}' class.

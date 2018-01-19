@@ -4,15 +4,19 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
+import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Actions;
+import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -21,11 +25,11 @@ import polymorphic.generator.csv.ICsvGenerator;
 @SuppressWarnings("all")
 public class ApacheCommonCsvGenerator implements ICsvGenerator {
   @Override
-  public void generate(final Model content, final IFileSystemAccess2 fsa) {
-    final String className = IterableExtensions.<String>head(ListExtensions.<String>reverse(((List<String>)Conversions.doWrapArray(content.getTarget().split("\\.")))));
-    final String package_ = IterableExtensions.join(ListExtensions.<String>reverse(IterableExtensions.<String>toList(IterableExtensions.<String>tail(ListExtensions.<String>reverse(((List<String>)Conversions.doWrapArray(content.getTarget().split("\\."))))))), ".");
+  public void generate(final Model content, final Language language, final IFileSystemAccess2 fsa) {
+    final String className = IterableExtensions.<String>head(ListExtensions.<String>reverse(((List<String>)Conversions.doWrapArray(language.getTarget().split("\\.")))));
+    final String package_ = IterableExtensions.join(ListExtensions.<String>reverse(IterableExtensions.<String>toList(IterableExtensions.<String>tail(ListExtensions.<String>reverse(((List<String>)Conversions.doWrapArray(language.getTarget().split("\\."))))))), ".");
     StringConcatenation _builder = new StringConcatenation();
-    String _replaceAll = content.getTarget().replaceAll("\\.", "/");
+    String _replaceAll = language.getTarget().replaceAll("\\.", "/");
     _builder.append(_replaceAll);
     _builder.append(".java");
     StringConcatenation _builder_1 = new StringConcatenation();
@@ -388,6 +392,13 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
       _xblockexpression = _builder;
     }
     return _xblockexpression;
+  }
+  
+  @Override
+  public Map<String, Boolean> properties() {
+    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("java", Boolean.valueOf(true));
+    Pair<String, Boolean> _mappedTo_1 = Pair.<String, Boolean>of("maven", Boolean.valueOf(true));
+    return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo, _mappedTo_1);
   }
   
   public CharSequence javaAction(final Actions open, final CharSequence className) {

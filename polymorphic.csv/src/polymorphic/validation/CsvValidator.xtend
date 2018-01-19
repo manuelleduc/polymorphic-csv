@@ -3,23 +3,47 @@
  */
 package polymorphic.validation
 
+import polymorphic.csv.OpenCSV
+
+import static extension org.eclipse.xtext.EcoreUtil2.*
+import polymorphic.csv.Model
+import polymorphic.csv.CsvPackage
+import org.eclipse.xtext.validation.Check
+import polymorphic.csv.Language
+import polymorphic.generator.GeneratorCollection
 
 /**
  * This class contains custom validation rules. 
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 class CsvValidator extends AbstractCsvValidator {
-	
-//	public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					CsvPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
-	
+
+	public static val DUPLICATE_OPEN_NAME = "DUPLICATE_OPEN_NAME"
+	public static val LANGUAGE_CONSTRAINTS_ERROR = "LANGUAGE_CONSTRAINTS_ERROR"
+
+	public static val generators = new GeneratorCollection
+
+	@Check
+	def matchConstraints(Language language) {
+		val names = getContainerOfType(language, Model).constraints.filter [
+			val prop = generators.map.get(language.name).properties.get(it.name)
+			!(prop === null || it.^true == prop)
+		].map[it.name]
+
+		if (!names.empty) {
+			error('''«language.name» does not conform to rules «names.join(', ')»''',
+				CsvPackage::eINSTANCE.language_Name, LANGUAGE_CONSTRAINTS_ERROR)
+		}
+	}
+
+	@Check
+	def checkDuplicateOpen(OpenCSV openCSV) {
+		if (getContainerOfType(openCSV, Model).actions.filter(OpenCSV).
+			exists[it != openCSV && it.name == openCSV.name]) {
+			error("Duplicate csv identifier '" + openCSV.name + "'", CsvPackage::eINSTANCE.actions_Name,
+				DUPLICATE_OPEN_NAME)
+		}
+	}
+
 }
