@@ -21,4 +21,4 @@ Language:
 Actions:
 	{OpenCSV} 'read' name=ID file=STRING |
 	{PrintCSV} 'print' name=ID |
-	{SaveCSV} 'save' name=ID;
+	{SaveCSV} 'save' name=ID (file=STRING)?;

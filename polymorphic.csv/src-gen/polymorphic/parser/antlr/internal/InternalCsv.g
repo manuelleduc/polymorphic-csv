@@ -421,6 +421,24 @@ ruleActions returns [EObject current=null]
 					}
 				)
 			)
+			(
+				(
+					lv_file_10_0=RULE_STRING
+					{
+						newLeafNode(lv_file_10_0, grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_2_3_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getActionsRule());
+						}
+						setWithLastConsumed(
+							$current,
+							"file",
+							lv_file_10_0,
+							"org.eclipse.xtext.xbase.Xtype.STRING");
+					}
+				)
+			)?
 		)
 	)
 ;

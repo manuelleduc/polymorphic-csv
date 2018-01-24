@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
@@ -20,6 +20,7 @@ import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
+import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
@@ -81,10 +82,10 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_1.append("\t  ");
     _builder_1.append("private static final String NL = System.getProperty(\"line.separator\");");
     _builder_1.newLine();
-    _builder_1.append("\t\t\t\t ");
+    _builder_1.append("\t\t\t\t  ");
+    _builder_1.append("public static void main(String[] args) throws FileNotFoundException, IOException {");
     _builder_1.newLine();
-    _builder_1.append("\t  ");
-    _builder_1.append("public static void main(String[] args) {");
+    _builder_1.append("\t ");
     _builder_1.newLine();
     _builder_1.append("\t    ");
     _builder_1.newLine();
@@ -371,21 +372,47 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
   
   protected CharSequence _javaAction(final OpenCSV open, final CharSequence className) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("final Iterable<CSVRecord> ");
+    String _name = open.getName();
+    _builder.append(_name);
+    _builder.append(" = CSVFormat.RFC4180.parse(new FileReader(\"");
+    String _file = open.getFile();
+    _builder.append(_file);
+    _builder.append("\"));");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   protected CharSequence _javaAction(final PrintCSV open, final CharSequence className) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = open.getName();
+    _builder.append(_name);
+    _builder.append(".stream().forEach(x -> System.out.println(x));");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  protected CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
     CharSequence _xblockexpression = null;
     {
-      EObject _eContainer = open.eContainer();
-      final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
-        String _name = it.getName();
-        String _name_1 = open.getName();
-        return Boolean.valueOf(Objects.equal(_name, _name_1));
-      };
-      final String file = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(((Model) _eContainer).getActions(), OpenCSV.class), _function)).getFile();
+      String _xifexpression = null;
+      String _file = save.getFile();
+      boolean _tripleNotEquals = (_file != null);
+      if (_tripleNotEquals) {
+        _xifexpression = save.getFile();
+      } else {
+        final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
+          String _name = it.getName();
+          String _name_1 = save.getName();
+          return Boolean.valueOf(Objects.equal(_name, _name_1));
+        };
+        _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
+      }
+      final String file = _xifexpression;
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("System.out.println(textFileContentsToString(\"");
+      String _name = save.getName();
+      _builder.append(_name);
+      _builder.append(".save(new File(\"");
       _builder.append(file);
       _builder.append("\"));");
       _builder.newLineIfNotEmpty();
@@ -406,6 +433,8 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
       return _javaAction((OpenCSV)open, className);
     } else if (open instanceof PrintCSV) {
       return _javaAction((PrintCSV)open, className);
+    } else if (open instanceof SaveCSV) {
+      return _javaAction((SaveCSV)open, className);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(open, className).toString());

@@ -26,6 +26,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/file"/>
     </genClasses>
     <genClasses ecoreClass="Csv.ecore#//PrintCSV"/>
-    <genClasses ecoreClass="Csv.ecore#//SaveCSV"/>
+    <genClasses ecoreClass="Csv.ecore#//SaveCSV">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//SaveCSV/file"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

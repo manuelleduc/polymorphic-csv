@@ -1,13 +1,17 @@
 package polymorphic.generator.csv;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -16,6 +20,7 @@ import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
+import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
@@ -61,7 +66,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_1.append("\t");
     _builder_1.append("public void open(File file) throws FileNotFoundException, IOException {");
     _builder_1.newLine();
-    _builder_1.append("\t\t");
+    _builder_1.append("\t");
     _builder_1.append("open(file, \',\');");
     _builder_1.newLine();
     _builder_1.append("\t");
@@ -71,10 +76,10 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_1.append("\t");
     _builder_1.append("public void open(File file, char delimiter) throws FileNotFoundException, IOException {");
     _builder_1.newLine();
-    _builder_1.append("\t\t");
+    _builder_1.append("\t");
     _builder_1.append("Scanner scanner = new Scanner(file);");
     _builder_1.newLine();
-    _builder_1.append("\t\t");
+    _builder_1.append("\t");
     _builder_1.append("scanner.useDelimiter(Character.toString(delimiter));");
     _builder_1.newLine();
     _builder_1.newLine();
@@ -85,7 +90,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_1.append("\t\t");
     _builder_1.append("while(scanner.hasNextLine()) {");
     _builder_1.newLine();
-    _builder_1.append("\t\t\t");
+    _builder_1.append("\t");
     _builder_1.append("String[] values = scanner.nextLine().split(Character.toString(delimiter));");
     _builder_1.newLine();
     _builder_1.newLine();
@@ -95,10 +100,10 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_1.append("\t\t\t");
     _builder_1.append("for ( String value: values ) {");
     _builder_1.newLine();
-    _builder_1.append("\t\t\t\t");
+    _builder_1.append("\t");
     _builder_1.append("_map.put(new Point(col, _rows), value);");
     _builder_1.newLine();
-    _builder_1.append("\t\t\t\t");
+    _builder_1.append("\t");
     _builder_1.append("_cols = Math.max(_cols, ++col);");
     _builder_1.newLine();
     _builder_1.append("\t\t\t");
@@ -120,7 +125,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_1.append("\t");
     _builder_1.append("public void save(File file) throws IOException {");
     _builder_1.newLine();
-    _builder_1.append("\t\t");
+    _builder_1.append("\t");
     _builder_1.append("save(file, \',\');");
     _builder_1.newLine();
     _builder_1.append("\t");
@@ -333,9 +338,9 @@ public class JavaCsvGenerator implements ICsvGenerator {
     {
       EList<Actions> _actions = content.getActions();
       for(final Actions action : _actions) {
-        _builder_1.append("\t\t        \t");
+        _builder_1.append("\t\t     \t");
         CharSequence _javaAction = this.javaAction(action, className);
-        _builder_1.append(_javaAction, "\t\t        \t");
+        _builder_1.append(_javaAction, "\t\t     \t");
         _builder_1.newLineIfNotEmpty();
       }
     }
@@ -386,6 +391,35 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
+  protected CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
+    CharSequence _xblockexpression = null;
+    {
+      String _xifexpression = null;
+      String _file = save.getFile();
+      boolean _tripleNotEquals = (_file != null);
+      if (_tripleNotEquals) {
+        _xifexpression = save.getFile();
+      } else {
+        final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
+          String _name = it.getName();
+          String _name_1 = save.getName();
+          return Boolean.valueOf(Objects.equal(_name, _name_1));
+        };
+        _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
+      }
+      final String file = _xifexpression;
+      StringConcatenation _builder = new StringConcatenation();
+      String _name = save.getName();
+      _builder.append(_name);
+      _builder.append(".save(new File(\"");
+      _builder.append(file);
+      _builder.append("\"));");
+      _builder.newLineIfNotEmpty();
+      _xblockexpression = _builder;
+    }
+    return _xblockexpression;
+  }
+  
   @Override
   public Map<String, Boolean> properties() {
     Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("java", Boolean.valueOf(true));
@@ -397,6 +431,8 @@ public class JavaCsvGenerator implements ICsvGenerator {
       return _javaAction((OpenCSV)open, className);
     } else if (open instanceof PrintCSV) {
       return _javaAction((PrintCSV)open, className);
+    } else if (open instanceof SaveCSV) {
+      return _javaAction((SaveCSV)open, className);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(open, className).toString());

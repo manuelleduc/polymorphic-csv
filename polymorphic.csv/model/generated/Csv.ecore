@@ -24,5 +24,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrintCSV" eSuperTypes="#//Actions"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SaveCSV" eSuperTypes="#//Actions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SaveCSV" eSuperTypes="#//Actions">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

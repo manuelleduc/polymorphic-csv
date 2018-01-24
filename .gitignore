@@ -1,4 +1,3 @@
-
 \.metadata/
 
 polymorphic\.csv/\.launch/
@@ -14,3 +13,9 @@ polymorphic\.csv\.tests/bin/
 polymorphic\.csv\.ui/bin/
 
 polymorphic\.csv\.ui\.tests/bin/
+
+*.xtextbin
+
+*.xtendbin
+
+*._trace

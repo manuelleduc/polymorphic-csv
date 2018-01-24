@@ -305,6 +305,16 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getSaveCSV_File()
+  {
+    return (EAttribute)saveCSVEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public CsvFactory getCsvFactory()
   {
     return (CsvFactory)getEFactoryInstance();
@@ -352,6 +362,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     printCSVEClass = createEClass(PRINT_CSV);
 
     saveCSVEClass = createEClass(SAVE_CSV);
+    createEAttribute(saveCSVEClass, SAVE_CSV__FILE);
   }
 
   /**
@@ -410,6 +421,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     initEClass(printCSVEClass, PrintCSV.class, "PrintCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(saveCSVEClass, SaveCSV.class, "SaveCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getSaveCSV_File(), ecorePackage.getEString(), "file", null, 0, 1, SaveCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);
