@@ -23,6 +23,16 @@ class CsvGenerator extends AbstractGenerator {
 		content.languages.forEach[language|
 			generators.map.get(language.name.toLowerCase).generate(content, language, fsa)
 		]
+		
+		fsa.generateFile('''«content.name»/docker-compose.yml''', '''
+		version: '3'
+		services:
+		  «FOR l:content.languages»
+		  «l.name»:
+		    build:
+		      context: ./«l.name»
+		  «ENDFOR»
+		''')
 	}
 
 }

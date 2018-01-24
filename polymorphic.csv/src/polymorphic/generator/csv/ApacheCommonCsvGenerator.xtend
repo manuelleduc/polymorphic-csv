@@ -15,15 +15,38 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 		val className = language.target.split("\\.").reverse.head
 		val package = language.target.split("\\.").reverse.tail.toList.reverse.join(".")
 
-		fsa.generateFile('''«language.target.replaceAll("\\.", "/")».java''', '''
+
+		fsa.generateFile('''«content.name»/«language.name»/Dockerfile''', '''
+		FROM maven
+		COPY . /project
+		WORKDIR project
+		RUN mvn compile
+		''')
+		fsa.generateFile('''«content.name»/«language.name»/pom.xml''', '''
+			<project>
+			    <modelVersion>4.0.0</modelVersion>
+			    <groupId>«content.name»</groupId>
+			    <artifactId>«language.target»</artifactId>
+			    <version>1</version>
+			    
+			      <properties>
+			        <maven.compiler.source>1.8</maven.compiler.source>
+			        <maven.compiler.target>1.8</maven.compiler.target>
+			         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			      </properties>
+			    
+			    <dependencies>
+				    <dependency>
+						<groupId>org.apache.commons</groupId>
+						<artifactId>commons-csv</artifactId>
+						<version>1.5</version>
+					</dependency>
+				</dependencies>
+			</project>
+		''')
+
+		fsa.generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
 		
-			/*
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-csv</artifactId>
-				<version>1.5</version>
-			</dependency>
-			*/
 			package «package»;
 			
 			import java.io.*;
@@ -32,38 +55,10 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			 
 			public class «className» {
 			  private static final String NL = System.getProperty("line.separator");
-			«««			  private static final String FILENAME_IR = "data/csvtest_in.csv";
-«««			  private static final String FILENAME_OR = "data/csvtest_sum.csv";
-«««			  private static final String COL_NAME_SUM = "SUM,ntegers\""; // demonstrwhite space, comma & quhand
-			  public static void main(String[] args) FileNotFoundException, IOException {
-			 
-«««			    Reader iCvs = null;
-«««			    Writer oCvs = null;
-			    
+			  public static void main(String[] args) throws  FileNotFoundException, IOException {
 			    «FOR action : content.actions»
 				«action.javaAction(className)»
 			«ENDFOR»
-			
-«««			System.out.println(textFileContentsToString(FILENAME_IR));
-«««			try {
-«««			  iCvs = new BufferedReader(new FileReader(FILENAME_IR));
-«««			  oCvs = new BufferedWriter(new FileWriter(FILENAME_OR));
-«««			  processCsv(iCvs, oCvs);
-«««			}
-«««			catch (IOException ex) {
-«««			  ex.printStackTrace();
-«««			}
-«««			finally {
-«««			  try {
-«««			    if (iCvs != null) { iCvs.close(); }
-«««			    if (oCvs != null) { oCvs.close(); }
-«««			  }
-«««			  catch (IOException ex) {
-«««			    ex.printStackTrace();
-«««			  }
-«««			}
-«««			System.out.println(textFileContentsToString(FILENAME_OR));
-«««			return;
 			  }
 			 
 			  public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {
@@ -167,7 +162,7 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 	def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
 		// probably easier with a good scoping...
 		'''
-		«open.name».stream().forEach(x -> System.out.println(x));
+		«open.name».forEach(x -> System.out.println(x));
 		'''
 	}
 	

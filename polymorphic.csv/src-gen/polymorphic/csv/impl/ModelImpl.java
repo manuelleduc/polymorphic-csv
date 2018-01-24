@@ -5,6 +5,7 @@ package polymorphic.csv.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -12,6 +13,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -31,6 +33,7 @@ import polymorphic.csv.Model;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link polymorphic.csv.impl.ModelImpl#getName <em>Name</em>}</li>
  *   <li>{@link polymorphic.csv.impl.ModelImpl#getConstraints <em>Constraints</em>}</li>
  *   <li>{@link polymorphic.csv.impl.ModelImpl#getLanguages <em>Languages</em>}</li>
  *   <li>{@link polymorphic.csv.impl.ModelImpl#getActions <em>Actions</em>}</li>
@@ -40,6 +43,26 @@ import polymorphic.csv.Model;
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model
 {
+  /**
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected static final String NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected String name = NAME_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getConstraints() <em>Constraints</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -89,6 +112,29 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   protected EClass eStaticClass()
   {
     return CsvPackage.Literals.MODEL;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setName(String newName)
+  {
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.MODEL__NAME, oldName, name));
   }
 
   /**
@@ -163,6 +209,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case CsvPackage.MODEL__NAME:
+        return getName();
       case CsvPackage.MODEL__CONSTRAINTS:
         return getConstraints();
       case CsvPackage.MODEL__LANGUAGES:
@@ -184,6 +232,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case CsvPackage.MODEL__NAME:
+        setName((String)newValue);
+        return;
       case CsvPackage.MODEL__CONSTRAINTS:
         getConstraints().clear();
         getConstraints().addAll((Collection<? extends Constraint>)newValue);
@@ -210,6 +261,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case CsvPackage.MODEL__NAME:
+        setName(NAME_EDEFAULT);
+        return;
       case CsvPackage.MODEL__CONSTRAINTS:
         getConstraints().clear();
         return;
@@ -233,6 +287,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
+      case CsvPackage.MODEL__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case CsvPackage.MODEL__CONSTRAINTS:
         return constraints != null && !constraints.isEmpty();
       case CsvPackage.MODEL__LANGUAGES:
@@ -241,6 +297,23 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return actions != null && !actions.isEmpty();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (name: ");
+    result.append(name);
+    result.append(')');
+    return result.toString();
   }
 
 } //ModelImpl

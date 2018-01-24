@@ -68,13 +68,22 @@ public interface CsvPackage extends EPackage
   int MODEL = 0;
 
   /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODEL__NAME = 0;
+
+  /**
    * The feature id for the '<em><b>Constraints</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__CONSTRAINTS = 0;
+  int MODEL__CONSTRAINTS = 1;
 
   /**
    * The feature id for the '<em><b>Languages</b></em>' containment reference list.
@@ -83,7 +92,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL__LANGUAGES = 1;
+  int MODEL__LANGUAGES = 2;
 
   /**
    * The feature id for the '<em><b>Actions</b></em>' containment reference list.
@@ -92,7 +101,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL__ACTIONS = 2;
+  int MODEL__ACTIONS = 3;
 
   /**
    * The number of structural features of the '<em>Model</em>' class.
@@ -101,7 +110,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL_FEATURE_COUNT = 3;
+  int MODEL_FEATURE_COUNT = 4;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.ConstraintImpl <em>Constraint</em>}' class.
@@ -319,6 +328,17 @@ public interface CsvPackage extends EPackage
   EClass getModel();
 
   /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.Model#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see polymorphic.csv.Model#getName()
+   * @see #getModel()
+   * @generated
+   */
+  EAttribute getModel_Name();
+
+  /**
    * Returns the meta object for the containment reference list '{@link polymorphic.csv.Model#getConstraints <em>Constraints</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -520,6 +540,14 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EClass MODEL = eINSTANCE.getModel();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MODEL__NAME = eINSTANCE.getModel_Name();
 
     /**
      * The meta object literal for the '<em><b>Constraints</b></em>' containment reference list feature.

@@ -4,8 +4,10 @@
 package polymorphic.generator;
 
 import java.util.function.Consumer;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
@@ -31,5 +33,35 @@ public class CsvGenerator extends AbstractGenerator {
       this.generators.getMap().get(language.getName().toLowerCase()).generate(content, language, fsa);
     };
     content.getLanguages().forEach(_function);
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = content.getName();
+    _builder.append(_name);
+    _builder.append("/docker-compose.yml");
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("version: \'3\'");
+    _builder_1.newLine();
+    _builder_1.append("services:");
+    _builder_1.newLine();
+    {
+      EList<Language> _languages = content.getLanguages();
+      for(final Language l : _languages) {
+        _builder_1.append("  ");
+        String _name_1 = l.getName();
+        _builder_1.append(_name_1, "  ");
+        _builder_1.append(":");
+        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("  ");
+        _builder_1.append("  ");
+        _builder_1.append("build:");
+        _builder_1.newLine();
+        _builder_1.append("  ");
+        _builder_1.append("    ");
+        _builder_1.append("context: ./");
+        String _name_2 = l.getName();
+        _builder_1.append(_name_2, "      ");
+        _builder_1.newLineIfNotEmpty();
+      }
+    }
+    fsa.generateFile(_builder.toString(), _builder_1);
   }
 }

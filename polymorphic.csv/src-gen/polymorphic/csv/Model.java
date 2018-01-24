@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link polymorphic.csv.Model#getName <em>Name</em>}</li>
  *   <li>{@link polymorphic.csv.Model#getConstraints <em>Constraints</em>}</li>
  *   <li>{@link polymorphic.csv.Model#getLanguages <em>Languages</em>}</li>
  *   <li>{@link polymorphic.csv.Model#getActions <em>Actions</em>}</li>
@@ -27,6 +28,32 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Model extends EObject
 {
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see polymorphic.csv.CsvPackage#getModel_Name()
+   * @model
+   * @generated
+   */
+  String getName();
+
+  /**
+   * Sets the value of the '{@link polymorphic.csv.Model#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
+
   /**
    * Returns the value of the '<em><b>Constraints</b></em>' containment reference list.
    * The list contents are of type {@link polymorphic.csv.Constraint}.

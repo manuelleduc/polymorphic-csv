@@ -83,20 +83,46 @@ ruleModel returns [EObject current=null]
 					$current);
 			}
 		)
-		otherlv_1='constraints'
+		otherlv_1='package'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getModelAccess().getConstraintsKeyword_1());
+			newLeafNode(otherlv_1, grammarAccess.getModelAccess().getPackageKeyword_1());
 		}
-		otherlv_2='{'
+		(
+			(
+				lv_name_2_0=RULE_ID
+				{
+					newLeafNode(lv_name_2_0, grammarAccess.getModelAccess().getNameIDTerminalRuleCall_2_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getModelRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_2_0,
+						"org.eclipse.xtext.xbase.Xtype.ID");
+				}
+			)
+		)
+		otherlv_3=';'
 		{
-			newLeafNode(otherlv_2, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_2());
+			newLeafNode(otherlv_3, grammarAccess.getModelAccess().getSemicolonKeyword_3());
+		}
+		otherlv_4='constraints'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getModelAccess().getConstraintsKeyword_4());
+		}
+		otherlv_5='{'
+		{
+			newLeafNode(otherlv_5, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_5());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getConstraintsConstraintParserRuleCall_3_0());
+					newCompositeNode(grammarAccess.getModelAccess().getConstraintsConstraintParserRuleCall_6_0());
 				}
-				lv_constraints_3_0=ruleConstraint
+				lv_constraints_6_0=ruleConstraint
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
@@ -104,30 +130,30 @@ ruleModel returns [EObject current=null]
 					add(
 						$current,
 						"constraints",
-						lv_constraints_3_0,
+						lv_constraints_6_0,
 						"polymorphic.Csv.Constraint");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
-		otherlv_4='}'
+		otherlv_7='}'
 		{
-			newLeafNode(otherlv_4, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_4());
+			newLeafNode(otherlv_7, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_7());
 		}
-		otherlv_5='languages'
+		otherlv_8='languages'
 		{
-			newLeafNode(otherlv_5, grammarAccess.getModelAccess().getLanguagesKeyword_5());
+			newLeafNode(otherlv_8, grammarAccess.getModelAccess().getLanguagesKeyword_8());
 		}
-		otherlv_6='{'
+		otherlv_9='{'
 		{
-			newLeafNode(otherlv_6, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_6());
+			newLeafNode(otherlv_9, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_9());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getLanguagesLanguageParserRuleCall_7_0());
+					newCompositeNode(grammarAccess.getModelAccess().getLanguagesLanguageParserRuleCall_10_0());
 				}
-				lv_languages_7_0=ruleLanguage
+				lv_languages_10_0=ruleLanguage
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
@@ -135,22 +161,22 @@ ruleModel returns [EObject current=null]
 					add(
 						$current,
 						"languages",
-						lv_languages_7_0,
+						lv_languages_10_0,
 						"polymorphic.Csv.Language");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
-		otherlv_8='}'
+		otherlv_11='}'
 		{
-			newLeafNode(otherlv_8, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_8());
+			newLeafNode(otherlv_11, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_11());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getActionsActionsParserRuleCall_9_0());
+					newCompositeNode(grammarAccess.getModelAccess().getActionsActionsParserRuleCall_12_0());
 				}
-				lv_actions_9_0=ruleActions
+				lv_actions_12_0=ruleActions
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
@@ -158,7 +184,7 @@ ruleModel returns [EObject current=null]
 					add(
 						$current,
 						"actions",
-						lv_actions_9_0,
+						lv_actions_12_0,
 						"polymorphic.Csv.Actions");
 					afterParserOrEnumRuleCall();
 				}
