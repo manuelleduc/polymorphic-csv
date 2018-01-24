@@ -221,7 +221,7 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     (constraints+=Constraint* languages+=Language* actions+=Actions*)
+	 *     (name=ID constraints+=Constraint* languages+=Language* actions+=Actions*)
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

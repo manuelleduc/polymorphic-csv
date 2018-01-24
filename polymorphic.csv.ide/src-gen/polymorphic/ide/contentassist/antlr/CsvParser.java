@@ -75,9 +75,10 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXImportDeclarationAccess().getGroup(), "rule__XImportDeclaration__Group__0");
 					put(grammarAccess.getXImportDeclarationAccess().getGroup_1_0(), "rule__XImportDeclaration__Group_1_0__0");
 					put(grammarAccess.getQualifiedNameInStaticImportAccess().getGroup(), "rule__QualifiedNameInStaticImport__Group__0");
-					put(grammarAccess.getModelAccess().getConstraintsAssignment_3(), "rule__Model__ConstraintsAssignment_3");
-					put(grammarAccess.getModelAccess().getLanguagesAssignment_7(), "rule__Model__LanguagesAssignment_7");
-					put(grammarAccess.getModelAccess().getActionsAssignment_9(), "rule__Model__ActionsAssignment_9");
+					put(grammarAccess.getModelAccess().getNameAssignment_2(), "rule__Model__NameAssignment_2");
+					put(grammarAccess.getModelAccess().getConstraintsAssignment_6(), "rule__Model__ConstraintsAssignment_6");
+					put(grammarAccess.getModelAccess().getLanguagesAssignment_10(), "rule__Model__LanguagesAssignment_10");
+					put(grammarAccess.getModelAccess().getActionsAssignment_12(), "rule__Model__ActionsAssignment_12");
 					put(grammarAccess.getConstraintAccess().getNameAssignment_0(), "rule__Constraint__NameAssignment_0");
 					put(grammarAccess.getConstraintAccess().getTrueAssignment_2_0(), "rule__Constraint__TrueAssignment_2_0");
 					put(grammarAccess.getLanguageAccess().getNameAssignment_0(), "rule__Language__NameAssignment_0");

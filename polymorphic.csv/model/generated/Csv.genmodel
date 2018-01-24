@@ -7,6 +7,7 @@
   <genPackages prefix="Csv" basePackage="polymorphic" disposableProviderFactory="true"
       fileExtensions="pcsv" ecorePackage="Csv.ecore#/">
     <genClasses ecoreClass="Csv.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Model/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Csv.ecore#//Model/constraints"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Csv.ecore#//Model/languages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Csv.ecore#//Model/actions"/>

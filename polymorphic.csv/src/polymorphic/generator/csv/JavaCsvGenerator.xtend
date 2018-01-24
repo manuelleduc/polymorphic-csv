@@ -16,7 +16,28 @@ class JavaCsvGenerator implements ICsvGenerator {
 		val className = language.target.split("\\.").reverse.head
 		val package = language.target.split("\\.").reverse.tail.toList.reverse.join(".")
 
-		fsa.generateFile('''«language.target.replaceAll("\\.", "/")».java''', '''
+		fsa.generateFile('''«content.name»/«language.name»/Dockerfile''', '''
+		FROM maven
+		COPY . /project
+		WORKDIR project
+		RUN mvn compile
+		''')
+		fsa.generateFile('''«content.name»/«language.name»/pom.xml''', '''
+			<project>
+			    <modelVersion>4.0.0</modelVersion>
+			    <groupId>«content.name»</groupId>
+			    <artifactId>«language.target»</artifactId>
+			    <version>1</version>
+			    
+			      <properties>
+			        <maven.compiler.source>1.8</maven.compiler.source>
+			        <maven.compiler.target>1.8</maven.compiler.target>
+			         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			      </properties>
+			</project>
+		''')
+
+		fsa.generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
 			package «package»;
 			
 			import java.io.*;
@@ -154,9 +175,12 @@ class JavaCsvGenerator implements ICsvGenerator {
 	}
 
 	def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {
-		val file = if(save.file !== null) save.file else save.getContainerOfType(Model).actions.filter(OpenCSV).filter [
-				it.name == save.name
-			].head.file
+		val file = if (save.file !== null)
+				save.file
+			else
+				save.getContainerOfType(Model).actions.filter(OpenCSV).filter [
+					it.name == save.name
+				].head.file
 
 		'''
 			«save.name».save(new File("«file»"));

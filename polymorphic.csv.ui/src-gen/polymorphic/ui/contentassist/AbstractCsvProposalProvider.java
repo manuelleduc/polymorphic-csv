@@ -17,6 +17,9 @@ import org.eclipse.xtext.xbase.ui.contentassist.XtypeProposalProvider;
  */
 public abstract class AbstractCsvProposalProvider extends XtypeProposalProvider {
 
+	public void completeModel_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
+	}
 	public void completeModel_Constraints(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
 	}

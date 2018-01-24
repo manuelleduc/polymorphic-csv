@@ -4,6 +4,7 @@ generate csv "http://www.Csv.polymorphic"
 
 Model:
 	{Model}
+	'package' name=ID ';'
 	'constraints' '{'
 	constraints+=Constraint*
 	'}'

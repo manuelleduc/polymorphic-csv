@@ -27,21 +27,26 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.Model");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cModelAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cConstraintsKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cConstraintsAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cConstraintsConstraintParserRuleCall_3_0 = (RuleCall)cConstraintsAssignment_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cLanguagesKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cLeftCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cLanguagesAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cLanguagesLanguageParserRuleCall_7_0 = (RuleCall)cLanguagesAssignment_7.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_8 = (Keyword)cGroup.eContents().get(8);
-		private final Assignment cActionsAssignment_9 = (Assignment)cGroup.eContents().get(9);
-		private final RuleCall cActionsActionsParserRuleCall_9_0 = (RuleCall)cActionsAssignment_9.eContents().get(0);
+		private final Keyword cPackageKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		private final Keyword cSemicolonKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cConstraintsKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cLeftCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cConstraintsAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cConstraintsConstraintParserRuleCall_6_0 = (RuleCall)cConstraintsAssignment_6.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		private final Keyword cLanguagesKeyword_8 = (Keyword)cGroup.eContents().get(8);
+		private final Keyword cLeftCurlyBracketKeyword_9 = (Keyword)cGroup.eContents().get(9);
+		private final Assignment cLanguagesAssignment_10 = (Assignment)cGroup.eContents().get(10);
+		private final RuleCall cLanguagesLanguageParserRuleCall_10_0 = (RuleCall)cLanguagesAssignment_10.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_11 = (Keyword)cGroup.eContents().get(11);
+		private final Assignment cActionsAssignment_12 = (Assignment)cGroup.eContents().get(12);
+		private final RuleCall cActionsActionsParserRuleCall_12_0 = (RuleCall)cActionsAssignment_12.eContents().get(0);
 		
 		//Model:
 		//	{Model}
+		//	'package' name=ID ';'
 		//	'constraints' '{'
 		//	constraints+=Constraint*
 		//	'}'
@@ -51,47 +56,60 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		//	actions+=Actions*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Model} 'constraints' '{' constraints+=Constraint* '}' 'languages' '{' languages+=Language* '}' actions+=Actions*
+		//{Model} 'package' name=ID ';' 'constraints' '{' constraints+=Constraint* '}' 'languages' '{' languages+=Language* '}'
+		//actions+=Actions*
 		public Group getGroup() { return cGroup; }
 		
 		//{Model}
 		public Action getModelAction_0() { return cModelAction_0; }
 		
+		//'package'
+		public Keyword getPackageKeyword_1() { return cPackageKeyword_1; }
+		
+		//name=ID
+		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_3() { return cSemicolonKeyword_3; }
+		
 		//'constraints'
-		public Keyword getConstraintsKeyword_1() { return cConstraintsKeyword_1; }
+		public Keyword getConstraintsKeyword_4() { return cConstraintsKeyword_4; }
 		
 		//'{'
-		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
+		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 		
 		//constraints+=Constraint*
-		public Assignment getConstraintsAssignment_3() { return cConstraintsAssignment_3; }
+		public Assignment getConstraintsAssignment_6() { return cConstraintsAssignment_6; }
 		
 		//Constraint
-		public RuleCall getConstraintsConstraintParserRuleCall_3_0() { return cConstraintsConstraintParserRuleCall_3_0; }
+		public RuleCall getConstraintsConstraintParserRuleCall_6_0() { return cConstraintsConstraintParserRuleCall_6_0; }
 		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_4() { return cRightCurlyBracketKeyword_4; }
+		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
 		
 		//'languages'
-		public Keyword getLanguagesKeyword_5() { return cLanguagesKeyword_5; }
+		public Keyword getLanguagesKeyword_8() { return cLanguagesKeyword_8; }
 		
 		//'{'
-		public Keyword getLeftCurlyBracketKeyword_6() { return cLeftCurlyBracketKeyword_6; }
+		public Keyword getLeftCurlyBracketKeyword_9() { return cLeftCurlyBracketKeyword_9; }
 		
 		//languages+=Language*
-		public Assignment getLanguagesAssignment_7() { return cLanguagesAssignment_7; }
+		public Assignment getLanguagesAssignment_10() { return cLanguagesAssignment_10; }
 		
 		//Language
-		public RuleCall getLanguagesLanguageParserRuleCall_7_0() { return cLanguagesLanguageParserRuleCall_7_0; }
+		public RuleCall getLanguagesLanguageParserRuleCall_10_0() { return cLanguagesLanguageParserRuleCall_10_0; }
 		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_8() { return cRightCurlyBracketKeyword_8; }
+		public Keyword getRightCurlyBracketKeyword_11() { return cRightCurlyBracketKeyword_11; }
 		
 		//actions+=Actions*
-		public Assignment getActionsAssignment_9() { return cActionsAssignment_9; }
+		public Assignment getActionsAssignment_12() { return cActionsAssignment_12; }
 		
 		//Actions
-		public RuleCall getActionsActionsParserRuleCall_9_0() { return cActionsActionsParserRuleCall_9_0; }
+		public RuleCall getActionsActionsParserRuleCall_12_0() { return cActionsActionsParserRuleCall_12_0; }
 	}
 	public class ConstraintElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.Constraint");
@@ -305,6 +323,7 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//Model:
 	//	{Model}
+	//	'package' name=ID ';'
 	//	'constraints' '{'
 	//	constraints+=Constraint*
 	//	'}'
