@@ -1,11 +1,13 @@
 package polymorphic.generator.csv
 
 import org.eclipse.xtext.generator.IFileSystemAccess2
+import polymorphic.csv.Language
 import polymorphic.csv.Model
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
-import polymorphic.generator.csv.ICsvGenerator
-import polymorphic.csv.Language
+import polymorphic.csv.SaveCSV
+
+import static extension org.eclipse.xtext.EcoreUtil2.*
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
 
@@ -33,8 +35,8 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			«««			  private static final String FILENAME_IR = "data/csvtest_in.csv";
 «««			  private static final String FILENAME_OR = "data/csvtest_sum.csv";
 «««			  private static final String COL_NAME_SUM = "SUM,ntegers\""; // demonstrwhite space, comma & quhand
+			  public static void main(String[] args) FileNotFoundException, IOException {
 			 
-			  public static void main(String[] args) {
 «««			    Reader iCvs = null;
 «««			    Writer oCvs = null;
 			    
@@ -157,15 +159,26 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 	}
 
 	def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
-		''''''
+		'''
+		final Iterable<CSVRecord> «open.name» = CSVFormat.RFC4180.parse(new FileReader("«open.file»"));
+		'''
 	}
 
 	def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
-
 		// probably easier with a good scoping...
-		val file = (open.eContainer as Model).actions.filter(OpenCSV).filter[it.name == open.name].head.file
 		'''
-			System.out.println(textFileContentsToString("«file»"));
+		«open.name».stream().forEach(x -> System.out.println(x));
+		'''
+	}
+	
+	
+	def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {
+		val file = if(save.file !== null) save.file else save.getContainerOfType(Model).actions.filter(OpenCSV).filter [
+				it.name == save.name
+			].head.file
+
+		'''
+			«save.name».save(new File("«file»"));
 		'''
 	}
 	

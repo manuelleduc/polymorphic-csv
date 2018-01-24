@@ -290,13 +290,22 @@ public interface CsvPackage extends EPackage
   int SAVE_CSV__NAME = ACTIONS__NAME;
 
   /**
+   * The feature id for the '<em><b>File</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SAVE_CSV__FILE = ACTIONS_FEATURE_COUNT + 0;
+
+  /**
    * The number of structural features of the '<em>Save CSV</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SAVE_CSV_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 0;
+  int SAVE_CSV_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 1;
 
 
   /**
@@ -469,6 +478,17 @@ public interface CsvPackage extends EPackage
   EClass getSaveCSV();
 
   /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.SaveCSV#getFile <em>File</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>File</em>'.
+   * @see polymorphic.csv.SaveCSV#getFile()
+   * @see #getSaveCSV()
+   * @generated
+   */
+  EAttribute getSaveCSV_File();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -632,6 +652,14 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EClass SAVE_CSV = eINSTANCE.getSaveCSV();
+
+    /**
+     * The meta object literal for the '<em><b>File</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SAVE_CSV__FILE = eINSTANCE.getSaveCSV_File();
 
   }
 

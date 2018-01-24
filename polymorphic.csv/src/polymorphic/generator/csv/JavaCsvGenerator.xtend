@@ -5,6 +5,9 @@ import polymorphic.csv.Language
 import polymorphic.csv.Model
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
+import polymorphic.csv.SaveCSV
+
+import static extension org.eclipse.xtext.EcoreUtil2.*
 
 class JavaCsvGenerator implements ICsvGenerator {
 
@@ -15,43 +18,43 @@ class JavaCsvGenerator implements ICsvGenerator {
 
 		fsa.generateFile('''«language.target.replaceAll("\\.", "/")».java''', '''
 			package «package»;
-
+			
 			import java.io.*;
 			import java.awt.Point;
 			import java.util.HashMap;
 			import java.util.Scanner;
 			
 			public class «className» {
-
+			
 				private HashMap<Point, String> _map = new HashMap<Point, String>();
 				private int _cols;
 				private int _rows;
-
+			
 				public void open(File file) throws FileNotFoundException, IOException {
-					open(file, ',');
+				open(file, ',');
 				}
-
+			
 				public void open(File file, char delimiter) throws FileNotFoundException, IOException {
-					Scanner scanner = new Scanner(file);
-					scanner.useDelimiter(Character.toString(delimiter));
-
+				Scanner scanner = new Scanner(file);
+				scanner.useDelimiter(Character.toString(delimiter));
+			
 					clear();
-
+			
 					while(scanner.hasNextLine()) {
-						String[] values = scanner.nextLine().split(Character.toString(delimiter));
-
+				String[] values = scanner.nextLine().split(Character.toString(delimiter));
+			
 						int col = 0;
 						for ( String value: values ) {
-							_map.put(new Point(col, _rows), value);
-							_cols = Math.max(_cols, ++col);
+				_map.put(new Point(col, _rows), value);
+				_cols = Math.max(_cols, ++col);
 						}
 						_rows++;
 					}
 					scanner.close();
 				}
-
+			
 				public void save(File file) throws IOException {
-					save(file, ',');
+				save(file, ',');
 				}
 				
 				public void save(File file, char delimiter) throws IOException {
@@ -125,9 +128,9 @@ class JavaCsvGenerator implements ICsvGenerator {
 				 
 				public static void main(String[] args) {
 					try {
-		        	«FOR action : content.actions»
-		        		«action.javaAction(className)»
-		        	«ENDFOR»
+					     	«FOR action : content.actions»
+					     		«action.javaAction(className)»
+					     	«ENDFOR»
 					} catch (Exception e) {
 						System.out.println(e);
 					}
@@ -138,18 +141,28 @@ class JavaCsvGenerator implements ICsvGenerator {
 	}
 
 	def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
-'''
-	«className» «open.name» = new «className»();
-	«open.name».open(new File("«open.file»"));
-'''
+		'''
+			«className» «open.name» = new «className»();
+			«open.name».open(new File("«open.file»"));
+		'''
 	}
 
 	def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
-'''
-	System.out.println(«open.name».serialize(';'));
-'''
+		'''
+			System.out.println(«open.name».serialize(';'));
+		'''
 	}
-	
+
+	def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {
+		val file = if(save.file !== null) save.file else save.getContainerOfType(Model).actions.filter(OpenCSV).filter [
+				it.name == save.name
+			].head.file
+
+		'''
+			«save.name».save(new File("«file»"));
+		'''
+	}
+
 	override def properties() {
 		newHashMap("java" -> true)
 	}

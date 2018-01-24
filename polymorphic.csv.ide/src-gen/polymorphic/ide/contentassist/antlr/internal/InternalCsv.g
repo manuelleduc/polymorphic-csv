@@ -1399,6 +1399,7 @@ rule__Actions__Group_2__2
 	}
 :
 	rule__Actions__Group_2__2__Impl
+	rule__Actions__Group_2__3
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -1413,6 +1414,32 @@ rule__Actions__Group_2__2__Impl
 	{ before(grammarAccess.getActionsAccess().getNameAssignment_2_2()); }
 	(rule__Actions__NameAssignment_2_2)
 	{ after(grammarAccess.getActionsAccess().getNameAssignment_2_2()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Actions__Group_2__3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__Actions__Group_2__3__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Actions__Group_2__3__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getActionsAccess().getFileAssignment_2_3()); }
+	(rule__Actions__FileAssignment_2_3)?
+	{ after(grammarAccess.getActionsAccess().getFileAssignment_2_3()); }
 )
 ;
 finally {
@@ -3446,6 +3473,21 @@ rule__Actions__NameAssignment_2_2
 		{ before(grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_2_2_0()); }
 		RULE_ID
 		{ after(grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_2_2_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Actions__FileAssignment_2_3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_2_3_0()); }
+		RULE_STRING
+		{ after(grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_2_3_0()); }
 	)
 ;
 finally {

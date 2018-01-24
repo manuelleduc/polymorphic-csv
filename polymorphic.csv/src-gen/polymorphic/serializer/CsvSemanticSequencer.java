@@ -176,16 +176,10 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	 *     Actions returns SaveCSV
 	 *
 	 * Constraint:
-	 *     name=ID
+	 *     (name=ID file=STRING?)
 	 */
 	protected void sequence_Actions(ISerializationContext context, SaveCSV semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.ACTIONS__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.ACTIONS__NAME));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_2_2_0(), semanticObject.getName());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

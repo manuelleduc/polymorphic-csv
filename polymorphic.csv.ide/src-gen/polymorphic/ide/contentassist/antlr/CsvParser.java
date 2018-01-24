@@ -86,6 +86,7 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getActionsAccess().getFileAssignment_0_3(), "rule__Actions__FileAssignment_0_3");
 					put(grammarAccess.getActionsAccess().getNameAssignment_1_2(), "rule__Actions__NameAssignment_1_2");
 					put(grammarAccess.getActionsAccess().getNameAssignment_2_2(), "rule__Actions__NameAssignment_2_2");
+					put(grammarAccess.getActionsAccess().getFileAssignment_2_3(), "rule__Actions__FileAssignment_2_3");
 					put(grammarAccess.getXFunctionTypeRefAccess().getParamTypesAssignment_0_1_0(), "rule__XFunctionTypeRef__ParamTypesAssignment_0_1_0");
 					put(grammarAccess.getXFunctionTypeRefAccess().getParamTypesAssignment_0_1_1_1(), "rule__XFunctionTypeRef__ParamTypesAssignment_0_1_1_1");
 					put(grammarAccess.getXFunctionTypeRefAccess().getReturnTypeAssignment_2(), "rule__XFunctionTypeRef__ReturnTypeAssignment_2");
