@@ -7,12 +7,17 @@ import com.google.inject.Inject;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.util.ParseHelper;
+import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.testing.CompilationTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import polymorphic.csv.CsvPackage;
+import polymorphic.csv.Model;
 import polymorphic.tests.CsvInjectorProvider;
+import polymorphic.validation.CsvValidator;
 
 @RunWith(XtextRunner.class)
 @InjectWith(CsvInjectorProvider.class)
@@ -20,7 +25,15 @@ import polymorphic.tests.CsvInjectorProvider;
 public class CsvParsingTest {
   @Inject
   @Extension
+  private ParseHelper<Model> _parseHelper;
+  
+  @Inject
+  @Extension
   private CompilationTestHelper _compilationTestHelper;
+  
+  @Inject
+  @Extension
+  private ValidationTestHelper _validationTestHelper;
   
   @Test
   public void loadModel() {
@@ -986,5 +999,28 @@ public class CsvParsingTest {
   
   @Test
   public void loadModelBis() {
+  }
+  
+  @Test
+  public void loadUnknowLanguage() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package uuu;");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("constraints {}");
+      _builder.newLine();
+      _builder.append("languages {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("jav (a.b.java.C)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      this._validationTestHelper.assertError(this._parseHelper.parse(_builder), CsvPackage.Literals.LANGUAGE, CsvValidator.LANGUAGE_DOES_NOT_EXIST, 
+        "Language jav does not exist.");
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 }

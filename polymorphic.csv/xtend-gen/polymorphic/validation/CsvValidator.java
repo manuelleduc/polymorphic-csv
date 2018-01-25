@@ -29,6 +29,8 @@ public class CsvValidator extends AbstractCsvValidator {
   
   public final static String LANGUAGE_CONSTRAINTS_ERROR = "LANGUAGE_CONSTRAINTS_ERROR";
   
+  public final static String LANGUAGE_DOES_NOT_EXIST = "LANGUAGE_DOES_NOT_EXIST";
+  
   public final static GeneratorCollection generators = new GeneratorCollection();
   
   @Check
@@ -71,6 +73,21 @@ public class CsvValidator extends AbstractCsvValidator {
       String _plus_1 = (_plus + "\'");
       this.error(_plus_1, CsvPackage.eINSTANCE.getActions_Name(), 
         CsvValidator.DUPLICATE_OPEN_NAME);
+    }
+  }
+  
+  @Check
+  public void checkLanguageExists(final Language language) {
+    boolean _containsKey = CsvValidator.generators.getMap().containsKey(language.getName());
+    boolean _not = (!_containsKey);
+    if (_not) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Language ");
+      String _name = language.getName();
+      _builder.append(_name);
+      _builder.append(" does not exist.");
+      this.error(_builder.toString(), language, CsvPackage.eINSTANCE.getLanguage_Name(), 
+        CsvValidator.LANGUAGE_DOES_NOT_EXIST, language.getName());
     }
   }
 }

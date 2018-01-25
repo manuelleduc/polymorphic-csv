@@ -4,21 +4,34 @@
 package polymorphic.ui.quickfix
 
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
+import org.eclipse.xtext.ui.editor.quickfix.Fix
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
+import org.eclipse.xtext.validation.Issue
+import polymorphic.validation.CsvValidator
+import polymorphic.generator.GeneratorCollection
 
 /**
  * Custom quickfixes.
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#quick-fixes
  */
 class CsvQuickfixProvider extends DefaultQuickfixProvider {
 
-//	@Fix(CsvValidator.INVALID_NAME)
-//	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
-//		acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [
-//			context |
-//			val xtextDocument = context.xtextDocument
-//			val firstLetter = xtextDocument.get(issue.offset, 1)
-//			xtextDocument.replace(issue.offset, 1, firstLetter.toUpperCase)
-//		]
-//	}
+	public static val generators = new GeneratorCollection
+
+	@Fix(CsvValidator.LANGUAGE_DOES_NOT_EXIST)
+	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
+		
+		val typoLanguage = issue.data.head
+		
+		if (generators.map.keySet.exists[it.toLowerCase.startsWith(typoLanguage.toLowerCase)]) {
+			generators.map.keySet.filter[it.toLowerCase.startsWith(typoLanguage.toLowerCase)].forEach [validLanguage|
+				acceptor.accept(issue, '''Correct language name «typoLanguage»''', '''Replace «typoLanguage» by «validLanguage».''', 'upcase.png') [ context |
+					val xtextDocument = context.xtextDocument
+					xtextDocument.replace(issue.offset, issue.length, validLanguage)
+				]
+			]
+
+		}
+	}
 }
