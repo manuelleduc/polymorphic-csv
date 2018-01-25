@@ -22,4 +22,5 @@ Language:
 Actions:
 	{OpenCSV} 'read' name=ID file=STRING |
 	{PrintCSV} 'print' name=ID |
+	{NbRow} 'nbrow' name=ID | // print number of rows (including header) // wc -l is certainly unbeatable  // TODO ideally I would like to store nbrow in a variable
 	{SaveCSV} 'save' name=ID (file=STRING)?;
