@@ -15,7 +15,6 @@ polymorphic\.csv\.ui/bin/
 polymorphic\.csv\.ui\.tests/bin/
 
 *.xtextbin
-
 *.xtendbin
 
 *._trace
