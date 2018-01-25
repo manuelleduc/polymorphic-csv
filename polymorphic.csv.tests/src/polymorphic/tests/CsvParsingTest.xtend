@@ -378,6 +378,24 @@ class CsvParsingTest {
 		nbrow b
 		//print b
 		'''.assertCompilesTo('''
+		MULTIPLE FILES WERE GENERATED
+		
+		File 1 : /myProject/./src-gen/foo/docker-compose.yml
+		
+		version: '3'
+		services:
+		  python:
+		    build:
+		      context: ./python
+		
+		File 2 : /myProject/./src-gen/foo/python/Dockerfile
+		
+		FROM python
+		COPY . /project
+		WORKDIR project
+		
+		File 3 : /myProject/./src-gen/foo/python/a.py
+		
 		import csv
 		a = open('/tmp/test.csv', 'rt')
 		a_read = csv.reader(a)
@@ -385,6 +403,8 @@ class CsvParsingTest {
 		b = open('/tmp/test2.csv', 'rt')
 		b_read = csv.reader(b)
 		print(sum(1 for row in b_read))
+		
+		
 		''')
 		
 	}
