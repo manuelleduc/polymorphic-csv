@@ -6,23 +6,23 @@ package polymorphic.csv.impl;
 import org.eclipse.emf.ecore.EClass;
 
 import polymorphic.csv.CsvPackage;
-import polymorphic.csv.PrintCSV;
+import polymorphic.csv.NbRow;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Print CSV</b></em>'.
+ * An implementation of the model object '<em><b>Nb Row</b></em>'.
  * <!-- end-user-doc -->
  *
  * @generated
  */
-public class PrintCSVImpl extends ActionsImpl implements PrintCSV
+public class NbRowImpl extends ActionsImpl implements NbRow
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected PrintCSVImpl()
+  protected NbRowImpl()
   {
     super();
   }
@@ -35,7 +35,7 @@ public class PrintCSVImpl extends ActionsImpl implements PrintCSV
   @Override
   protected EClass eStaticClass()
   {
-    return CsvPackage.Literals.PRINT_CSV;
+    return CsvPackage.Literals.NB_ROW;
   }
 
-} //PrintCSVImpl
+} //NbRowImpl
