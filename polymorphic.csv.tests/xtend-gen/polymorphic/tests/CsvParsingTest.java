@@ -102,4 +102,8 @@ public class CsvParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
+  
+  @Test
+  public void loadModelBis() {
+  }
 }
