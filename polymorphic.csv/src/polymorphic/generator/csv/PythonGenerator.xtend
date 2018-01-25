@@ -9,6 +9,7 @@ import polymorphic.csv.PrintCSV
 import polymorphic.csv.SaveCSV
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import polymorphic.csv.NbRow
 
 class PythonGenerator implements ICsvGenerator {
 	override void generate(Model content, Language language, IFileSystemAccess2 fsa) { // TODO Auto-generated method stub
@@ -38,6 +39,10 @@ class PythonGenerator implements ICsvGenerator {
 	def dispatch CharSequence pythonAction(PrintCSV print) '''
 		for «print.name»_e in «print.name»_read:
 		  print(', '.join(«print.name»_e))
+	'''
+	
+	def dispatch CharSequence pythonAction(NbRow nbRow) '''
+		print(sum(1 for row in «nbRow.name»_read))
 	'''
 
 	def dispatch CharSequence pythonAction(SaveCSV save) {

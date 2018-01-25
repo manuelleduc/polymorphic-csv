@@ -46,4 +46,60 @@ public class CsvParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
+  
+  @Test
+  public void loadModelPython() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package foo;");
+      _builder.newLine();
+      _builder.append("constraints {");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("java = true");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("maven = true");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("languages {");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("python (a)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("read a \"/tmp/test.csv\"");
+      _builder.newLine();
+      _builder.append("nbrow a");
+      _builder.newLine();
+      _builder.append("//print a");
+      _builder.newLine();
+      _builder.append("read b \"/tmp/test2.csv\"");
+      _builder.newLine();
+      _builder.append("nbrow b");
+      _builder.newLine();
+      _builder.append("//print b");
+      _builder.newLine();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("import csv");
+      _builder_1.newLine();
+      _builder_1.append("a = open(\'/tmp/test.csv\', \'rt\')");
+      _builder_1.newLine();
+      _builder_1.append("a_read = csv.reader(a)");
+      _builder_1.newLine();
+      _builder_1.append("print(sum(1 for row in a_read))");
+      _builder_1.newLine();
+      _builder_1.append("b = open(\'/tmp/test2.csv\', \'rt\')");
+      _builder_1.newLine();
+      _builder_1.append("b_read = csv.reader(b)");
+      _builder_1.newLine();
+      _builder_1.append("print(sum(1 for row in b_read))");
+      _builder_1.newLine();
+      this._compilationTestHelper.assertCompilesTo(_builder, _builder_1);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
 }

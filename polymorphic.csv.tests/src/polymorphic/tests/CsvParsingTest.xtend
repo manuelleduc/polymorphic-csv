@@ -33,4 +33,35 @@ class CsvParsingTest {
 //		val errors = result.eResource.errors
 //		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
 	}
+	
+	
+	@Test 
+	def void loadModelPython() {		
+		
+		'''
+		package foo;
+		constraints {
+		    java = true
+		    maven = true
+		}
+		languages {
+		    python (a)
+		}
+		read a "/tmp/test.csv"
+		nbrow a
+		//print a
+		read b "/tmp/test2.csv"
+		nbrow b
+		//print b
+		'''.assertCompilesTo('''
+		import csv
+		a = open('/tmp/test.csv', 'rt')
+		a_read = csv.reader(a)
+		print(sum(1 for row in a_read))
+		b = open('/tmp/test2.csv', 'rt')
+		b_read = csv.reader(b)
+		print(sum(1 for row in b_read))
+		''')
+		
+	}
 }
