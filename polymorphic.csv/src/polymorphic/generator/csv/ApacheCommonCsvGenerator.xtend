@@ -3,11 +3,13 @@ package polymorphic.generator.csv
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import polymorphic.csv.Language
 import polymorphic.csv.Model
+import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.csv.SaveCSV
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import java.util.Random
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
 
@@ -163,6 +165,16 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 		// probably easier with a good scoping...
 		'''
 		«open.name».forEach(x -> System.out.println(x));
+		'''
+	}
+	
+	def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className) {
+		val name = '''j''' + new Random().nextInt(1000) // create a temporary variable with a unique name (uniqueness: very naive)
+		'''
+		// probably inefficient with an iterator	
+		int «name» = 0; 
+		for ( ; «nbRow.name».hasNext() ; ++«name» ) «nbRow.name».next();
+		System.out.println(«name»);
 		'''
 	}
 	

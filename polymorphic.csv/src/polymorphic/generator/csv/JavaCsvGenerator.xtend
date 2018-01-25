@@ -3,6 +3,7 @@ package polymorphic.generator.csv
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import polymorphic.csv.Language
 import polymorphic.csv.Model
+import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.csv.SaveCSV
@@ -171,6 +172,12 @@ class JavaCsvGenerator implements ICsvGenerator {
 	def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
 		'''
 			System.out.println(«open.name».serialize(';'));
+		'''
+	}
+	
+	def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className) {
+		'''
+			System.out.println(«nbRow.name».rows());
 		'''
 	}
 
