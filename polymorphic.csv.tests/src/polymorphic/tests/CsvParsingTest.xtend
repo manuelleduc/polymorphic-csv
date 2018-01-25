@@ -408,4 +408,30 @@ class CsvParsingTest {
 		''')
 		
 	}
+	
+	@Test
+	def void loadModelBis() {
+		// an example
+		/*
+		'''
+		package foo2;
+		constraints {
+		    java = true
+		    maven = true
+		}
+		languages {
+		    python (a)
+		    java (b)
+		    commons(c)
+		}
+		read a "/tmp/test.csv"
+		nbrow a
+		print a
+		read b "/tmp/test2.csv"
+		nbrow b
+		//print b
+		'''
+		*/
+		
+	} 
 }
