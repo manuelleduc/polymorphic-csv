@@ -5,6 +5,7 @@ import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.EcoreUtil2;
@@ -18,6 +19,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Actions;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
 import polymorphic.csv.SaveCSV;
@@ -459,6 +461,39 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
+  protected CharSequence _javaAction(final NbRow nbRow, final CharSequence className) {
+    CharSequence _xblockexpression = null;
+    {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("j");
+      int _nextInt = new Random().nextInt(1000);
+      final String name = (_builder.toString() + Integer.valueOf(_nextInt));
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("// probably inefficient with an iterator\t");
+      _builder_1.newLine();
+      _builder_1.append("int ");
+      _builder_1.append(name);
+      _builder_1.append(" = 0; ");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("for ( ; ");
+      String _name = nbRow.getName();
+      _builder_1.append(_name);
+      _builder_1.append(".hasNext() ; ++");
+      _builder_1.append(name);
+      _builder_1.append(" ) ");
+      String _name_1 = nbRow.getName();
+      _builder_1.append(_name_1);
+      _builder_1.append(".next();");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("System.out.println(");
+      _builder_1.append(name);
+      _builder_1.append(");");
+      _builder_1.newLineIfNotEmpty();
+      _xblockexpression = _builder_1;
+    }
+    return _xblockexpression;
+  }
+  
   protected CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
     CharSequence _xblockexpression = null;
     {
@@ -495,16 +530,18 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo, _mappedTo_1);
   }
   
-  public CharSequence javaAction(final Actions open, final CharSequence className) {
-    if (open instanceof OpenCSV) {
-      return _javaAction((OpenCSV)open, className);
-    } else if (open instanceof PrintCSV) {
-      return _javaAction((PrintCSV)open, className);
-    } else if (open instanceof SaveCSV) {
-      return _javaAction((SaveCSV)open, className);
+  public CharSequence javaAction(final Actions nbRow, final CharSequence className) {
+    if (nbRow instanceof NbRow) {
+      return _javaAction((NbRow)nbRow, className);
+    } else if (nbRow instanceof OpenCSV) {
+      return _javaAction((OpenCSV)nbRow, className);
+    } else if (nbRow instanceof PrintCSV) {
+      return _javaAction((PrintCSV)nbRow, className);
+    } else if (nbRow instanceof SaveCSV) {
+      return _javaAction((SaveCSV)nbRow, className);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(open, className).toString());
+        Arrays.<Object>asList(nbRow, className).toString());
     }
   }
 }

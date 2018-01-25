@@ -18,6 +18,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Actions;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
 import polymorphic.csv.SaveCSV;
@@ -462,6 +463,16 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
+  protected CharSequence _javaAction(final NbRow nbRow, final CharSequence className) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("System.out.println(");
+    String _name = nbRow.getName();
+    _builder.append(_name);
+    _builder.append(".rows());");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
   protected CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
     CharSequence _xblockexpression = null;
     {
@@ -497,16 +508,18 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  public CharSequence javaAction(final Actions open, final CharSequence className) {
-    if (open instanceof OpenCSV) {
-      return _javaAction((OpenCSV)open, className);
-    } else if (open instanceof PrintCSV) {
-      return _javaAction((PrintCSV)open, className);
-    } else if (open instanceof SaveCSV) {
-      return _javaAction((SaveCSV)open, className);
+  public CharSequence javaAction(final Actions nbRow, final CharSequence className) {
+    if (nbRow instanceof NbRow) {
+      return _javaAction((NbRow)nbRow, className);
+    } else if (nbRow instanceof OpenCSV) {
+      return _javaAction((OpenCSV)nbRow, className);
+    } else if (nbRow instanceof PrintCSV) {
+      return _javaAction((PrintCSV)nbRow, className);
+    } else if (nbRow instanceof SaveCSV) {
+      return _javaAction((SaveCSV)nbRow, className);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(open, className).toString());
+        Arrays.<Object>asList(nbRow, className).toString());
     }
   }
 }
