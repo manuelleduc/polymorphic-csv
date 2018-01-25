@@ -3,7 +3,20 @@
  */
 package polymorphic.ui.quickfix;
 
+import java.util.function.Consumer;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.ui.editor.model.IXtextDocument;
+import org.eclipse.xtext.ui.editor.model.edit.IModification;
+import org.eclipse.xtext.ui.editor.model.edit.IModificationContext;
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
+import org.eclipse.xtext.ui.editor.quickfix.Fix;
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
+import org.eclipse.xtext.validation.Issue;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import polymorphic.generator.GeneratorCollection;
+import polymorphic.validation.CsvValidator;
 
 /**
  * Custom quickfixes.
@@ -12,4 +25,36 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
  */
 @SuppressWarnings("all")
 public class CsvQuickfixProvider extends DefaultQuickfixProvider {
+  public final static GeneratorCollection generators = new GeneratorCollection();
+  
+  @Fix(CsvValidator.LANGUAGE_DOES_NOT_EXIST)
+  public void capitalizeName(final Issue issue, final IssueResolutionAcceptor acceptor) {
+    final String typoLanguage = IterableExtensions.<String>head(((Iterable<String>)Conversions.doWrapArray(issue.getData())));
+    final Function1<String, Boolean> _function = (String it) -> {
+      return Boolean.valueOf(it.toLowerCase().startsWith(typoLanguage.toLowerCase()));
+    };
+    boolean _exists = IterableExtensions.<String>exists(CsvQuickfixProvider.generators.getMap().keySet(), _function);
+    if (_exists) {
+      final Function1<String, Boolean> _function_1 = (String it) -> {
+        return Boolean.valueOf(it.toLowerCase().startsWith(typoLanguage.toLowerCase()));
+      };
+      final Consumer<String> _function_2 = (String validLanguage) -> {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("Correct language name ");
+        _builder.append(typoLanguage);
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("Replace ");
+        _builder_1.append(typoLanguage);
+        _builder_1.append(" by ");
+        _builder_1.append(validLanguage);
+        _builder_1.append(".");
+        final IModification _function_3 = (IModificationContext context) -> {
+          final IXtextDocument xtextDocument = context.getXtextDocument();
+          xtextDocument.replace((issue.getOffset()).intValue(), (issue.getLength()).intValue(), validLanguage);
+        };
+        acceptor.accept(issue, _builder.toString(), _builder_1.toString(), "upcase.png", _function_3);
+      };
+      IterableExtensions.<String>filter(CsvQuickfixProvider.generators.getMap().keySet(), _function_1).forEach(_function_2);
+    }
+  }
 }

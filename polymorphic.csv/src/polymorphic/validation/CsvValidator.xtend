@@ -21,6 +21,7 @@ class CsvValidator extends AbstractCsvValidator {
 
 	public static val DUPLICATE_OPEN_NAME = "DUPLICATE_OPEN_NAME"
 	public static val LANGUAGE_CONSTRAINTS_ERROR = "LANGUAGE_CONSTRAINTS_ERROR"
+	public static val LANGUAGE_DOES_NOT_EXIST = "LANGUAGE_DOES_NOT_EXIST"
 
 	public static val generators = new GeneratorCollection
 
@@ -43,6 +44,14 @@ class CsvValidator extends AbstractCsvValidator {
 			exists[it != openCSV && it.name == openCSV.name]) {
 			error("Duplicate csv identifier '" + openCSV.name + "'", CsvPackage::eINSTANCE.actions_Name,
 				DUPLICATE_OPEN_NAME)
+		}
+	}
+	
+	@Check
+	def checkLanguageExists(Language language) {
+		if(!generators.map.containsKey(language.name)) {
+			error('''Language «language.name» does not exist.''', language, CsvPackage::eINSTANCE.language_Name,
+				LANGUAGE_DOES_NOT_EXIST, language.name)
 		}
 	}
 

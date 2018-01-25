@@ -6,15 +6,21 @@ package polymorphic.tests
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.eclipse.xtext.xbase.testing.CompilationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
+import polymorphic.csv.Model
+import polymorphic.csv.CsvPackage
+import polymorphic.validation.CsvValidator
 
 @RunWith(XtextRunner)
 @InjectWith(CsvInjectorProvider)
 class CsvParsingTest {
-//	@Inject extension ParseHelper<Model>
+	@Inject extension ParseHelper<Model>
 	@Inject extension CompilationTestHelper
+	@Inject extension ValidationTestHelper
 
 	@Test
 	def void loadModel() {
@@ -35,403 +41,414 @@ class CsvParsingTest {
 			//save a
 			save a "/tmp/test2.csv"
 		'''.assertCompilesTo('''
-		MULTIPLE FILES WERE GENERATED
-		
-		File 1 : /myProject/./src-gen/uuu/commons/Dockerfile
-		
-		FROM maven
-		COPY . /project
-		WORKDIR project
-		RUN mvn compile
-		
-		File 2 : /myProject/./src-gen/uuu/commons/pom.xml
-		
-		<project>
-		    <modelVersion>4.0.0</modelVersion>
-		    <groupId>uuu</groupId>
-		    <artifactId>a.b.commons.C</artifactId>
-		    <version>1</version>
-		    
-		      <properties>
-		        <maven.compiler.source>1.8</maven.compiler.source>
-		        <maven.compiler.target>1.8</maven.compiler.target>
-		         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		      </properties>
-		    
-		    <dependencies>
-			    <dependency>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-csv</artifactId>
-					<version>1.5</version>
-				</dependency>
-			</dependencies>
-		</project>
-		
-		File 3 : /myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java
-		
-		
-			package a.b.commons;
+			MULTIPLE FILES WERE GENERATED
+			
+			File 1 : /myProject/./src-gen/uuu/commons/Dockerfile
+			
+			FROM maven
+			COPY . /project
+			WORKDIR project
+			RUN mvn compile
+			
+			File 2 : /myProject/./src-gen/uuu/commons/pom.xml
+			
+			<project>
+			    <modelVersion>4.0.0</modelVersion>
+			    <groupId>uuu</groupId>
+			    <artifactId>a.b.commons.C</artifactId>
+			    <version>1</version>
+			    
+			      <properties>
+			        <maven.compiler.source>1.8</maven.compiler.source>
+			        <maven.compiler.target>1.8</maven.compiler.target>
+			         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			      </properties>
+			    
+			    <dependencies>
+				    <dependency>
+						<groupId>org.apache.commons</groupId>
+						<artifactId>commons-csv</artifactId>
+						<version>1.5</version>
+					</dependency>
+				</dependencies>
+			</project>
+			
+			File 3 : /myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java
+			
+			
+				package a.b.commons;
+				
+				import java.io.*;
+				import java.util.*;
+				import org.apache.commons.csv.*;
+				 
+				public class C {
+				  private static final String NL = System.getProperty("line.separator");
+				  public static void main(String[] args) throws  FileNotFoundException, IOException {
+			final Iterable<CSVRecord> a = CSVFormat.RFC4180.parse(new FileReader("/tmp/test.csv"));
+			a.forEach(x -> System.out.println(x));
+			a.save(new File("/tmp/test2.csv"));
+				  }
+				 
+				  public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {
+				    CSVPrinter printer = null;
+				    try {
+				      printer = new CSVPrinter(oCvs, CSVFormat.DEFAULT.withRecordSeparator(NL));
+				      List<String> oCvsHeaders;
+				      List<String> oCvsRecord;
+				      CSVParser records = CSVFormat.DEFAULT.withHeader().parse(iCvs);
+				      Map<String, Integer> irHeader = records.getHeaderMap();
+				      oCvsHeaders = new ArrayList<String>(Arrays.asList((irHeader.keySet()).toArray(new String[0])));
+				      oCvsHeaders.add(COL_NAME_SUM);
+				      printer.printRecord(oCvsHeaders);
+				      for (CSVRecord record : records) {
+				        oCvsRecord = record2list(record, oCvsHeaders, COL_NAME_SUM);
+				        printer.printRecord(oCvsRecord);
+				      }
+				    }
+				    finally {
+				      if (printer != null) {
+				        printer.close();
+				      }
+				    }
+				    return;
+				  }
+				 
+				  private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders, String COL_NAME_SUM) {
+				    List<String> cvsRecord;
+				    Map<String, String> rMap = record.toMap();
+				    long recNo = record.getRecordNumber();
+				    rMap = alterRecord(rMap, recNo);
+				    int sum = 0;
+				    sum = summation(rMap);
+				    rMap.put(COL_NAME_SUM, String.valueOf(sum));
+				    cvsRecord = new ArrayList<String>();
+				    for (String key : oCvsHeaders) {
+				      cvsRecord.add(rMap.get(key));
+				    }
+				    return cvsRecord;
+				  }
+				 
+				  private static Map<String, String> alterRecord(Map<String, String> rMap, long recNo) {
+				    int rv;
+				    Random rg = new Random(recNo);
+				    rv = rg.nextInt(50);
+				    String[] ks = rMap.keySet().toArray(new String[0]);
+				    int ix = rg.nextInt(ks.length);
+				    long yv = 0;
+				    String ky = ks[ix];
+				    String xv = rMap.get(ky);
+				    if (xv != null && xv.length() > 0) {
+				      yv = Long.valueOf(xv) + rv;
+				      rMap.put(ks[ix], String.valueOf(yv));
+				    }
+				    return rMap;
+				  }
+				 
+				  private static int summation(Map<String, String> rMap) {
+				    int sum = 0;
+				    for (String col : rMap.keySet()) {
+				      String nv = rMap.get(col);
+				      sum += nv != null && nv.length() > 0 ? Integer.valueOf(nv) : 0;
+				    }
+				    return sum;
+				  }
+				 
+				  private static String textFileContentsToString(String filename) {
+				    StringBuilder lineOut = new StringBuilder();
+				    Scanner fs = null;
+				    try {
+				      fs = new Scanner(new File(filename));
+				      lineOut.append(filename);
+				      lineOut.append(NL);
+				      while (fs.hasNextLine()) {
+				        String line = fs.nextLine();
+				        lineOut.append(line);
+				        lineOut.append(NL);
+				      }
+				    }
+				    catch (FileNotFoundException ex) {
+				      // TODO Auto-generated catch block
+				      ex.printStackTrace();
+				    }
+				    finally {
+				      if (fs != null) {
+				        fs.close();
+				      }
+				    }
+				    return lineOut.toString();
+				  }
+				}
+			
+			File 4 : /myProject/./src-gen/uuu/docker-compose.yml
+			
+			version: '3'
+			services:
+			  java:
+			    build:
+			      context: ./java
+			  commons:
+			    build:
+			      context: ./commons
+			  python:
+			    build:
+			      context: ./python
+			
+			File 5 : /myProject/./src-gen/uuu/java/Dockerfile
+			
+			FROM maven
+			COPY . /project
+			WORKDIR project
+			RUN mvn compile
+			
+			File 6 : /myProject/./src-gen/uuu/java/pom.xml
+			
+			<project>
+			    <modelVersion>4.0.0</modelVersion>
+			    <groupId>uuu</groupId>
+			    <artifactId>a.b.java.C</artifactId>
+			    <version>1</version>
+			    
+			      <properties>
+			        <maven.compiler.source>1.8</maven.compiler.source>
+			        <maven.compiler.target>1.8</maven.compiler.target>
+			         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			      </properties>
+			</project>
+			
+			File 7 : /myProject/./src-gen/uuu/java/src/main/java/a/b/java/C.java
+			
+			package a.b.java;
 			
 			import java.io.*;
-			import java.util.*;
-			import org.apache.commons.csv.*;
-			 
+			import java.awt.Point;
+			import java.util.HashMap;
+			import java.util.Scanner;
+			
 			public class C {
-			  private static final String NL = System.getProperty("line.separator");
-			  public static void main(String[] args) throws  FileNotFoundException, IOException {
-		final Iterable<CSVRecord> a = CSVFormat.RFC4180.parse(new FileReader("/tmp/test.csv"));
-		a.forEach(x -> System.out.println(x));
-		a.save(new File("/tmp/test2.csv"));
-			  }
-			 
-			  public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {
-			    CSVPrinter printer = null;
-			    try {
-			      printer = new CSVPrinter(oCvs, CSVFormat.DEFAULT.withRecordSeparator(NL));
-			      List<String> oCvsHeaders;
-			      List<String> oCvsRecord;
-			      CSVParser records = CSVFormat.DEFAULT.withHeader().parse(iCvs);
-			      Map<String, Integer> irHeader = records.getHeaderMap();
-			      oCvsHeaders = new ArrayList<String>(Arrays.asList((irHeader.keySet()).toArray(new String[0])));
-			      oCvsHeaders.add(COL_NAME_SUM);
-			      printer.printRecord(oCvsHeaders);
-			      for (CSVRecord record : records) {
-			        oCvsRecord = record2list(record, oCvsHeaders, COL_NAME_SUM);
-			        printer.printRecord(oCvsRecord);
-			      }
-			    }
-			    finally {
-			      if (printer != null) {
-			        printer.close();
-			      }
-			    }
-			    return;
-			  }
-			 
-			  private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders, String COL_NAME_SUM) {
-			    List<String> cvsRecord;
-			    Map<String, String> rMap = record.toMap();
-			    long recNo = record.getRecordNumber();
-			    rMap = alterRecord(rMap, recNo);
-			    int sum = 0;
-			    sum = summation(rMap);
-			    rMap.put(COL_NAME_SUM, String.valueOf(sum));
-			    cvsRecord = new ArrayList<String>();
-			    for (String key : oCvsHeaders) {
-			      cvsRecord.add(rMap.get(key));
-			    }
-			    return cvsRecord;
-			  }
-			 
-			  private static Map<String, String> alterRecord(Map<String, String> rMap, long recNo) {
-			    int rv;
-			    Random rg = new Random(recNo);
-			    rv = rg.nextInt(50);
-			    String[] ks = rMap.keySet().toArray(new String[0]);
-			    int ix = rg.nextInt(ks.length);
-			    long yv = 0;
-			    String ky = ks[ix];
-			    String xv = rMap.get(ky);
-			    if (xv != null && xv.length() > 0) {
-			      yv = Long.valueOf(xv) + rv;
-			      rMap.put(ks[ix], String.valueOf(yv));
-			    }
-			    return rMap;
-			  }
-			 
-			  private static int summation(Map<String, String> rMap) {
-			    int sum = 0;
-			    for (String col : rMap.keySet()) {
-			      String nv = rMap.get(col);
-			      sum += nv != null && nv.length() > 0 ? Integer.valueOf(nv) : 0;
-			    }
-			    return sum;
-			  }
-			 
-			  private static String textFileContentsToString(String filename) {
-			    StringBuilder lineOut = new StringBuilder();
-			    Scanner fs = null;
-			    try {
-			      fs = new Scanner(new File(filename));
-			      lineOut.append(filename);
-			      lineOut.append(NL);
-			      while (fs.hasNextLine()) {
-			        String line = fs.nextLine();
-			        lineOut.append(line);
-			        lineOut.append(NL);
-			      }
-			    }
-			    catch (FileNotFoundException ex) {
-			      // TODO Auto-generated catch block
-			      ex.printStackTrace();
-			    }
-			    finally {
-			      if (fs != null) {
-			        fs.close();
-			      }
-			    }
-			    return lineOut.toString();
-			  }
-			}
-		
-		File 4 : /myProject/./src-gen/uuu/docker-compose.yml
-		
-		version: '3'
-		services:
-		  java:
-		    build:
-		      context: ./java
-		  commons:
-		    build:
-		      context: ./commons
-		  python:
-		    build:
-		      context: ./python
-		
-		File 5 : /myProject/./src-gen/uuu/java/Dockerfile
-		
-		FROM maven
-		COPY . /project
-		WORKDIR project
-		RUN mvn compile
-		
-		File 6 : /myProject/./src-gen/uuu/java/pom.xml
-		
-		<project>
-		    <modelVersion>4.0.0</modelVersion>
-		    <groupId>uuu</groupId>
-		    <artifactId>a.b.java.C</artifactId>
-		    <version>1</version>
-		    
-		      <properties>
-		        <maven.compiler.source>1.8</maven.compiler.source>
-		        <maven.compiler.target>1.8</maven.compiler.target>
-		         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		      </properties>
-		</project>
-		
-		File 7 : /myProject/./src-gen/uuu/java/src/main/java/a/b/java/C.java
-		
-		package a.b.java;
-		
-		import java.io.*;
-		import java.awt.Point;
-		import java.util.HashMap;
-		import java.util.Scanner;
-		
-		public class C {
-		
-			private HashMap<Point, String> _map = new HashMap<Point, String>();
-			private int _cols;
-			private int _rows;
-		
-			public void open(File file) throws FileNotFoundException, IOException {
-			open(file, ',');
-			}
-		
-			public void open(File file, char delimiter) throws FileNotFoundException, IOException {
-			Scanner scanner = new Scanner(file);
-			scanner.useDelimiter(Character.toString(delimiter));
-		
-				clear();
-		
-				while(scanner.hasNextLine()) {
-			String[] values = scanner.nextLine().split(Character.toString(delimiter));
-		
-					int col = 0;
-					for ( String value: values ) {
-			_map.put(new Point(col, _rows), value);
-			_cols = Math.max(_cols, ++col);
-					}
-					_rows++;
-				}
-				scanner.close();
-			}
-		
-			public void save(File file) throws IOException {
-			save(file, ',');
-			}
 			
-			public void save(File file, char delimiter) throws IOException {
-				FileWriter fw = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fw);
+				private HashMap<Point, String> _map = new HashMap<Point, String>();
+				private int _cols;
+				private int _rows;
+			
+				public void open(File file) throws FileNotFoundException, IOException {
+				open(file, ',');
+				}
+			
+				public void open(File file, char delimiter) throws FileNotFoundException, IOException {
+				Scanner scanner = new Scanner(file);
+				scanner.useDelimiter(Character.toString(delimiter));
+			
+					clear();
+			
+					while(scanner.hasNextLine()) {
+				String[] values = scanner.nextLine().split(Character.toString(delimiter));
+			
+						int col = 0;
+						for ( String value: values ) {
+				_map.put(new Point(col, _rows), value);
+				_cols = Math.max(_cols, ++col);
+						}
+						_rows++;
+					}
+					scanner.close();
+				}
+			
+				public void save(File file) throws IOException {
+				save(file, ',');
+				}
 				
-				for (int row = 0; row < _rows; row++) {
-					for (int col = 0; col < _cols; col++) {
+				public void save(File file, char delimiter) throws IOException {
+					FileWriter fw = new FileWriter(file);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					for (int row = 0; row < _rows; row++) {
+						for (int col = 0; col < _cols; col++) {
+						Point key = new Point(col, row);
+							if (_map.containsKey(key)) {
+								bw.write(_map.get(key));
+							}
+							
+							if ((col + 1) < _cols) {
+								bw.write(delimiter);
+							}
+						}
+						bw.newLine();
+					}
+					bw.flush();
+					bw.close();
+				}
+				
+				public String serialize(final char delimiter) throws IOException {
+					final StringBuilder sb = new StringBuilder();
+					
+					for (int row = 0; row < _rows; row++) {
+						for (int col = 0; col < _cols; col++) {
+							final Point key = new Point(col, row);
+							if (_map.containsKey(key)) {
+								sb.append(_map.get(key));
+							}
+							
+							if ((col + 1) < _cols) {
+								sb.append(delimiter);
+							}
+						}
+						sb.append(System.lineSeparator());
+					}
+					return sb.toString();
+				}
+				
+				public String get(int col, int row) {
+					String val = "";
 					Point key = new Point(col, row);
-						if (_map.containsKey(key)) {
-							bw.write(_map.get(key));
-						}
-						
-						if ((col + 1) < _cols) {
-							bw.write(delimiter);
-						}
+					if (_map.containsKey(key)) {
+						val = _map.get(key);
 					}
-					bw.newLine();
+					return val;
 				}
-				bw.flush();
-				bw.close();
-			}
-			
-			public String serialize(final char delimiter) throws IOException {
-				final StringBuilder sb = new StringBuilder();
 				
-				for (int row = 0; row < _rows; row++) {
-					for (int col = 0; col < _cols; col++) {
-						final Point key = new Point(col, row);
-						if (_map.containsKey(key)) {
-							sb.append(_map.get(key));
-						}
-						
-						if ((col + 1) < _cols) {
-							sb.append(delimiter);
-						}
+				public void put(int col, int row, String value) {
+					_map.put(new Point(col, row), value);
+					_cols = Math.max(_cols, col+1);
+					_rows = Math.max(_rows, row+1);
+				}
+				
+				public void clear() {
+					_map.clear();
+					_cols = 0;
+					_rows = 0;
+				}
+				
+				public int rows() {
+					return _rows;
+				}
+				
+				public int cols() {
+					return _cols;
+				}
+				 
+				public static void main(String[] args) {
+					try {
+					     	C a = new C();
+					     	a.open(new File("/tmp/test.csv"));
+					     	System.out.println(a.serialize(';'));
+					     	a.save(new File("/tmp/test2.csv"));
+					} catch (Exception e) {
+						System.out.println(e);
 					}
-					sb.append(System.lineSeparator());
-				}
-				return sb.toString();
-			}
-			
-			public String get(int col, int row) {
-				String val = "";
-				Point key = new Point(col, row);
-				if (_map.containsKey(key)) {
-					val = _map.get(key);
-				}
-				return val;
-			}
-			
-			public void put(int col, int row, String value) {
-				_map.put(new Point(col, row), value);
-				_cols = Math.max(_cols, col+1);
-				_rows = Math.max(_rows, row+1);
-			}
-			
-			public void clear() {
-				_map.clear();
-				_cols = 0;
-				_rows = 0;
-			}
-			
-			public int rows() {
-				return _rows;
-			}
-			
-			public int cols() {
-				return _cols;
-			}
-			 
-			public static void main(String[] args) {
-				try {
-				     	C a = new C();
-				     	a.open(new File("/tmp/test.csv"));
-				     	System.out.println(a.serialize(';'));
-				     	a.save(new File("/tmp/test2.csv"));
-				} catch (Exception e) {
-					System.out.println(e);
 				}
 			}
-		}
-		
-		File 8 : /myProject/./src-gen/uuu/python/Dockerfile
-		
-		FROM python
-		COPY . /project
-		WORKDIR project
-		
-		File 9 : /myProject/./src-gen/uuu/python/python_version.py
-		
-		import csv
-		a = open('/tmp/test.csv', 'rt')
-		a_read = csv.reader(a)
-		for a_e in a_read:
-		  print(', '.join(a_e))
-		a_write = csv.writer(open('/tmp/test2.csv', 'wt'))
-		for a_e in a_read:
-		  print(a_e)
-		  a_write.writerow(tuple(a_e))
-		
-		
+			
+			File 8 : /myProject/./src-gen/uuu/python/Dockerfile
+			
+			FROM python
+			COPY . /project
+			WORKDIR project
+			
+			File 9 : /myProject/./src-gen/uuu/python/python_version.py
+			
+			import csv
+			a = open('/tmp/test.csv', 'rt')
+			a_read = csv.reader(a)
+			for a_e in a_read:
+			  print(', '.join(a_e))
+			a_write = csv.writer(open('/tmp/test2.csv', 'wt'))
+			for a_e in a_read:
+			  print(a_e)
+			  a_write.writerow(tuple(a_e))
+			
+			
 		''')
 //		Assert.assertNotNull(result)
 //		val errors = result.eResource.errors
 //		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
 	}
-	
-	
-	@Test 
-	def void loadModelPython() {		
-		
+
+	@Test
+	def void loadModelPython() {
+
 		'''
-		package foo;
-		constraints {
-		    java = true
-		    maven = true
-		}
-		languages {
-		    python (a)
-		}
-		read a "/tmp/test.csv"
-		nbrow a
-		//print a
-		read b "/tmp/test2.csv"
-		nbrow b
-		//print b
+			package foo;
+			constraints {
+			    java = true
+			    maven = true
+			}
+			languages {
+			    python (a)
+			}
+			read a "/tmp/test.csv"
+			nbrow a
+			//print a
+			read b "/tmp/test2.csv"
+			nbrow b
+			//print b
 		'''.assertCompilesTo('''
-		MULTIPLE FILES WERE GENERATED
-		
-		File 1 : /myProject/./src-gen/foo/docker-compose.yml
-		
-		version: '3'
-		services:
-		  python:
-		    build:
-		      context: ./python
-		
-		File 2 : /myProject/./src-gen/foo/python/Dockerfile
-		
-		FROM python
-		COPY . /project
-		WORKDIR project
-		
-		File 3 : /myProject/./src-gen/foo/python/a.py
-		
-		import csv
-		a = open('/tmp/test.csv', 'rt')
-		a_read = csv.reader(a)
-		print(sum(1 for row in a_read))
-		b = open('/tmp/test2.csv', 'rt')
-		b_read = csv.reader(b)
-		print(sum(1 for row in b_read))
-		
-		
+			MULTIPLE FILES WERE GENERATED
+			
+			File 1 : /myProject/./src-gen/foo/docker-compose.yml
+			
+			version: '3'
+			services:
+			  python:
+			    build:
+			      context: ./python
+			
+			File 2 : /myProject/./src-gen/foo/python/Dockerfile
+			
+			FROM python
+			COPY . /project
+			WORKDIR project
+			
+			File 3 : /myProject/./src-gen/foo/python/a.py
+			
+			import csv
+			a = open('/tmp/test.csv', 'rt')
+			a_read = csv.reader(a)
+			print(sum(1 for row in a_read))
+			b = open('/tmp/test2.csv', 'rt')
+			b_read = csv.reader(b)
+			print(sum(1 for row in b_read))
+			
+			
 		''')
-		
+
 	}
-	
+
 	@Test
 	def void loadModelBis() {
 		// an example
 		/*
+		 * '''
+		 * package foo2;
+		 * constraints {
+		 *     java = true
+		 *     maven = true
+		 * }
+		 * languages {
+		 *     python (a)
+		 *     java (b)
+		 *     commons(c)
+		 * }
+		 * read a "/tmp/test.csv"
+		 * nbrow a
+		 * print a
+		 * read b "/tmp/test2.csv"
+		 * nbrow b
+		 * //print b
+		 * '''
+		 */
+	}
+
+	@Test
+	def void loadUnknowLanguage() {
 		'''
-		package foo2;
-		constraints {
-		    java = true
-		    maven = true
-		}
-		languages {
-		    python (a)
-		    java (b)
-		    commons(c)
-		}
-		read a "/tmp/test.csv"
-		nbrow a
-		print a
-		read b "/tmp/test2.csv"
-		nbrow b
-		//print b
-		'''
-		*/
-		
-	} 
+			package uuu;
+			
+			constraints {}
+			languages {
+				jav (a.b.java.C)
+			}
+		'''.parse.assertError(CsvPackage.Literals.LANGUAGE, CsvValidator.LANGUAGE_DOES_NOT_EXIST,
+			"Language jav does not exist.")
+	}
 }
