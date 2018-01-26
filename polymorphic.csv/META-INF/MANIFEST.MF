@@ -28,5 +28,6 @@ Export-Package: polymorphic,
  polymorphic.scoping,
  polymorphic.serializer,
  polymorphic.services,
- polymorphic.validation
+ polymorphic.validation,
+ polymorphic.formatting2
 Import-Package: org.apache.log4j
