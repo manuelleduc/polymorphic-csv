@@ -30,3 +30,4 @@
   - Product Collections parser
   - Diergo Easy CSV Streamable
 - https://rosettacode.org/wiki/CSV_data_manipulation
+- https://github.com/apache/commons-csv/blob/master/src/test/java/org/apache/commons/csv/CSVBenchmark.java
