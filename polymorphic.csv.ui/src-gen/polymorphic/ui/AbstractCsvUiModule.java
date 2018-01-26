@@ -70,6 +70,7 @@ import org.eclipse.xtext.ui.refactoring.ui.IRenameSupport;
 import org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferences;
 import org.eclipse.xtext.ui.resource.ResourceServiceDescriptionLabelProvider;
 import org.eclipse.xtext.ui.shared.Access;
+import org.eclipse.xtext.ui.wizard.IProjectCreator;
 import polymorphic.ide.contentassist.antlr.CsvParser;
 import polymorphic.ide.contentassist.antlr.PartialCsvContentAssistParser;
 import polymorphic.ide.contentassist.antlr.internal.InternalCsvLexer;
@@ -78,6 +79,7 @@ import polymorphic.ui.labeling.CsvDescriptionLabelProvider;
 import polymorphic.ui.labeling.CsvLabelProvider;
 import polymorphic.ui.outline.CsvOutlineTreeProvider;
 import polymorphic.ui.quickfix.CsvQuickfixProvider;
+import polymorphic.ui.wizard.CsvProjectCreator;
 
 /**
  * Manual modifications go to {@link CsvUiModule}.
@@ -288,6 +290,11 @@ public abstract class AbstractCsvUiModule extends DefaultCommonTypesUiModule {
 	// contributed by org.eclipse.xtext.xtext.generator.ui.compare.CompareFragment2
 	public void configureCompareViewerTitle(Binder binder) {
 		binder.bind(String.class).annotatedWith(Names.named(UIBindings.COMPARE_VIEWER_TITLE)).toInstance("Csv Compare");
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.ui.projectWizard.SimpleProjectWizardFragment2
+	public Class<? extends IProjectCreator> bindIProjectCreator() {
+		return CsvProjectCreator.class;
 	}
 	
 }
