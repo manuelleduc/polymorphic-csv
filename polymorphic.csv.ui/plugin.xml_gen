@@ -204,6 +204,15 @@
 			</activeWhen>
 		</handler>
 	</extension>
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type
+			base-type="org.eclipse.core.runtime.text"
+			file-extensions="pcsv"
+			id="polymorphic.Csv.contenttype"
+			name="Csv File"
+			priority="normal">
+		</content-type>
+	</extension>
 	<!-- adding resource factories -->
 	<extension
 		point="org.eclipse.emf.ecore.extension_parser">
@@ -406,5 +415,25 @@
 			extension="pcsv"
 			type="text">
 		</fileTypes>
+	</extension>
+	<extension
+		point="org.eclipse.ui.newWizards">
+		<wizard
+			category="org.eclipse.xtext.projectwiz"
+			class="polymorphic.ui.CsvExecutableExtensionFactory:polymorphic.ui.wizard.CsvNewProjectWizard"
+			id="polymorphic.ui.wizard.CsvNewProjectWizard"
+			name="Csv Project"
+				project="true">
+		</wizard>
+	</extension>
+	<extension
+		point="org.eclipse.ui.newWizards">
+		<wizard
+			category="org.eclipse.xtext.projectwiz"
+			class="polymorphic.ui.CsvExecutableExtensionFactory:polymorphic.ui.wizard.CsvNewProjectWizard"
+			id="polymorphic.ui.wizard.CsvNewProjectWizard"
+			name="Csv Project"
+				project="true">
+		</wizard>
 	</extension>
 </plugin>
