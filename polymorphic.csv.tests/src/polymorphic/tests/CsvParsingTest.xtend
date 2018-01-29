@@ -43,14 +43,28 @@ class CsvParsingTest {
 		'''.assertCompilesTo('''
 			MULTIPLE FILES WERE GENERATED
 			
-			File 1 : /myProject/./src-gen/uuu/commons/Dockerfile
+			File 1 : /myProject/./src-gen/uuu/build.sh
+			
+			mkdir -p ./inputs
+			rm -r ./java/inputs
+			cp -r ./inputs ./java/inputs
+			rm -r ./commons/inputs
+			cp -r ./inputs ./commons/inputs
+			rm -r ./python/inputs
+			cp -r ./inputs ./python/inputs
+			docker-compose build
+			
+			File 2 : /myProject/./src-gen/uuu/commons/Dockerfile
 			
 			FROM maven
 			COPY . /project
+			COPY ./inputs /inputs
 			WORKDIR project
 			RUN mvn compile
+			ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="a.b.commons.C"
 			
-			File 2 : /myProject/./src-gen/uuu/commons/pom.xml
+			
+			File 3 : /myProject/./src-gen/uuu/commons/pom.xml
 			
 			<project>
 			    <modelVersion>4.0.0</modelVersion>
@@ -73,7 +87,7 @@ class CsvParsingTest {
 				</dependencies>
 			</project>
 			
-			File 3 : /myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java
+			File 4 : /myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java
 			
 			package a.b.commons;
 			
@@ -97,7 +111,7 @@ class CsvParsingTest {
 				}
 			}
 			
-			File 4 : /myProject/./src-gen/uuu/docker-compose.yml
+			File 5 : /myProject/./src-gen/uuu/docker-compose.yml
 			
 			version: '3'
 			services:
@@ -111,14 +125,16 @@ class CsvParsingTest {
 			    build:
 			      context: ./python
 			
-			File 5 : /myProject/./src-gen/uuu/java/Dockerfile
+			File 6 : /myProject/./src-gen/uuu/java/Dockerfile
 			
 			FROM maven
 			COPY . /project
+			COPY ./inputs /inputs
 			WORKDIR project
 			RUN mvn compile
+			ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="a.b.java.C"
 			
-			File 6 : /myProject/./src-gen/uuu/java/pom.xml
+			File 7 : /myProject/./src-gen/uuu/java/pom.xml
 			
 			<project>
 			    <modelVersion>4.0.0</modelVersion>
@@ -133,7 +149,7 @@ class CsvParsingTest {
 			      </properties>
 			</project>
 			
-			File 7 : /myProject/./src-gen/uuu/java/src/main/java/a/b/java/C.java
+			File 8 : /myProject/./src-gen/uuu/java/src/main/java/a/b/java/C.java
 			
 			package a.b.java;
 			
@@ -242,23 +258,23 @@ class CsvParsingTest {
 				}
 			}
 			
-			File 8 : /myProject/./src-gen/uuu/python/Dockerfile
+			File 9 : /myProject/./src-gen/uuu/python/Dockerfile
 			
 			FROM python
 			COPY . /project
+			COPY ./inputs /inputs
 			WORKDIR project
+			ENTRYPOINT python python_version.py
 			
-			File 9 : /myProject/./src-gen/uuu/python/python_version.py
+			File 10 : /myProject/./src-gen/uuu/python/python_version.py
 			
 			import csv
-			a = open('/tmp/test.csv', 'rt')
-			a_read = csv.reader(a)
-			for a_e in a_read:
+			for a_e in csv.reader(open('/tmp/test.csv', 'rt')):
 			  print(', '.join(a_e))
-			a_write = csv.writer(open('/tmp/test2.csv', 'wt'))
-			for a_e in a_read:
-			  print(a_e)
-			  a_write.writerow(tuple(a_e))
+			with open('/tmp/test2.csv', 'wt') as output_file:
+			  a_write = csv.writer(output_file)
+			  for a_e in csv.reader(open('/tmp/test.csv', 'rt')):
+			    a_write.writerow(tuple(a_e))
 			
 			
 		''')
@@ -285,7 +301,14 @@ class CsvParsingTest {
 		'''.assertCompilesTo('''
 			MULTIPLE FILES WERE GENERATED
 			
-			File 1 : /myProject/./src-gen/foo/docker-compose.yml
+			File 1 : /myProject/./src-gen/foo/build.sh
+			
+			mkdir -p ./inputs
+			rm -r ./python/inputs
+			cp -r ./inputs ./python/inputs
+			docker-compose build
+			
+			File 2 : /myProject/./src-gen/foo/docker-compose.yml
 			
 			version: '3'
 			services:
@@ -293,21 +316,19 @@ class CsvParsingTest {
 			    build:
 			      context: ./python
 			
-			File 2 : /myProject/./src-gen/foo/python/Dockerfile
+			File 3 : /myProject/./src-gen/foo/python/Dockerfile
 			
 			FROM python
 			COPY . /project
+			COPY ./inputs /inputs
 			WORKDIR project
+			ENTRYPOINT python a.py
 			
-			File 3 : /myProject/./src-gen/foo/python/a.py
+			File 4 : /myProject/./src-gen/foo/python/a.py
 			
 			import csv
-			a = open('/tmp/test.csv', 'rt')
-			a_read = csv.reader(a)
-			print(sum(1 for row in a_read))
-			b = open('/tmp/test2.csv', 'rt')
-			b_read = csv.reader(b)
-			print(sum(1 for row in b_read))
+			print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt'))))
+			print(sum(1 for row in csv.reader(open('/tmp/test2.csv', 'rt'))))
 			
 			
 		''')
@@ -331,14 +352,28 @@ class CsvParsingTest {
 		'''.assertCompilesTo('''
 		MULTIPLE FILES WERE GENERATED
 		
-		File 1 : /myProject/./src-gen/uuu/commons/Dockerfile
+		File 1 : /myProject/./src-gen/uuu/build.sh
+		
+		mkdir -p ./inputs
+		rm -r ./java/inputs
+		cp -r ./inputs ./java/inputs
+		rm -r ./commons/inputs
+		cp -r ./inputs ./commons/inputs
+		rm -r ./python/inputs
+		cp -r ./inputs ./python/inputs
+		docker-compose build
+		
+		File 2 : /myProject/./src-gen/uuu/commons/Dockerfile
 		
 		FROM maven
 		COPY . /project
+		COPY ./inputs /inputs
 		WORKDIR project
 		RUN mvn compile
+		ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="a.b.commons.C"
 		
-		File 2 : /myProject/./src-gen/uuu/commons/pom.xml
+		
+		File 3 : /myProject/./src-gen/uuu/commons/pom.xml
 		
 		<project>
 		    <modelVersion>4.0.0</modelVersion>
@@ -361,7 +396,7 @@ class CsvParsingTest {
 			</dependencies>
 		</project>
 		
-		File 3 : /myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java
+		File 4 : /myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java
 		
 		package a.b.commons;
 		
@@ -378,7 +413,7 @@ class CsvParsingTest {
 			}
 		}
 		
-		File 4 : /myProject/./src-gen/uuu/docker-compose.yml
+		File 5 : /myProject/./src-gen/uuu/docker-compose.yml
 		
 		version: '3'
 		services:
@@ -392,14 +427,16 @@ class CsvParsingTest {
 		    build:
 		      context: ./python
 		
-		File 5 : /myProject/./src-gen/uuu/java/Dockerfile
+		File 6 : /myProject/./src-gen/uuu/java/Dockerfile
 		
 		FROM maven
 		COPY . /project
+		COPY ./inputs /inputs
 		WORKDIR project
 		RUN mvn compile
+		ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="a.b.java.C"
 		
-		File 6 : /myProject/./src-gen/uuu/java/pom.xml
+		File 7 : /myProject/./src-gen/uuu/java/pom.xml
 		
 		<project>
 		    <modelVersion>4.0.0</modelVersion>
@@ -414,7 +451,7 @@ class CsvParsingTest {
 		      </properties>
 		</project>
 		
-		File 7 : /myProject/./src-gen/uuu/java/src/main/java/a/b/java/C.java
+		File 8 : /myProject/./src-gen/uuu/java/src/main/java/a/b/java/C.java
 		
 		package a.b.java;
 		
@@ -522,18 +559,18 @@ class CsvParsingTest {
 			}
 		}
 		
-		File 8 : /myProject/./src-gen/uuu/python/Dockerfile
+		File 9 : /myProject/./src-gen/uuu/python/Dockerfile
 		
 		FROM python
 		COPY . /project
+		COPY ./inputs /inputs
 		WORKDIR project
+		ENTRYPOINT python python_version.py
 		
-		File 9 : /myProject/./src-gen/uuu/python/python_version.py
+		File 10 : /myProject/./src-gen/uuu/python/python_version.py
 		
 		import csv
-		a = open('/tmp/test.csv', 'rt')
-		a_read = csv.reader(a)
-		print(sum(1 for row in a_read))
+		print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt'))))
 		
 		
 		''')

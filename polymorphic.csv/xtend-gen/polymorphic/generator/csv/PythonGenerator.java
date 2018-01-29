@@ -37,8 +37,15 @@ public class PythonGenerator implements ICsvGenerator {
     _builder_1.newLine();
     _builder_1.append("COPY . /project");
     _builder_1.newLine();
+    _builder_1.append("COPY ./inputs /inputs");
+    _builder_1.newLine();
     _builder_1.append("WORKDIR project");
     _builder_1.newLine();
+    _builder_1.append("ENTRYPOINT python ");
+    String _target = language.getTarget();
+    _builder_1.append(_target);
+    _builder_1.append(".py");
+    _builder_1.newLineIfNotEmpty();
     fsa.generateFile(_builder.toString(), _builder_1);
     StringConcatenation _builder_2 = new StringConcatenation();
     String _name_2 = content.getName();
@@ -47,8 +54,8 @@ public class PythonGenerator implements ICsvGenerator {
     String _name_3 = language.getName();
     _builder_2.append(_name_3);
     _builder_2.append("/");
-    String _target = language.getTarget();
-    _builder_2.append(_target);
+    String _target_1 = language.getTarget();
+    _builder_2.append(_target_1);
     _builder_2.append(".py");
     StringConcatenation _builder_3 = new StringConcatenation();
     _builder_3.append("import csv");
@@ -67,96 +74,103 @@ public class PythonGenerator implements ICsvGenerator {
   
   protected CharSequence _pythonAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
-    String _name = open.getName();
-    _builder.append(_name);
-    _builder.append(" = open(\'");
-    String _file = open.getFile();
-    _builder.append(_file);
-    _builder.append("\', \'rt\')");
-    _builder.newLineIfNotEmpty();
-    String _name_1 = open.getName();
-    _builder.append(_name_1);
-    _builder.append("_read = csv.reader(");
-    String _name_2 = open.getName();
-    _builder.append(_name_2);
-    _builder.append(")");
-    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   protected CharSequence _pythonAction(final PrintCSV print) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("for ");
-    String _name = print.getName();
-    _builder.append(_name);
-    _builder.append("_e in ");
-    String _name_1 = print.getName();
-    _builder.append(_name_1);
-    _builder.append("_read:");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("print(\', \'.join(");
-    String _name_2 = print.getName();
-    _builder.append(_name_2, "  ");
-    _builder.append("_e))");
-    _builder.newLineIfNotEmpty();
-    return _builder;
+    CharSequence _xblockexpression = null;
+    {
+      final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
+        String _name = it.getName();
+        String _name_1 = print.getName();
+        return Boolean.valueOf(Objects.equal(_name, _name_1));
+      };
+      final String file = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(print, Model.class).getActions(), OpenCSV.class), _function)).getFile();
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("for ");
+      String _name = print.getName();
+      _builder.append(_name);
+      _builder.append("_e in csv.reader(open(\'");
+      _builder.append(file);
+      _builder.append("\', \'rt\')):");
+      _builder.newLineIfNotEmpty();
+      _builder.append("  ");
+      _builder.append("print(\', \'.join(");
+      String _name_1 = print.getName();
+      _builder.append(_name_1, "  ");
+      _builder.append("_e))");
+      _builder.newLineIfNotEmpty();
+      _xblockexpression = _builder;
+    }
+    return _xblockexpression;
   }
   
   protected CharSequence _pythonAction(final NbRow nbRow) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("print(sum(1 for row in ");
-    String _name = nbRow.getName();
-    _builder.append(_name);
-    _builder.append("_read))");
-    _builder.newLineIfNotEmpty();
-    return _builder;
+    CharSequence _xblockexpression = null;
+    {
+      final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
+        String _name = it.getName();
+        String _name_1 = nbRow.getName();
+        return Boolean.valueOf(Objects.equal(_name, _name_1));
+      };
+      final String file = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(nbRow, Model.class).getActions(), OpenCSV.class), _function)).getFile();
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("print(sum(1 for row in csv.reader(open(\'");
+      _builder.append(file);
+      _builder.append("\', \'rt\'))))");
+      _builder.newLineIfNotEmpty();
+      _xblockexpression = _builder;
+    }
+    return _xblockexpression;
   }
   
   protected CharSequence _pythonAction(final SaveCSV save) {
     CharSequence _xblockexpression = null;
     {
+      final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
+        String _name = it.getName();
+        String _name_1 = save.getName();
+        return Boolean.valueOf(Objects.equal(_name, _name_1));
+      };
+      final String inputfile = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
       String _xifexpression = null;
       String _file = save.getFile();
       boolean _tripleNotEquals = (_file != null);
       if (_tripleNotEquals) {
         _xifexpression = save.getFile();
       } else {
-        final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
+        final Function1<OpenCSV, Boolean> _function_1 = (OpenCSV it) -> {
           String _name = it.getName();
           String _name_1 = save.getName();
           return Boolean.valueOf(Objects.equal(_name, _name_1));
         };
-        _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
+        _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function_1)).getFile();
       }
-      final String f = _xifexpression;
+      final String outputfile = _xifexpression;
       StringConcatenation _builder = new StringConcatenation();
-      String _name = save.getName();
-      _builder.append(_name);
-      _builder.append("_write = csv.writer(open(\'");
-      _builder.append(f);
-      _builder.append("\', \'wt\'))");
+      _builder.append("with open(\'");
+      _builder.append(outputfile);
+      _builder.append("\', \'wt\') as output_file:");
       _builder.newLineIfNotEmpty();
+      _builder.append("  ");
+      String _name = save.getName();
+      _builder.append(_name, "  ");
+      _builder.append("_write = csv.writer(output_file)");
+      _builder.newLineIfNotEmpty();
+      _builder.append("  ");
       _builder.append("for ");
       String _name_1 = save.getName();
-      _builder.append(_name_1);
-      _builder.append("_e in ");
+      _builder.append(_name_1, "  ");
+      _builder.append("_e in csv.reader(open(\'");
+      _builder.append(inputfile, "  ");
+      _builder.append("\', \'rt\')):");
+      _builder.newLineIfNotEmpty();
+      _builder.append("    ");
       String _name_2 = save.getName();
-      _builder.append(_name_2);
-      _builder.append("_read:");
-      _builder.newLineIfNotEmpty();
-      _builder.append("  ");
-      _builder.append("print(");
-      String _name_3 = save.getName();
-      _builder.append(_name_3, "  ");
-      _builder.append("_e)");
-      _builder.newLineIfNotEmpty();
-      _builder.append("  ");
-      String _name_4 = save.getName();
-      _builder.append(_name_4, "  ");
+      _builder.append(_name_2, "    ");
       _builder.append("_write.writerow(tuple(");
-      String _name_5 = save.getName();
-      _builder.append(_name_5, "  ");
+      String _name_3 = save.getName();
+      _builder.append(_name_3, "    ");
       _builder.append("_e))");
       _builder.newLineIfNotEmpty();
       _xblockexpression = _builder;

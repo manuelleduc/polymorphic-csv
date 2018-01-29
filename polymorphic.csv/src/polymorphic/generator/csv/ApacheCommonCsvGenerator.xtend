@@ -29,8 +29,11 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 		fsa.generateFile('''«content.name»/«language.name»/Dockerfile''', '''
 			FROM maven
 			COPY . /project
+			COPY ./inputs /inputs
 			WORKDIR project
 			RUN mvn compile
+			ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="«package».«className»"
+			
 		''')
 		fsa.generateFile('''«content.name»/«language.name»/pom.xml''', '''
 			<project>
