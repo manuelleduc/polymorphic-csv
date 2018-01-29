@@ -65,7 +65,7 @@ class CsvParsingTest {
 			      </properties>
 			    
 			    <dependencies>
-				    <dependency>
+					<dependency>
 						<groupId>org.apache.commons</groupId>
 						<artifactId>commons-csv</artifactId>
 						<version>1.5</version>
@@ -80,102 +80,20 @@ class CsvParsingTest {
 			import java.io.*;
 			import java.util.*;
 			import org.apache.commons.csv.*;
+			import java.util.stream.StreamSupport;
+			import java.util.stream.Collectors;
 			
 			public class C {
-				private static final String NL = System.getProperty("line.separator");
-			  	public static void main(String[] args) throws  FileNotFoundException, IOException {
-					final Iterable<CSVRecord> a = CSVFormat.RFC4180.parse(new FileReader("/tmp/test.csv"));
-					a.forEach(x -> System.out.println(x));
-					a.save(new File("/tmp/test2.csv"));
+			 	public static void main(String[] args) throws  FileNotFoundException, IOException {
+				final List<CSVRecord> a = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader("/tmp/test.csv")).spliterator(), false).collect(Collectors.toList());
+				final StringBuilder sb0 = new StringBuilder();
+				try (CSVPrinter tmp0 = new CSVPrinter(sb0, CSVFormat.RFC4180)) {
+					tmp0.printRecords(a);
 				}
-			
-				public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {
-					CSVPrinter printer = null;
-				    try {
-						printer = new CSVPrinter(oCvs, CSVFormat.DEFAULT.withRecordSeparator(NL));
-				      	List<String> oCvsHeaders;
-				      	List<String> oCvsRecord;
-				      	CSVParser records = CSVFormat.DEFAULT.withHeader().parse(iCvs);
-				      	Map<String, Integer> irHeader = records.getHeaderMap();
-				      	oCvsHeaders = new ArrayList<String>(Arrays.asList((irHeader.keySet()).toArray(new String[0])));
-				      	oCvsHeaders.add(COL_NAME_SUM);
-				      	printer.printRecord(oCvsHeaders);
-				      	for (CSVRecord record : records) {
-				        	oCvsRecord = record2list(record, oCvsHeaders, COL_NAME_SUM);
-				        	printer.printRecord(oCvsRecord);
-				      	}
-				    }
-				    finally {
-				    	if (printer != null) {
-				        	printer.close();
-				      	}
-				    }
-				    return;
-				  }
-				 
-				private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders, String COL_NAME_SUM) {
-					List<String> cvsRecord;
-				    Map<String, String> rMap = record.toMap();
-				    long recNo = record.getRecordNumber();
-				    rMap = alterRecord(rMap, recNo);
-				    int sum = 0;
-				    sum = summation(rMap);
-				    rMap.put(COL_NAME_SUM, String.valueOf(sum));
-				    cvsRecord = new ArrayList<String>();
-				    for (String key : oCvsHeaders) {
-						cvsRecord.add(rMap.get(key));
-				    }
-				    return cvsRecord;
+				System.out.println(sb0);
+				try (CSVPrinter tmp1 = new CSVPrinter(new FileWriter(new File("/tmp/test2.csv")), CSVFormat.RFC4180)) {
+					tmp1.printRecords(a);
 				}
-			
-				private static Map<String, String> alterRecord(Map<String, String> rMap, long recNo) {
-					int rv;
-				    Random rg = new Random(recNo);
-				    rv = rg.nextInt(50);
-				    String[] ks = rMap.keySet().toArray(new String[0]);
-				    int ix = rg.nextInt(ks.length);
-				    long yv = 0;
-				    String ky = ks[ix];
-				    String xv = rMap.get(ky);
-				    if (xv != null && xv.length() > 0) {
-						yv = Long.valueOf(xv) + rv;
-						rMap.put(ks[ix], String.valueOf(yv));
-				    }
-				    return rMap;
-				}
-				 
-				private static int summation(Map<String, String> rMap) {
-					int sum = 0;
-					for (String col : rMap.keySet()) {
-						String nv = rMap.get(col);
-				      	sum += nv != null && nv.length() > 0 ? Integer.valueOf(nv) : 0;
-				    }
-				    return sum;
-				}
-				 
-				private static String textFileContentsToString(String filename) {
-					StringBuilder lineOut = new StringBuilder();
-				    Scanner fs = null;
-				    try {
-						fs = new Scanner(new File(filename));
-						lineOut.append(filename);
-						lineOut.append(NL);
-						while (fs.hasNextLine()) {
-							String line = fs.nextLine();
-							lineOut.append(line);
-							lineOut.append(NL);
-						}
-				    }
-				    catch (FileNotFoundException ex) {
-				    	// TODO Auto-generated catch block
-				      	ex.printStackTrace();
-				    }
-				    finally {
-				    	if (fs != null) {
-				        	fs.close();
-				      	}
-				    }
-				    return lineOut.toString();
 				}
 			}
 			
@@ -237,8 +155,6 @@ class CsvParsingTest {
 				public void open(File file, char delimiter) throws FileNotFoundException, IOException {
 				Scanner scanner = new Scanner(file);
 				scanner.useDelimiter(Character.toString(delimiter));
-			
-					clear();
 			
 					while(scanner.hasNextLine()) {
 				String[] values = scanner.nextLine().split(Character.toString(delimiter));
@@ -312,20 +228,8 @@ class CsvParsingTest {
 					_rows = Math.max(_rows, row+1);
 				}
 				
-				public void clear() {
-					_map.clear();
-					_cols = 0;
-					_rows = 0;
-				}
+				public int rows() { return this._rows; }
 				
-				public int rows() {
-					return _rows;
-				}
-				
-				public int cols() {
-					return _cols;
-				}
-				 
 				public static void main(String[] args) {
 					try {
 					     	C a = new C();
@@ -449,7 +353,7 @@ class CsvParsingTest {
 		      </properties>
 		    
 		    <dependencies>
-			    <dependency>
+				<dependency>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>commons-csv</artifactId>
 					<version>1.5</version>
@@ -464,101 +368,13 @@ class CsvParsingTest {
 		import java.io.*;
 		import java.util.*;
 		import org.apache.commons.csv.*;
+		import java.util.stream.StreamSupport;
+		import java.util.stream.Collectors;
 		
 		public class C {
-			private static final String NL = System.getProperty("line.separator");
-		  	public static void main(String[] args) throws  FileNotFoundException, IOException {
-				final Iterable<CSVRecord> a = CSVFormat.RFC4180.parse(new FileReader("/tmp/test.csv"));
-				System.out.println(java.util.stream.StreamSupport.stream(a.spliterator(), false).count());
-			}
-		
-			public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {
-				CSVPrinter printer = null;
-			    try {
-					printer = new CSVPrinter(oCvs, CSVFormat.DEFAULT.withRecordSeparator(NL));
-			      	List<String> oCvsHeaders;
-			      	List<String> oCvsRecord;
-			      	CSVParser records = CSVFormat.DEFAULT.withHeader().parse(iCvs);
-			      	Map<String, Integer> irHeader = records.getHeaderMap();
-			      	oCvsHeaders = new ArrayList<String>(Arrays.asList((irHeader.keySet()).toArray(new String[0])));
-			      	oCvsHeaders.add(COL_NAME_SUM);
-			      	printer.printRecord(oCvsHeaders);
-			      	for (CSVRecord record : records) {
-			        	oCvsRecord = record2list(record, oCvsHeaders, COL_NAME_SUM);
-			        	printer.printRecord(oCvsRecord);
-			      	}
-			    }
-			    finally {
-			    	if (printer != null) {
-			        	printer.close();
-			      	}
-			    }
-			    return;
-			  }
-			 
-			private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders, String COL_NAME_SUM) {
-				List<String> cvsRecord;
-			    Map<String, String> rMap = record.toMap();
-			    long recNo = record.getRecordNumber();
-			    rMap = alterRecord(rMap, recNo);
-			    int sum = 0;
-			    sum = summation(rMap);
-			    rMap.put(COL_NAME_SUM, String.valueOf(sum));
-			    cvsRecord = new ArrayList<String>();
-			    for (String key : oCvsHeaders) {
-					cvsRecord.add(rMap.get(key));
-			    }
-			    return cvsRecord;
-			}
-		
-			private static Map<String, String> alterRecord(Map<String, String> rMap, long recNo) {
-				int rv;
-			    Random rg = new Random(recNo);
-			    rv = rg.nextInt(50);
-			    String[] ks = rMap.keySet().toArray(new String[0]);
-			    int ix = rg.nextInt(ks.length);
-			    long yv = 0;
-			    String ky = ks[ix];
-			    String xv = rMap.get(ky);
-			    if (xv != null && xv.length() > 0) {
-					yv = Long.valueOf(xv) + rv;
-					rMap.put(ks[ix], String.valueOf(yv));
-			    }
-			    return rMap;
-			}
-			 
-			private static int summation(Map<String, String> rMap) {
-				int sum = 0;
-				for (String col : rMap.keySet()) {
-					String nv = rMap.get(col);
-			      	sum += nv != null && nv.length() > 0 ? Integer.valueOf(nv) : 0;
-			    }
-			    return sum;
-			}
-			 
-			private static String textFileContentsToString(String filename) {
-				StringBuilder lineOut = new StringBuilder();
-			    Scanner fs = null;
-			    try {
-					fs = new Scanner(new File(filename));
-					lineOut.append(filename);
-					lineOut.append(NL);
-					while (fs.hasNextLine()) {
-						String line = fs.nextLine();
-						lineOut.append(line);
-						lineOut.append(NL);
-					}
-			    }
-			    catch (FileNotFoundException ex) {
-			    	// TODO Auto-generated catch block
-			      	ex.printStackTrace();
-			    }
-			    finally {
-			    	if (fs != null) {
-			        	fs.close();
-			      	}
-			    }
-			    return lineOut.toString();
+		 	public static void main(String[] args) throws  FileNotFoundException, IOException {
+			final List<CSVRecord> a = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader("/tmp/test.csv")).spliterator(), false).collect(Collectors.toList());
+			System.out.println(a.size());
 			}
 		}
 		
@@ -620,8 +436,6 @@ class CsvParsingTest {
 			public void open(File file, char delimiter) throws FileNotFoundException, IOException {
 			Scanner scanner = new Scanner(file);
 			scanner.useDelimiter(Character.toString(delimiter));
-		
-				clear();
 		
 				while(scanner.hasNextLine()) {
 			String[] values = scanner.nextLine().split(Character.toString(delimiter));
@@ -695,20 +509,8 @@ class CsvParsingTest {
 				_rows = Math.max(_rows, row+1);
 			}
 			
-			public void clear() {
-				_map.clear();
-				_cols = 0;
-				_rows = 0;
-			}
+			public int rows() { return this._rows; }
 			
-			public int rows() {
-				return _rows;
-			}
-			
-			public int cols() {
-				return _cols;
-			}
-			 
 			public static void main(String[] args) {
 				try {
 				     	C a = new C();
