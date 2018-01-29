@@ -56,9 +56,18 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_1.newLine();
     _builder_1.append("COPY . /project");
     _builder_1.newLine();
+    _builder_1.append("COPY ./inputs /inputs");
+    _builder_1.newLine();
     _builder_1.append("WORKDIR project");
     _builder_1.newLine();
     _builder_1.append("RUN mvn compile");
+    _builder_1.newLine();
+    _builder_1.append("ENTRYPOINT  mvn -q exec:java -Dexec.mainClass=\"");
+    _builder_1.append(package_);
+    _builder_1.append(".");
+    _builder_1.append(className);
+    _builder_1.append("\"");
+    _builder_1.newLineIfNotEmpty();
     _builder_1.newLine();
     fsa.generateFile(_builder.toString(), _builder_1);
     StringConcatenation _builder_2 = new StringConcatenation();
