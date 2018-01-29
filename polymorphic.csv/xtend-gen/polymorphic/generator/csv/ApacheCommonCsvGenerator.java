@@ -26,6 +26,20 @@ import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
 public class ApacheCommonCsvGenerator implements ICsvGenerator {
+  private static final class Context {
+    private int cptr = 0;
+    
+    public int nextCptr() {
+      int _xblockexpression = (int) 0;
+      {
+        final int ret = this.cptr;
+        this.cptr = (this.cptr + 1);
+        _xblockexpression = ret;
+      }
+      return _xblockexpression;
+    }
+  }
+  
   @Override
   public void generate(final Model content, final Language language, final IFileSystemAccess2 fsa) {
     final String className = IterableExtensions.<String>head(ListExtensions.<String>reverse(((List<String>)Conversions.doWrapArray(language.getTarget().split("\\.")))));
@@ -97,7 +111,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_3.append("    ");
     _builder_3.append("<dependencies>");
     _builder_3.newLine();
-    _builder_3.append("\t    ");
+    _builder_3.append("\t\t");
     _builder_3.append("<dependency>");
     _builder_3.newLine();
     _builder_3.append("\t\t\t");
@@ -118,6 +132,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_3.append("</project>");
     _builder_3.newLine();
     fsa.generateFile(_builder_2.toString(), _builder_3);
+    final ApacheCommonCsvGenerator.Context ctx = new ApacheCommonCsvGenerator.Context();
     StringConcatenation _builder_4 = new StringConcatenation();
     String _name_5 = content.getName();
     _builder_4.append(_name_5);
@@ -140,286 +155,27 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_5.newLine();
     _builder_5.append("import org.apache.commons.csv.*;");
     _builder_5.newLine();
+    _builder_5.append("import java.util.stream.StreamSupport;");
+    _builder_5.newLine();
+    _builder_5.append("import java.util.stream.Collectors;");
+    _builder_5.newLine();
     _builder_5.newLine();
     _builder_5.append("public class ");
     _builder_5.append(className);
     _builder_5.append(" {");
     _builder_5.newLineIfNotEmpty();
-    _builder_5.append("\t");
-    _builder_5.append("private static final String NL = System.getProperty(\"line.separator\");");
-    _builder_5.newLine();
-    _builder_5.append("  \t");
+    _builder_5.append(" \t");
     _builder_5.append("public static void main(String[] args) throws  FileNotFoundException, IOException {");
     _builder_5.newLine();
     {
       EList<Actions> _actions = content.getActions();
       for(final Actions action : _actions) {
-        _builder_5.append("\t\t");
-        CharSequence _javaAction = this.javaAction(action, className);
-        _builder_5.append(_javaAction, "\t\t");
+        _builder_5.append("\t");
+        CharSequence _javaAction = this.javaAction(action, className, ctx);
+        _builder_5.append(_javaAction, "\t");
         _builder_5.newLineIfNotEmpty();
       }
     }
-    _builder_5.append("\t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t");
-    _builder_5.append("CSVPrinter printer = null;");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("try {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("printer = new CSVPrinter(oCvs, CSVFormat.DEFAULT.withRecordSeparator(NL));");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("List<String> oCvsHeaders;");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("List<String> oCvsRecord;");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("CSVParser records = CSVFormat.DEFAULT.withHeader().parse(iCvs);");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("Map<String, Integer> irHeader = records.getHeaderMap();");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("oCvsHeaders = new ArrayList<String>(Arrays.asList((irHeader.keySet()).toArray(new String[0])));");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("oCvsHeaders.add(COL_NAME_SUM);");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("printer.printRecord(oCvsHeaders);");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("for (CSVRecord record : records) {");
-    _builder_5.newLine();
-    _builder_5.append("\t        \t");
-    _builder_5.append("oCvsRecord = record2list(record, oCvsHeaders, COL_NAME_SUM);");
-    _builder_5.newLine();
-    _builder_5.append("\t        \t");
-    _builder_5.append("printer.printRecord(oCvsRecord);");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("finally {");
-    _builder_5.newLine();
-    _builder_5.append("\t    \t");
-    _builder_5.append("if (printer != null) {");
-    _builder_5.newLine();
-    _builder_5.append("\t        \t");
-    _builder_5.append("printer.close();");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("return;");
-    _builder_5.newLine();
-    _builder_5.append("\t  ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t ");
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders, String COL_NAME_SUM) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t");
-    _builder_5.append("List<String> cvsRecord;");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("Map<String, String> rMap = record.toMap();");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("long recNo = record.getRecordNumber();");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("rMap = alterRecord(rMap, recNo);");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("int sum = 0;");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("sum = summation(rMap);");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("rMap.put(COL_NAME_SUM, String.valueOf(sum));");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("cvsRecord = new ArrayList<String>();");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("for (String key : oCvsHeaders) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("cvsRecord.add(rMap.get(key));");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("return cvsRecord;");
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("private static Map<String, String> alterRecord(Map<String, String> rMap, long recNo) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t");
-    _builder_5.append("int rv;");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("Random rg = new Random(recNo);");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("rv = rg.nextInt(50);");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("String[] ks = rMap.keySet().toArray(new String[0]);");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("int ix = rg.nextInt(ks.length);");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("long yv = 0;");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("String ky = ks[ix];");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("String xv = rMap.get(ky);");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("if (xv != null && xv.length() > 0) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("yv = Long.valueOf(xv) + rv;");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("rMap.put(ks[ix], String.valueOf(yv));");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("return rMap;");
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t ");
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("private static int summation(Map<String, String> rMap) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t");
-    _builder_5.append("int sum = 0;");
-    _builder_5.newLine();
-    _builder_5.append("\t\t");
-    _builder_5.append("for (String col : rMap.keySet()) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("String nv = rMap.get(col);");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("sum += nv != null && nv.length() > 0 ? Integer.valueOf(nv) : 0;");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("return sum;");
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t ");
-    _builder_5.newLine();
-    _builder_5.append("\t");
-    _builder_5.append("private static String textFileContentsToString(String filename) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t");
-    _builder_5.append("StringBuilder lineOut = new StringBuilder();");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("Scanner fs = null;");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("try {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("fs = new Scanner(new File(filename));");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("lineOut.append(filename);");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("lineOut.append(NL);");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("while (fs.hasNextLine()) {");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t\t");
-    _builder_5.append("String line = fs.nextLine();");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t\t");
-    _builder_5.append("lineOut.append(line);");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t\t");
-    _builder_5.append("lineOut.append(NL);");
-    _builder_5.newLine();
-    _builder_5.append("\t\t\t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("catch (FileNotFoundException ex) {");
-    _builder_5.newLine();
-    _builder_5.append("\t    \t");
-    _builder_5.append("// TODO Auto-generated catch block");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("ex.printStackTrace();");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("finally {");
-    _builder_5.newLine();
-    _builder_5.append("\t    \t");
-    _builder_5.append("if (fs != null) {");
-    _builder_5.newLine();
-    _builder_5.append("\t        \t");
-    _builder_5.append("fs.close();");
-    _builder_5.newLine();
-    _builder_5.append("\t      \t");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("}");
-    _builder_5.newLine();
-    _builder_5.append("\t    ");
-    _builder_5.append("return lineOut.toString();");
-    _builder_5.newLine();
     _builder_5.append("\t");
     _builder_5.append("}");
     _builder_5.newLine();
@@ -428,38 +184,72 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_4.toString(), _builder_5);
   }
   
-  protected CharSequence _javaAction(final OpenCSV open, final CharSequence className) {
+  protected CharSequence _javaAction(final OpenCSV open, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("final Iterable<CSVRecord> ");
+    _builder.append("final List<CSVRecord> ");
     String _name = open.getName();
     _builder.append(_name);
-    _builder.append(" = CSVFormat.RFC4180.parse(new FileReader(\"");
+    _builder.append(" = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader(\"");
     String _file = open.getFile();
     _builder.append(_file);
-    _builder.append("\"));");
+    _builder.append("\")).spliterator(), false).collect(Collectors.toList());");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  protected CharSequence _javaAction(final PrintCSV open, final CharSequence className) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _name = open.getName();
-    _builder.append(_name);
-    _builder.append(".forEach(x -> System.out.println(x));");
-    _builder.newLineIfNotEmpty();
-    return _builder;
+  protected CharSequence _javaAction(final PrintCSV print, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+    CharSequence _xblockexpression = null;
+    {
+      final int varX = ctx.nextCptr();
+      StringConcatenation _builder = new StringConcatenation();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("sb");
+      _builder_1.append(varX);
+      final String sb = _builder_1.toString();
+      _builder.newLineIfNotEmpty();
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("tmp");
+      _builder_2.append(varX);
+      final String tmp = _builder_2.toString();
+      _builder.newLineIfNotEmpty();
+      _builder.append("final StringBuilder ");
+      _builder.append(sb);
+      _builder.append(" = new StringBuilder();");
+      _builder.newLineIfNotEmpty();
+      _builder.append("try (CSVPrinter ");
+      _builder.append(tmp);
+      _builder.append(" = new CSVPrinter(");
+      _builder.append(sb);
+      _builder.append(", CSVFormat.RFC4180)) {");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.append(tmp, "\t");
+      _builder.append(".printRecords(");
+      String _name = print.getName();
+      _builder.append(_name, "\t");
+      _builder.append(");");
+      _builder.newLineIfNotEmpty();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("System.out.println(");
+      _builder.append(sb);
+      _builder.append(");");
+      _builder.newLineIfNotEmpty();
+      _xblockexpression = _builder;
+    }
+    return _xblockexpression;
   }
   
-  protected CharSequence _javaAction(final NbRow nbRow, final CharSequence className) {
+  protected CharSequence _javaAction(final NbRow nbRow, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("System.out.println(java.util.stream.StreamSupport.stream(");
+    _builder.append("System.out.println(");
     String _name = nbRow.getName();
     _builder.append(_name);
-    _builder.append(".spliterator(), false).count());");
+    _builder.append(".size());");
     return _builder;
   }
   
-  protected CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
+  protected CharSequence _javaAction(final SaveCSV save, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
     CharSequence _xblockexpression = null;
     {
       String _xifexpression = null;
@@ -476,13 +266,24 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
         _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
       }
       final String file = _xifexpression;
+      final int varX = ctx.nextCptr();
       StringConcatenation _builder = new StringConcatenation();
-      String _name = save.getName();
-      _builder.append(_name);
-      _builder.append(".save(new File(\"");
+      _builder.append("try (CSVPrinter tmp");
+      _builder.append(varX);
+      _builder.append(" = new CSVPrinter(new FileWriter(new File(\"");
       _builder.append(file);
-      _builder.append("\"));");
+      _builder.append("\")), CSVFormat.RFC4180)) {");
       _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.append("tmp");
+      _builder.append(varX, "\t");
+      _builder.append(".printRecords(");
+      String _name = save.getName();
+      _builder.append(_name, "\t");
+      _builder.append(");");
+      _builder.newLineIfNotEmpty();
+      _builder.append("}");
+      _builder.newLine();
       _xblockexpression = _builder;
     }
     return _xblockexpression;
@@ -495,18 +296,18 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo, _mappedTo_1);
   }
   
-  public CharSequence javaAction(final Actions nbRow, final CharSequence className) {
+  public CharSequence javaAction(final Actions nbRow, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
     if (nbRow instanceof NbRow) {
-      return _javaAction((NbRow)nbRow, className);
+      return _javaAction((NbRow)nbRow, className, ctx);
     } else if (nbRow instanceof OpenCSV) {
-      return _javaAction((OpenCSV)nbRow, className);
+      return _javaAction((OpenCSV)nbRow, className, ctx);
     } else if (nbRow instanceof PrintCSV) {
-      return _javaAction((PrintCSV)nbRow, className);
+      return _javaAction((PrintCSV)nbRow, className, ctx);
     } else if (nbRow instanceof SaveCSV) {
-      return _javaAction((SaveCSV)nbRow, className);
+      return _javaAction((SaveCSV)nbRow, className, ctx);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbRow, className).toString());
+        Arrays.<Object>asList(nbRow, className, ctx).toString());
     }
   }
 }

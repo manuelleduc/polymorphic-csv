@@ -12,6 +12,16 @@ import static extension org.eclipse.xtext.EcoreUtil2.*
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
 
+	private static final class Context {
+		var cptr = 0
+
+		def nextCptr() {
+			val ret = cptr
+			cptr = cptr + 1
+			ret
+		}
+	}
+
 	override generate(Model content, Language language, IFileSystemAccess2 fsa) {
 		val className = language.target.split("\\.").reverse.head
 		val package = language.target.split("\\.").reverse.tail.toList.reverse.join(".")
@@ -36,7 +46,7 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			      </properties>
 			    
 			    <dependencies>
-				    <dependency>
+					<dependency>
 						<groupId>org.apache.commons</groupId>
 						<artifactId>commons-csv</artifactId>
 						<version>1.5</version>
@@ -45,6 +55,7 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			</project>
 		''')
 
+		val ctx = new Context
 		fsa.
 			generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
 				package «package»;
@@ -52,124 +63,42 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 				import java.io.*;
 				import java.util.*;
 				import org.apache.commons.csv.*;
-
+				import java.util.stream.StreamSupport;
+				import java.util.stream.Collectors;
+				
 				public class «className» {
-					private static final String NL = System.getProperty("line.separator");
-				  	public static void main(String[] args) throws  FileNotFoundException, IOException {
-						«FOR action : content.actions»
-						«action.javaAction(className)»
-						«ENDFOR»
-					}
-				
-					public static void processCsv(Reader iCvs, Writer oCvs, String COL_NAME_SUM) throws IOException {
-						CSVPrinter printer = null;
-					    try {
-							printer = new CSVPrinter(oCvs, CSVFormat.DEFAULT.withRecordSeparator(NL));
-					      	List<String> oCvsHeaders;
-					      	List<String> oCvsRecord;
-					      	CSVParser records = CSVFormat.DEFAULT.withHeader().parse(iCvs);
-					      	Map<String, Integer> irHeader = records.getHeaderMap();
-					      	oCvsHeaders = new ArrayList<String>(Arrays.asList((irHeader.keySet()).toArray(new String[0])));
-					      	oCvsHeaders.add(COL_NAME_SUM);
-					      	printer.printRecord(oCvsHeaders);
-					      	for (CSVRecord record : records) {
-					        	oCvsRecord = record2list(record, oCvsHeaders, COL_NAME_SUM);
-					        	printer.printRecord(oCvsRecord);
-					      	}
-					    }
-					    finally {
-					    	if (printer != null) {
-					        	printer.close();
-					      	}
-					    }
-					    return;
-					  }
-					 
-					private static List<String> record2list(CSVRecord record, List<String> oCvsHeaders, String COL_NAME_SUM) {
-						List<String> cvsRecord;
-					    Map<String, String> rMap = record.toMap();
-					    long recNo = record.getRecordNumber();
-					    rMap = alterRecord(rMap, recNo);
-					    int sum = 0;
-					    sum = summation(rMap);
-					    rMap.put(COL_NAME_SUM, String.valueOf(sum));
-					    cvsRecord = new ArrayList<String>();
-					    for (String key : oCvsHeaders) {
-							cvsRecord.add(rMap.get(key));
-					    }
-					    return cvsRecord;
-					}
-				
-					private static Map<String, String> alterRecord(Map<String, String> rMap, long recNo) {
-						int rv;
-					    Random rg = new Random(recNo);
-					    rv = rg.nextInt(50);
-					    String[] ks = rMap.keySet().toArray(new String[0]);
-					    int ix = rg.nextInt(ks.length);
-					    long yv = 0;
-					    String ky = ks[ix];
-					    String xv = rMap.get(ky);
-					    if (xv != null && xv.length() > 0) {
-							yv = Long.valueOf(xv) + rv;
-							rMap.put(ks[ix], String.valueOf(yv));
-					    }
-					    return rMap;
-					}
-					 
-					private static int summation(Map<String, String> rMap) {
-						int sum = 0;
-						for (String col : rMap.keySet()) {
-							String nv = rMap.get(col);
-					      	sum += nv != null && nv.length() > 0 ? Integer.valueOf(nv) : 0;
-					    }
-					    return sum;
-					}
-					 
-					private static String textFileContentsToString(String filename) {
-						StringBuilder lineOut = new StringBuilder();
-					    Scanner fs = null;
-					    try {
-							fs = new Scanner(new File(filename));
-							lineOut.append(filename);
-							lineOut.append(NL);
-							while (fs.hasNextLine()) {
-								String line = fs.nextLine();
-								lineOut.append(line);
-								lineOut.append(NL);
-							}
-					    }
-					    catch (FileNotFoundException ex) {
-					    	// TODO Auto-generated catch block
-					      	ex.printStackTrace();
-					    }
-					    finally {
-					    	if (fs != null) {
-					        	fs.close();
-					      	}
-					    }
-					    return lineOut.toString();
+				 	public static void main(String[] args) throws  FileNotFoundException, IOException {
+					«FOR action : content.actions»
+						«action.javaAction(className, ctx)»
+					«ENDFOR»
 					}
 				}
 			''')
 	}
 
-	def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
+	def dispatch CharSequence javaAction(OpenCSV open, CharSequence className, Context ctx) {
 		'''
-			final Iterable<CSVRecord> «open.name» = CSVFormat.RFC4180.parse(new FileReader("«open.file»"));
-		'''
-	}
-
-	def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
-		// probably easier with a good scoping...
-		'''
-			«open.name».forEach(x -> System.out.println(x));
+			final List<CSVRecord> «open.name» = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader("«open.file»")).spliterator(), false).collect(Collectors.toList());
 		'''
 	}
 
-	def dispatch CharSequence javaAction(NbRow nbRow,
-		CharSequence className) '''System.out.println(java.util.stream.StreamSupport.stream(«nbRow.name».spliterator(), false).count());'''
+	def dispatch CharSequence javaAction(PrintCSV print, CharSequence className, Context ctx) {
+		val varX = ctx.nextCptr
+		'''
+			«val sb = '''sb«varX»'''»
+			«val tmp = '''tmp«varX»'''»
+			final StringBuilder «sb» = new StringBuilder();
+			try (CSVPrinter «tmp» = new CSVPrinter(«sb», CSVFormat.RFC4180)) {
+				«tmp».printRecords(«print.name»);
+			}
+			System.out.println(«sb»);
+		'''
+	}
 
-	def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {
+	def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className,
+		Context ctx) '''System.out.println(«nbRow.name».size());'''
+
+	def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {
 		val file = if (save.file !== null)
 				save.file
 			else
@@ -177,8 +106,11 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 					it.name == save.name
 				].head.file
 
+		val varX = ctx.nextCptr
 		'''
-			«save.name».save(new File("«file»"));
+			try (CSVPrinter tmp«varX» = new CSVPrinter(new FileWriter(new File("«file»")), CSVFormat.RFC4180)) {
+				tmp«varX».printRecords(«save.name»);
+			}
 		'''
 	}
 

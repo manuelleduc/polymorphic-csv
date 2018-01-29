@@ -60,8 +60,6 @@ class JavaCsvGenerator implements ICsvGenerator {
 				Scanner scanner = new Scanner(file);
 				scanner.useDelimiter(Character.toString(delimiter));
 			
-					clear();
-			
 					while(scanner.hasNextLine()) {
 				String[] values = scanner.nextLine().split(Character.toString(delimiter));
 			
@@ -134,20 +132,8 @@ class JavaCsvGenerator implements ICsvGenerator {
 					_rows = Math.max(_rows, row+1);
 				}
 				
-				public void clear() {
-					_map.clear();
-					_cols = 0;
-					_rows = 0;
-				}
+				public int rows() { return this._rows; }
 				
-				public int rows() {
-					return _rows;
-				}
-				
-				public int cols() {
-					return _cols;
-				}
-				 
 				public static void main(String[] args) {
 					try {
 					     	«FOR action : content.actions»
