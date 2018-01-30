@@ -21,6 +21,7 @@ import polymorphic.csv.OpenCSV;
  * </p>
  * <ul>
  *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getFile <em>File</em>}</li>
+ *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getCharset <em>Charset</em>}</li>
  * </ul>
  *
  * @generated
@@ -46,6 +47,26 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
    * @ordered
    */
   protected String file = FILE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getCharset() <em>Charset</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCharset()
+   * @generated
+   * @ordered
+   */
+  protected static final String CHARSET_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getCharset() <em>Charset</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCharset()
+   * @generated
+   * @ordered
+   */
+  protected String charset = CHARSET_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -96,6 +117,29 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getCharset()
+  {
+    return charset;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCharset(String newCharset)
+  {
+    String oldCharset = charset;
+    charset = newCharset;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.OPEN_CSV__CHARSET, oldCharset, charset));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
@@ -103,6 +147,8 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
     {
       case CsvPackage.OPEN_CSV__FILE:
         return getFile();
+      case CsvPackage.OPEN_CSV__CHARSET:
+        return getCharset();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -119,6 +165,9 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
     {
       case CsvPackage.OPEN_CSV__FILE:
         setFile((String)newValue);
+        return;
+      case CsvPackage.OPEN_CSV__CHARSET:
+        setCharset((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -137,6 +186,9 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
       case CsvPackage.OPEN_CSV__FILE:
         setFile(FILE_EDEFAULT);
         return;
+      case CsvPackage.OPEN_CSV__CHARSET:
+        setCharset(CHARSET_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -153,6 +205,8 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
     {
       case CsvPackage.OPEN_CSV__FILE:
         return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
+      case CsvPackage.OPEN_CSV__CHARSET:
+        return CHARSET_EDEFAULT == null ? charset != null : !CHARSET_EDEFAULT.equals(charset);
     }
     return super.eIsSet(featureID);
   }
@@ -170,6 +224,8 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (file: ");
     result.append(file);
+    result.append(", charset: ");
+    result.append(charset);
     result.append(')');
     return result.toString();
   }

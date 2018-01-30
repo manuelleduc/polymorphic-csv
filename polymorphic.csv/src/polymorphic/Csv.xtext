@@ -20,7 +20,7 @@ Language:
 	name=ID '(' target=QualifiedName ')';
 
 Actions:
-	{OpenCSV} 'read' name=ID file=STRING |
+	{OpenCSV} 'read' name=ID file=STRING charset=('latin1'|'utf8')|
 	{PrintCSV} 'print' name=ID |
 	{NbRow} 'nbrow' name=ID | // print number of rows (including header) // wc -l is certainly unbeatable  // TODO ideally I would like to store nbrow in a variable
 	{SaveCSV} 'save' name=ID (file=STRING)?;

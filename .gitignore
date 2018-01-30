@@ -18,3 +18,5 @@ polymorphic\.csv\.ui\.tests/bin/
 *.xtendbin
 
 *._trace
+
+.sonarlint/

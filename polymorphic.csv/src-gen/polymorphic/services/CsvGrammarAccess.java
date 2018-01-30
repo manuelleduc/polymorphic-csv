@@ -195,6 +195,10 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIDTerminalRuleCall_0_2_0 = (RuleCall)cNameAssignment_0_2.eContents().get(0);
 		private final Assignment cFileAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
 		private final RuleCall cFileSTRINGTerminalRuleCall_0_3_0 = (RuleCall)cFileAssignment_0_3.eContents().get(0);
+		private final Assignment cCharsetAssignment_0_4 = (Assignment)cGroup_0.eContents().get(4);
+		private final Alternatives cCharsetAlternatives_0_4_0 = (Alternatives)cCharsetAssignment_0_4.eContents().get(0);
+		private final Keyword cCharsetLatin1Keyword_0_4_0_0 = (Keyword)cCharsetAlternatives_0_4_0.eContents().get(0);
+		private final Keyword cCharsetUtf8Keyword_0_4_0_1 = (Keyword)cCharsetAlternatives_0_4_0.eContents().get(1);
 		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
 		private final Action cPrintCSVAction_1_0 = (Action)cGroup_1.eContents().get(0);
 		private final Keyword cPrintKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
@@ -214,15 +218,15 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cFileSTRINGTerminalRuleCall_3_3_0 = (RuleCall)cFileAssignment_3_3.eContents().get(0);
 		
 		//Actions:
-		//	{OpenCSV} 'read' name=ID file=STRING | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow' name=ID | {SaveCSV} 'save' name=ID
-		//	file=STRING?;
+		//	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8') | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow'
+		//	name=ID | {SaveCSV} 'save' name=ID file=STRING?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{OpenCSV} 'read' name=ID file=STRING | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow' name=ID | {SaveCSV} 'save' name=ID
-		//file=STRING?
+		//{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8') | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow' name=ID
+		//| {SaveCSV} 'save' name=ID file=STRING?
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//{OpenCSV} 'read' name=ID file=STRING
+		//{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8')
 		public Group getGroup_0() { return cGroup_0; }
 		
 		//{OpenCSV}
@@ -242,6 +246,18 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//STRING
 		public RuleCall getFileSTRINGTerminalRuleCall_0_3_0() { return cFileSTRINGTerminalRuleCall_0_3_0; }
+		
+		//charset=('latin1' | 'utf8')
+		public Assignment getCharsetAssignment_0_4() { return cCharsetAssignment_0_4; }
+		
+		//('latin1' | 'utf8')
+		public Alternatives getCharsetAlternatives_0_4_0() { return cCharsetAlternatives_0_4_0; }
+		
+		//'latin1'
+		public Keyword getCharsetLatin1Keyword_0_4_0_0() { return cCharsetLatin1Keyword_0_4_0_0; }
+		
+		//'utf8'
+		public Keyword getCharsetUtf8Keyword_0_4_0_1() { return cCharsetUtf8Keyword_0_4_0_1; }
 		
 		//{PrintCSV} 'print' name=ID
 		public Group getGroup_1() { return cGroup_1; }
@@ -382,8 +398,8 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Actions:
-	//	{OpenCSV} 'read' name=ID file=STRING | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow' name=ID | {SaveCSV} 'save' name=ID
-	//	file=STRING?;
+	//	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8') | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow'
+	//	name=ID | {SaveCSV} 'save' name=ID file=STRING?;
 	public ActionsElements getActionsAccess() {
 		return pActions;
 	}

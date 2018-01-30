@@ -383,6 +383,33 @@ ruleActions returns [EObject current=null]
 					}
 				)
 			)
+			(
+				(
+					(
+						lv_charset_4_1='latin1'
+						{
+							newLeafNode(lv_charset_4_1, grammarAccess.getActionsAccess().getCharsetLatin1Keyword_0_4_0_0());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getActionsRule());
+							}
+							setWithLastConsumed($current, "charset", lv_charset_4_1, null);
+						}
+						    |
+						lv_charset_4_2='utf8'
+						{
+							newLeafNode(lv_charset_4_2, grammarAccess.getActionsAccess().getCharsetUtf8Keyword_0_4_0_1());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getActionsRule());
+							}
+							setWithLastConsumed($current, "charset", lv_charset_4_2, null);
+						}
+					)
+				)
+			)
 		)
 		    |
 		(
@@ -393,15 +420,15 @@ ruleActions returns [EObject current=null]
 						$current);
 				}
 			)
-			otherlv_5='print'
+			otherlv_6='print'
 			{
-				newLeafNode(otherlv_5, grammarAccess.getActionsAccess().getPrintKeyword_1_1());
+				newLeafNode(otherlv_6, grammarAccess.getActionsAccess().getPrintKeyword_1_1());
 			}
 			(
 				(
-					lv_name_6_0=RULE_ID
+					lv_name_7_0=RULE_ID
 					{
-						newLeafNode(lv_name_6_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_1_2_0());
+						newLeafNode(lv_name_7_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_1_2_0());
 					}
 					{
 						if ($current==null) {
@@ -410,7 +437,7 @@ ruleActions returns [EObject current=null]
 						setWithLastConsumed(
 							$current,
 							"name",
-							lv_name_6_0,
+							lv_name_7_0,
 							"org.eclipse.xtext.xbase.Xtype.ID");
 					}
 				)
@@ -425,15 +452,15 @@ ruleActions returns [EObject current=null]
 						$current);
 				}
 			)
-			otherlv_8='nbrow'
+			otherlv_9='nbrow'
 			{
-				newLeafNode(otherlv_8, grammarAccess.getActionsAccess().getNbrowKeyword_2_1());
+				newLeafNode(otherlv_9, grammarAccess.getActionsAccess().getNbrowKeyword_2_1());
 			}
 			(
 				(
-					lv_name_9_0=RULE_ID
+					lv_name_10_0=RULE_ID
 					{
-						newLeafNode(lv_name_9_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_2_2_0());
+						newLeafNode(lv_name_10_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_2_2_0());
 					}
 					{
 						if ($current==null) {
@@ -442,7 +469,7 @@ ruleActions returns [EObject current=null]
 						setWithLastConsumed(
 							$current,
 							"name",
-							lv_name_9_0,
+							lv_name_10_0,
 							"org.eclipse.xtext.xbase.Xtype.ID");
 					}
 				)
@@ -457,15 +484,15 @@ ruleActions returns [EObject current=null]
 						$current);
 				}
 			)
-			otherlv_11='save'
+			otherlv_12='save'
 			{
-				newLeafNode(otherlv_11, grammarAccess.getActionsAccess().getSaveKeyword_3_1());
+				newLeafNode(otherlv_12, grammarAccess.getActionsAccess().getSaveKeyword_3_1());
 			}
 			(
 				(
-					lv_name_12_0=RULE_ID
+					lv_name_13_0=RULE_ID
 					{
-						newLeafNode(lv_name_12_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_3_2_0());
+						newLeafNode(lv_name_13_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_3_2_0());
 					}
 					{
 						if ($current==null) {
@@ -474,16 +501,16 @@ ruleActions returns [EObject current=null]
 						setWithLastConsumed(
 							$current,
 							"name",
-							lv_name_12_0,
+							lv_name_13_0,
 							"org.eclipse.xtext.xbase.Xtype.ID");
 					}
 				)
 			)
 			(
 				(
-					lv_file_13_0=RULE_STRING
+					lv_file_14_0=RULE_STRING
 					{
-						newLeafNode(lv_file_13_0, grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_3_3_0());
+						newLeafNode(lv_file_14_0, grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_3_3_0());
 					}
 					{
 						if ($current==null) {
@@ -492,7 +519,7 @@ ruleActions returns [EObject current=null]
 						setWithLastConsumed(
 							$current,
 							"file",
-							lv_file_13_0,
+							lv_file_14_0,
 							"org.eclipse.xtext.xbase.Xtype.STRING");
 					}
 				)

@@ -303,6 +303,16 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getOpenCSV_Charset()
+  {
+    return (EAttribute)openCSVEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getPrintCSV()
   {
     return printCSVEClass;
@@ -387,6 +397,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
 
     openCSVEClass = createEClass(OPEN_CSV);
     createEAttribute(openCSVEClass, OPEN_CSV__FILE);
+    createEAttribute(openCSVEClass, OPEN_CSV__CHARSET);
 
     printCSVEClass = createEClass(PRINT_CSV);
 
@@ -450,6 +461,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
 
     initEClass(openCSVEClass, OpenCSV.class, "OpenCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getOpenCSV_File(), ecorePackage.getEString(), "file", null, 0, 1, OpenCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getOpenCSV_Charset(), ecorePackage.getEString(), "charset", null, 0, 1, OpenCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(printCSVEClass, PrintCSV.class, "PrintCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

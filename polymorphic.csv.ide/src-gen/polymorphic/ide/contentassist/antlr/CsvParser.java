@@ -33,6 +33,7 @@ public class CsvParser extends AbstractContentAssistParser {
 				{
 					put(grammarAccess.getConstraintAccess().getAlternatives_2(), "rule__Constraint__Alternatives_2");
 					put(grammarAccess.getActionsAccess().getAlternatives(), "rule__Actions__Alternatives");
+					put(grammarAccess.getActionsAccess().getCharsetAlternatives_0_4_0(), "rule__Actions__CharsetAlternatives_0_4_0");
 					put(grammarAccess.getJvmTypeReferenceAccess().getAlternatives(), "rule__JvmTypeReference__Alternatives");
 					put(grammarAccess.getJvmArgumentTypeReferenceAccess().getAlternatives(), "rule__JvmArgumentTypeReference__Alternatives");
 					put(grammarAccess.getJvmWildcardTypeReferenceAccess().getAlternatives_2(), "rule__JvmWildcardTypeReference__Alternatives_2");
@@ -86,6 +87,7 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getLanguageAccess().getTargetAssignment_2(), "rule__Language__TargetAssignment_2");
 					put(grammarAccess.getActionsAccess().getNameAssignment_0_2(), "rule__Actions__NameAssignment_0_2");
 					put(grammarAccess.getActionsAccess().getFileAssignment_0_3(), "rule__Actions__FileAssignment_0_3");
+					put(grammarAccess.getActionsAccess().getCharsetAssignment_0_4(), "rule__Actions__CharsetAssignment_0_4");
 					put(grammarAccess.getActionsAccess().getNameAssignment_1_2(), "rule__Actions__NameAssignment_1_2");
 					put(grammarAccess.getActionsAccess().getNameAssignment_2_2(), "rule__Actions__NameAssignment_2_2");
 					put(grammarAccess.getActionsAccess().getNameAssignment_3_2(), "rule__Actions__NameAssignment_3_2");
