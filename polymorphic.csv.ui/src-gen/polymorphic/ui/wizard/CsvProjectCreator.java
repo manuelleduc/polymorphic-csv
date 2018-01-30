@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class CsvProjectCreator extends AbstractPluginProjectCreator {
-	protected static final String DSL_PROJECT_NAME = "polymorphic.csv";
+	protected static final String DSL_PROJECT_NAME = "polymorphic";
 
 	@Inject
 	private CsvNewProjectWizardInitialContents initialContents;

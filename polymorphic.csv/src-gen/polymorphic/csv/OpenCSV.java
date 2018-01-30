@@ -14,6 +14,7 @@ package polymorphic.csv;
  * </p>
  * <ul>
  *   <li>{@link polymorphic.csv.OpenCSV#getFile <em>File</em>}</li>
+ *   <li>{@link polymorphic.csv.OpenCSV#getCharset <em>Charset</em>}</li>
  * </ul>
  *
  * @see polymorphic.csv.CsvPackage#getOpenCSV()
@@ -47,5 +48,31 @@ public interface OpenCSV extends Actions
    * @generated
    */
   void setFile(String value);
+
+  /**
+   * Returns the value of the '<em><b>Charset</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Charset</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Charset</em>' attribute.
+   * @see #setCharset(String)
+   * @see polymorphic.csv.CsvPackage#getOpenCSV_Charset()
+   * @model
+   * @generated
+   */
+  String getCharset();
+
+  /**
+   * Sets the value of the '{@link polymorphic.csv.OpenCSV#getCharset <em>Charset</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Charset</em>' attribute.
+   * @see #getCharset()
+   * @generated
+   */
+  void setCharset(String value);
 
 } // OpenCSV

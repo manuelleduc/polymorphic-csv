@@ -25,6 +25,7 @@
     </genClasses>
     <genClasses ecoreClass="Csv.ecore#//OpenCSV">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/file"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/charset"/>
     </genClasses>
     <genClasses ecoreClass="Csv.ecore#//PrintCSV"/>
     <genClasses ecoreClass="Csv.ecore#//NbRow"/>

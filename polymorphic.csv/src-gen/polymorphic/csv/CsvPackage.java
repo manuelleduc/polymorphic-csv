@@ -243,13 +243,22 @@ public interface CsvPackage extends EPackage
   int OPEN_CSV__FILE = ACTIONS_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Charset</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OPEN_CSV__CHARSET = ACTIONS_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Open CSV</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OPEN_CSV_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 1;
+  int OPEN_CSV_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.PrintCSVImpl <em>Print CSV</em>}' class.
@@ -506,6 +515,17 @@ public interface CsvPackage extends EPackage
   EAttribute getOpenCSV_File();
 
   /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.OpenCSV#getCharset <em>Charset</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Charset</em>'.
+   * @see polymorphic.csv.OpenCSV#getCharset()
+   * @see #getOpenCSV()
+   * @generated
+   */
+  EAttribute getOpenCSV_Charset();
+
+  /**
    * Returns the meta object for class '{@link polymorphic.csv.PrintCSV <em>Print CSV</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -698,6 +718,14 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EAttribute OPEN_CSV__FILE = eINSTANCE.getOpenCSV_File();
+
+    /**
+     * The meta object literal for the '<em><b>Charset</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute OPEN_CSV__CHARSET = eINSTANCE.getOpenCSV_Charset();
 
     /**
      * The meta object literal for the '{@link polymorphic.csv.impl.PrintCSVImpl <em>Print CSV</em>}' class.

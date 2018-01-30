@@ -586,6 +586,27 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+rule__Actions__CharsetAlternatives_0_4_0
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getActionsAccess().getCharsetLatin1Keyword_0_4_0_0()); }
+		'latin1'
+		{ after(grammarAccess.getActionsAccess().getCharsetLatin1Keyword_0_4_0_0()); }
+	)
+	|
+	(
+		{ before(grammarAccess.getActionsAccess().getCharsetUtf8Keyword_0_4_0_1()); }
+		'utf8'
+		{ after(grammarAccess.getActionsAccess().getCharsetUtf8Keyword_0_4_0_1()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
 rule__JvmTypeReference__Alternatives
 	@init {
 		int stackSize = keepStackSize();
@@ -1324,6 +1345,7 @@ rule__Actions__Group_0__3
 	}
 :
 	rule__Actions__Group_0__3__Impl
+	rule__Actions__Group_0__4
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -1338,6 +1360,32 @@ rule__Actions__Group_0__3__Impl
 	{ before(grammarAccess.getActionsAccess().getFileAssignment_0_3()); }
 	(rule__Actions__FileAssignment_0_3)
 	{ after(grammarAccess.getActionsAccess().getFileAssignment_0_3()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Actions__Group_0__4
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__Actions__Group_0__4__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Actions__Group_0__4__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getActionsAccess().getCharsetAssignment_0_4()); }
+	(rule__Actions__CharsetAssignment_0_4)
+	{ after(grammarAccess.getActionsAccess().getCharsetAssignment_0_4()); }
 )
 ;
 finally {
@@ -3626,6 +3674,21 @@ rule__Actions__FileAssignment_0_3
 		{ before(grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_0_3_0()); }
 		RULE_STRING
 		{ after(grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_0_3_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Actions__CharsetAssignment_0_4
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getActionsAccess().getCharsetAlternatives_0_4_0()); }
+		(rule__Actions__CharsetAlternatives_0_4_0)
+		{ after(grammarAccess.getActionsAccess().getCharsetAlternatives_0_4_0()); }
 	)
 ;
 finally {
