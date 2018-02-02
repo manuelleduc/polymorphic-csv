@@ -1,0 +1,31 @@
+grammar polymorphic.fsm.Fsm with org.eclipse.xtext.xbase.Xtype
+
+generate fsm "http://www.fsm.polymorphic/Fsm"
+
+Model:
+	'package' name=ID ';'
+	'constraints' '{'
+		constraints+=Constraint*
+	'}'
+	'languages' '{'
+		languages+=Language*
+	'}'
+	machine=Machine;
+
+Constraint:
+	name=ID '=' (true?='true' | 'false');
+
+Language:
+	name=ID '(' target=QualifiedName ')';
+
+Machine:
+	{Machine}
+	states+=State*
+	transitions+=Transition*;
+
+State:
+	{State}
+	(initial?='initial' | final?='final')? 'state' name=ID;
+
+Transition:
+	'transition' from=[State|ID] '=>' to=[State|ID] 'on' event=ID;
