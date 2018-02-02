@@ -11,16 +11,30 @@ Model:
 	'languages' '{'
 	languages+=Language*
 	'}'
-	(actions+=Actions)*;
+	(actions+=Action)*;
 
 Constraint:
 	name=ID '=' (true?='true' | 'false');
 
 Language:
 	name=ID '(' target=QualifiedName ')';
+	
+	
 
-Actions:
-	{OpenCSV} 'read' name=ID file=STRING charset=('latin1'|'utf8')|
-	{PrintCSV} 'print' name=ID |
-	{NbRow} 'nbrow' name=ID | // print number of rows (including header) // wc -l is certainly unbeatable  // TODO ideally I would like to store nbrow in a variable
-	{SaveCSV} 'save' name=ID (file=STRING)?;
+Action:
+	OpenCSV | RefOpenAction;
+
+OpenCSV:
+	{OpenCSV} 'read' name=ID file=STRING charset=('latin1'|'utf8');
+	
+	
+RefOpenAction:
+	PrintCSV | NbRow | SaveCSV
+;
+PrintCSV:
+	{PrintCSV} 'print' open=[OpenCSV|ID] ;
+NbRow:
+	{NbRow} 'nbrow' open=[OpenCSV|ID] ;
+	
+SaveCSV:
+	{SaveCSV} 'save' open=[OpenCSV|ID] (file=STRING)?;

@@ -6,54 +6,45 @@ package polymorphic.csv.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import polymorphic.csv.Actions;
 import polymorphic.csv.CsvPackage;
+import polymorphic.csv.OpenCSV;
+import polymorphic.csv.RefOpenAction;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Actions</b></em>'.
+ * An implementation of the model object '<em><b>Ref Open Action</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link polymorphic.csv.impl.ActionsImpl#getName <em>Name</em>}</li>
+ *   <li>{@link polymorphic.csv.impl.RefOpenActionImpl#getOpen <em>Open</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
+public class RefOpenActionImpl extends ActionImpl implements RefOpenAction
 {
   /**
-   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * The cached value of the '{@link #getOpen() <em>Open</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getName()
+   * @see #getOpen()
    * @generated
    * @ordered
    */
-  protected static final String NAME_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getName()
-   * @generated
-   * @ordered
-   */
-  protected String name = NAME_EDEFAULT;
+  protected OpenCSV open;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ActionsImpl()
+  protected RefOpenActionImpl()
   {
     super();
   }
@@ -66,7 +57,7 @@ public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
   @Override
   protected EClass eStaticClass()
   {
-    return CsvPackage.Literals.ACTIONS;
+    return CsvPackage.Literals.REF_OPEN_ACTION;
   }
 
   /**
@@ -74,9 +65,19 @@ public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getName()
+  public OpenCSV getOpen()
   {
-    return name;
+    if (open != null && open.eIsProxy())
+    {
+      InternalEObject oldOpen = (InternalEObject)open;
+      open = (OpenCSV)eResolveProxy(oldOpen);
+      if (open != oldOpen)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, CsvPackage.REF_OPEN_ACTION__OPEN, oldOpen, open));
+      }
+    }
+    return open;
   }
 
   /**
@@ -84,12 +85,22 @@ public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setName(String newName)
+  public OpenCSV basicGetOpen()
   {
-    String oldName = name;
-    name = newName;
+    return open;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOpen(OpenCSV newOpen)
+  {
+    OpenCSV oldOpen = open;
+    open = newOpen;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.ACTIONS__NAME, oldName, name));
+      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.REF_OPEN_ACTION__OPEN, oldOpen, open));
   }
 
   /**
@@ -102,8 +113,9 @@ public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
   {
     switch (featureID)
     {
-      case CsvPackage.ACTIONS__NAME:
-        return getName();
+      case CsvPackage.REF_OPEN_ACTION__OPEN:
+        if (resolve) return getOpen();
+        return basicGetOpen();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -118,8 +130,8 @@ public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
   {
     switch (featureID)
     {
-      case CsvPackage.ACTIONS__NAME:
-        setName((String)newValue);
+      case CsvPackage.REF_OPEN_ACTION__OPEN:
+        setOpen((OpenCSV)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -135,8 +147,8 @@ public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
   {
     switch (featureID)
     {
-      case CsvPackage.ACTIONS__NAME:
-        setName(NAME_EDEFAULT);
+      case CsvPackage.REF_OPEN_ACTION__OPEN:
+        setOpen((OpenCSV)null);
         return;
     }
     super.eUnset(featureID);
@@ -152,27 +164,10 @@ public class ActionsImpl extends MinimalEObjectImpl.Container implements Actions
   {
     switch (featureID)
     {
-      case CsvPackage.ACTIONS__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case CsvPackage.REF_OPEN_ACTION__OPEN:
+        return open != null;
     }
     return super.eIsSet(featureID);
   }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (name: ");
-    result.append(name);
-    result.append(')');
-    return result.toString();
-  }
-
-} //ActionsImpl
+} //RefOpenActionImpl

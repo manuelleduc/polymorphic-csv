@@ -12,12 +12,13 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
-import polymorphic.csv.Actions;
+import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
+import polymorphic.csv.RefOpenAction;
 import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
@@ -61,8 +62,8 @@ public class PythonGenerator implements ICsvGenerator {
     _builder_3.append("import csv");
     _builder_3.newLine();
     {
-      EList<Actions> _actions = content.getActions();
-      for(final Actions action : _actions) {
+      EList<Action> _actions = content.getActions();
+      for(final Action action : _actions) {
         CharSequence _pythonAction = this.pythonAction(action);
         _builder_3.append(_pythonAction);
         _builder_3.newLineIfNotEmpty();
@@ -72,7 +73,7 @@ public class PythonGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_2.toString(), _builder_3);
   }
   
-  public String encodingFormat(final String encoding) {
+  private String encodingFormat(final String encoding) {
     String _switchResult = null;
     if (encoding != null) {
       switch (encoding) {
@@ -87,12 +88,12 @@ public class PythonGenerator implements ICsvGenerator {
     return _switchResult;
   }
   
-  public CharSequence openAction(final Actions action) {
+  private CharSequence openAction(final Action action) {
     CharSequence _xblockexpression = null;
     {
       final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
         String _name = it.getName();
-        String _name_1 = action.getName();
+        String _name_1 = this.name(action);
         return Boolean.valueOf(Objects.equal(_name, _name_1));
       };
       final OpenCSV open = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(action, Model.class).getActions(), OpenCSV.class), _function));
@@ -110,15 +111,15 @@ public class PythonGenerator implements ICsvGenerator {
     return _xblockexpression;
   }
   
-  protected CharSequence _pythonAction(final OpenCSV open) {
+  private CharSequence _pythonAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
     return _builder;
   }
   
-  protected CharSequence _pythonAction(final PrintCSV print) {
+  private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("for ");
-    String _name = print.getName();
+    String _name = this.name(print);
     _builder.append(_name);
     _builder.append("_e in csv.reader(");
     CharSequence _openAction = this.openAction(print);
@@ -127,14 +128,14 @@ public class PythonGenerator implements ICsvGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("  ");
     _builder.append("print(\', \'.join(");
-    String _name_1 = print.getName();
+    String _name_1 = this.name(print);
     _builder.append(_name_1, "  ");
     _builder.append("_e))");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  protected CharSequence _pythonAction(final NbRow nbRow) {
+  private CharSequence _pythonAction(final NbRow nbRow) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("print(sum(1 for row in csv.reader(");
     CharSequence _openAction = this.openAction(nbRow);
@@ -144,7 +145,7 @@ public class PythonGenerator implements ICsvGenerator {
     return _builder;
   }
   
-  protected CharSequence _pythonAction(final SaveCSV save) {
+  private CharSequence _pythonAction(final SaveCSV save) {
     CharSequence _xblockexpression = null;
     {
       String _xifexpression = null;
@@ -155,7 +156,7 @@ public class PythonGenerator implements ICsvGenerator {
       } else {
         final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
           String _name = it.getName();
-          String _name_1 = save.getName();
+          String _name_1 = this.name(save);
           return Boolean.valueOf(Objects.equal(_name, _name_1));
         };
         _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
@@ -167,13 +168,13 @@ public class PythonGenerator implements ICsvGenerator {
       _builder.append("\', \'wt\') as output_file:");
       _builder.newLineIfNotEmpty();
       _builder.append("  ");
-      String _name = save.getName();
+      String _name = this.name(save);
       _builder.append(_name, "  ");
       _builder.append("_write = csv.writer(output_file)");
       _builder.newLineIfNotEmpty();
       _builder.append("  ");
       _builder.append("for ");
-      String _name_1 = save.getName();
+      String _name_1 = this.name(save);
       _builder.append(_name_1, "  ");
       _builder.append("_e in csv.reader(");
       CharSequence _openAction = this.openAction(save);
@@ -181,10 +182,10 @@ public class PythonGenerator implements ICsvGenerator {
       _builder.append("):");
       _builder.newLineIfNotEmpty();
       _builder.append("    ");
-      String _name_2 = save.getName();
+      String _name_2 = this.name(save);
       _builder.append(_name_2, "    ");
       _builder.append("_write.writerow(tuple(");
-      String _name_3 = save.getName();
+      String _name_3 = this.name(save);
       _builder.append(_name_3, "    ");
       _builder.append("_e))");
       _builder.newLineIfNotEmpty();
@@ -199,18 +200,37 @@ public class PythonGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  public CharSequence pythonAction(final Actions nbRow) {
+  private String _name(final OpenCSV open) {
+    return open.getName();
+  }
+  
+  private String _name(final RefOpenAction roa) {
+    return roa.getOpen().getName();
+  }
+  
+  private CharSequence pythonAction(final Action nbRow) {
     if (nbRow instanceof NbRow) {
       return _pythonAction((NbRow)nbRow);
-    } else if (nbRow instanceof OpenCSV) {
-      return _pythonAction((OpenCSV)nbRow);
     } else if (nbRow instanceof PrintCSV) {
       return _pythonAction((PrintCSV)nbRow);
     } else if (nbRow instanceof SaveCSV) {
       return _pythonAction((SaveCSV)nbRow);
+    } else if (nbRow instanceof OpenCSV) {
+      return _pythonAction((OpenCSV)nbRow);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(nbRow).toString());
+    }
+  }
+  
+  private String name(final Action open) {
+    if (open instanceof OpenCSV) {
+      return _name((OpenCSV)open);
+    } else if (open instanceof RefOpenAction) {
+      return _name((RefOpenAction)open);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(open).toString());
     }
   }
 }

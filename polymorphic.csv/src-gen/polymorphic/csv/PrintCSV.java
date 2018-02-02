@@ -14,6 +14,6 @@ package polymorphic.csv;
  * @model
  * @generated
  */
-public interface PrintCSV extends Actions
+public interface PrintCSV extends RefOpenAction
 {
 } // PrintCSV

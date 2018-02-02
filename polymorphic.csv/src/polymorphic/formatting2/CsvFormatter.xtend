@@ -6,7 +6,7 @@ package polymorphic.formatting2
 import com.google.inject.Inject
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.formatting2.XtypeFormatter
-import polymorphic.csv.Actions
+import polymorphic.csv.Action
 import polymorphic.csv.Constraint
 import polymorphic.csv.Language
 import polymorphic.csv.Model
@@ -24,8 +24,8 @@ class CsvFormatter extends XtypeFormatter {
 		for (Language language : model.getLanguages()) {
 			language.format;
 		}
-		for (Actions actions : model.getActions()) {
-			actions.format;
+		for (Action action : model.getActions()) {
+			action.format;
 		}
 	}
 	

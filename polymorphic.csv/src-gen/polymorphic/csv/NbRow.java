@@ -14,6 +14,6 @@ package polymorphic.csv;
  * @model
  * @generated
  */
-public interface NbRow extends Actions
+public interface NbRow extends RefOpenAction
 {
 } // NbRow

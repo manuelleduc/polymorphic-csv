@@ -20,12 +20,14 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Language/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Language/target"/>
     </genClasses>
-    <genClasses ecoreClass="Csv.ecore#//Actions">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Actions/name"/>
-    </genClasses>
+    <genClasses ecoreClass="Csv.ecore#//Action"/>
     <genClasses ecoreClass="Csv.ecore#//OpenCSV">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/file"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/charset"/>
+    </genClasses>
+    <genClasses ecoreClass="Csv.ecore#//RefOpenAction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Csv.ecore#//RefOpenAction/open"/>
     </genClasses>
     <genClasses ecoreClass="Csv.ecore#//PrintCSV"/>
     <genClasses ecoreClass="Csv.ecore#//NbRow"/>

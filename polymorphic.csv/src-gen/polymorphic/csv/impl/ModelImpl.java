@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import polymorphic.csv.Actions;
+import polymorphic.csv.Action;
 import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
@@ -91,7 +91,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    * @ordered
    */
-  protected EList<Actions> actions;
+  protected EList<Action> actions;
 
   /**
    * <!-- begin-user-doc -->
@@ -170,11 +170,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Actions> getActions()
+  public EList<Action> getActions()
   {
     if (actions == null)
     {
-      actions = new EObjectContainmentEList<Actions>(Actions.class, this, CsvPackage.MODEL__ACTIONS);
+      actions = new EObjectContainmentEList<Action>(Action.class, this, CsvPackage.MODEL__ACTIONS);
     }
     return actions;
   }
@@ -245,7 +245,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return;
       case CsvPackage.MODEL__ACTIONS:
         getActions().clear();
-        getActions().addAll((Collection<? extends Actions>)newValue);
+        getActions().addAll((Collection<? extends Action>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

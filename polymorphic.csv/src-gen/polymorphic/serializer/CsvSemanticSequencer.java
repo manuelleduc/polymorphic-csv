@@ -60,16 +60,16 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 				sequence_Model(context, (Model) semanticObject); 
 				return; 
 			case CsvPackage.NB_ROW:
-				sequence_Actions(context, (NbRow) semanticObject); 
+				sequence_NbRow(context, (NbRow) semanticObject); 
 				return; 
 			case CsvPackage.OPEN_CSV:
-				sequence_Actions(context, (OpenCSV) semanticObject); 
+				sequence_OpenCSV(context, (OpenCSV) semanticObject); 
 				return; 
 			case CsvPackage.PRINT_CSV:
-				sequence_Actions(context, (PrintCSV) semanticObject); 
+				sequence_PrintCSV(context, (PrintCSV) semanticObject); 
 				return; 
 			case CsvPackage.SAVE_CSV:
-				sequence_Actions(context, (SaveCSV) semanticObject); 
+				sequence_SaveCSV(context, (SaveCSV) semanticObject); 
 				return; 
 			}
 		else if (epackage == TypesPackage.eINSTANCE)
@@ -138,66 +138,6 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     Actions returns NbRow
-	 *
-	 * Constraint:
-	 *     name=ID
-	 */
-	protected void sequence_Actions(ISerializationContext context, NbRow semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.ACTIONS__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.ACTIONS__NAME));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_2_2_0(), semanticObject.getName());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Actions returns OpenCSV
-	 *
-	 * Constraint:
-	 *     (name=ID file=STRING (charset='latin1' | charset='utf8'))
-	 */
-	protected void sequence_Actions(ISerializationContext context, OpenCSV semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Actions returns PrintCSV
-	 *
-	 * Constraint:
-	 *     name=ID
-	 */
-	protected void sequence_Actions(ISerializationContext context, PrintCSV semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.ACTIONS__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.ACTIONS__NAME));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_1_2_0(), semanticObject.getName());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Actions returns SaveCSV
-	 *
-	 * Constraint:
-	 *     (name=ID file=STRING?)
-	 */
-	protected void sequence_Actions(ISerializationContext context, SaveCSV semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     Constraint returns Constraint
 	 *
 	 * Constraint:
@@ -234,9 +174,76 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     (name=ID constraints+=Constraint* languages+=Language* actions+=Actions*)
+	 *     (name=ID constraints+=Constraint* languages+=Language* actions+=Action*)
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Action returns NbRow
+	 *     RefOpenAction returns NbRow
+	 *     NbRow returns NbRow
+	 *
+	 * Constraint:
+	 *     open=[OpenCSV|ID]
+	 */
+	protected void sequence_NbRow(ISerializationContext context, NbRow semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.REF_OPEN_ACTION__OPEN) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.REF_OPEN_ACTION__OPEN));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getNbRowAccess().getOpenOpenCSVIDTerminalRuleCall_2_0_1(), semanticObject.eGet(CsvPackage.Literals.REF_OPEN_ACTION__OPEN, false));
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Action returns OpenCSV
+	 *     OpenCSV returns OpenCSV
+	 *
+	 * Constraint:
+	 *     (name=ID file=STRING (charset='latin1' | charset='utf8'))
+	 */
+	protected void sequence_OpenCSV(ISerializationContext context, OpenCSV semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Action returns PrintCSV
+	 *     RefOpenAction returns PrintCSV
+	 *     PrintCSV returns PrintCSV
+	 *
+	 * Constraint:
+	 *     open=[OpenCSV|ID]
+	 */
+	protected void sequence_PrintCSV(ISerializationContext context, PrintCSV semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.REF_OPEN_ACTION__OPEN) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.REF_OPEN_ACTION__OPEN));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getPrintCSVAccess().getOpenOpenCSVIDTerminalRuleCall_2_0_1(), semanticObject.eGet(CsvPackage.Literals.REF_OPEN_ACTION__OPEN, false));
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Action returns SaveCSV
+	 *     RefOpenAction returns SaveCSV
+	 *     SaveCSV returns SaveCSV
+	 *
+	 * Constraint:
+	 *     (open=[OpenCSV|ID] file=STRING?)
+	 */
+	protected void sequence_SaveCSV(ISerializationContext context, SaveCSV semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

@@ -9,6 +9,7 @@ import polymorphic.csv.PrintCSV
 import polymorphic.csv.SaveCSV
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import polymorphic.csv.RefOpenAction
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
 
@@ -33,7 +34,6 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			WORKDIR project
 			RUN mvn compile
 			ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="«package».«className»"
-			
 		''')
 		fsa.generateFile('''«content.name»/«language.name»/pom.xml''', '''
 			<project>
@@ -79,13 +79,21 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			''')
 	}
 
-	def dispatch CharSequence javaAction(OpenCSV open, CharSequence className, Context ctx) {
+	private def dispatch CharSequence javaAction(OpenCSV open, CharSequence className, Context ctx) {
 		'''
 			final List<CSVRecord> «open.name» = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader("«open.file»")).spliterator(), false).collect(Collectors.toList());
 		'''
 	}
+	
+	private def dispatch name(OpenCSV open) {
+		open.name
+	}
+	
+	private def dispatch name(RefOpenAction roa) {
+		roa.open.name
+	} 
 
-	def dispatch CharSequence javaAction(PrintCSV print, CharSequence className, Context ctx) {
+	private def dispatch CharSequence javaAction(PrintCSV print, CharSequence className, Context ctx) {
 		val varX = ctx.nextCptr
 		'''
 			«val sb = '''sb«varX»'''»
@@ -98,10 +106,10 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 		'''
 	}
 
-	def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className,
+	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className,
 		Context ctx) '''System.out.println(«nbRow.name».size());'''
 
-	def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {
+	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {
 		val file = if (save.file !== null)
 				save.file
 			else

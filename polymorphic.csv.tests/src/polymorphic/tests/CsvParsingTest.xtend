@@ -63,7 +63,6 @@ class CsvParsingTest {
 			RUN mvn compile
 			ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="a.b.commons.C"
 			
-			
 			File 3 : /myProject/./src-gen/uuu/commons/pom.xml
 			
 			<project>
@@ -269,13 +268,19 @@ class CsvParsingTest {
 			File 10 : /myProject/./src-gen/uuu/python/python_version.py
 			
 			import csv
-			for a_e in csv.reader(open('/tmp/test.csv', 'rt')):
+			for a_e in csv.reader(open('/tmp/test.csv', 'rt', encoding='')):
 			  print(', '.join(a_e))
 			with open('/tmp/test2.csv', 'wt') as output_file:
 			  a_write = csv.writer(output_file)
-			  for a_e in csv.reader(open('/tmp/test.csv', 'rt')):
+			  for a_e in csv.reader(open('/tmp/test.csv', 'rt', encoding='')):
 			    a_write.writerow(tuple(a_e))
 			
+			
+			File 11 : /myProject/./src-gen/uuu/run.sh
+			
+			rm -r ./logs
+			mkdir -p ./logs
+			docker-compose up
 			
 		''')
 	}
@@ -327,9 +332,15 @@ class CsvParsingTest {
 			File 4 : /myProject/./src-gen/foo/python/a.py
 			
 			import csv
-			print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt'))))
-			print(sum(1 for row in csv.reader(open('/tmp/test2.csv', 'rt'))))
+			print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt', encoding=''))))
+			print(sum(1 for row in csv.reader(open('/tmp/test2.csv', 'rt', encoding=''))))
 			
+			
+			File 5 : /myProject/./src-gen/foo/run.sh
+			
+			rm -r ./logs
+			mkdir -p ./logs
+			docker-compose up
 			
 		''')
 
@@ -371,7 +382,6 @@ class CsvParsingTest {
 		WORKDIR project
 		RUN mvn compile
 		ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="a.b.commons.C"
-		
 		
 		File 3 : /myProject/./src-gen/uuu/commons/pom.xml
 		
@@ -570,8 +580,14 @@ class CsvParsingTest {
 		File 10 : /myProject/./src-gen/uuu/python/python_version.py
 		
 		import csv
-		print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt'))))
+		print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt', encoding=''))))
 		
+		
+		File 11 : /myProject/./src-gen/uuu/run.sh
+		
+		rm -r ./logs
+		mkdir -p ./logs
+		docker-compose up
 		
 		''')
 	} 

@@ -2,12 +2,13 @@ package polymorphic.generator.csv
 
 import java.util.Map
 import org.eclipse.xtext.generator.IFileSystemAccess2
-import polymorphic.csv.Actions
+import polymorphic.csv.Action
 import polymorphic.csv.Language
 import polymorphic.csv.Model
 import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
+import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
@@ -34,7 +35,7 @@ class PythonGenerator implements ICsvGenerator {
 		)
 	}
 
-	def encodingFormat(String encoding) {
+	private def encodingFormat(String encoding) {
 		switch encoding {
 			case 'latin1': 'latin-1'
 			case 'utf8': 'utf-8'
@@ -42,7 +43,7 @@ class PythonGenerator implements ICsvGenerator {
 
 	}
 
-	def openAction(Actions action) {
+	private def openAction(Action action) {
 		val open = action.getContainerOfType(Model).actions.filter(OpenCSV).filter [
 			it.name == action.name
 		].head
@@ -51,18 +52,18 @@ class PythonGenerator implements ICsvGenerator {
 		'''open('«file»', 'rt', encoding='«encoding.encodingFormat»')'''
 	}
 
-	def dispatch CharSequence pythonAction(OpenCSV open) ''''''
+	private def dispatch CharSequence pythonAction(OpenCSV open) ''''''
 
-	def dispatch CharSequence pythonAction(PrintCSV print) '''
+	private def dispatch CharSequence pythonAction(PrintCSV print) '''
 		for «print.name»_e in csv.reader(«print.openAction»):
 		  print(', '.join(«print.name»_e))
 	'''
 
-	def dispatch CharSequence pythonAction(NbRow nbRow) '''
+	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
 		print(sum(1 for row in csv.reader(«nbRow.openAction»)))
 	'''
 
-	def dispatch CharSequence pythonAction(SaveCSV save) {
+	private def dispatch CharSequence pythonAction(SaveCSV save) {
 		val outputfile = if (save.file !== null)
 				save.file
 			else
@@ -80,5 +81,13 @@ class PythonGenerator implements ICsvGenerator {
 
 	override Map<String, Boolean> properties() {
 		return newHashMap("python" -> true)
+	}
+
+	private def dispatch name(OpenCSV open) {
+		open.name
+	}
+
+	private def dispatch name(RefOpenAction roa) {
+		roa.open.name
 	}
 }

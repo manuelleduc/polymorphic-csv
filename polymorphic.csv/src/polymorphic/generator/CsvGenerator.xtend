@@ -43,6 +43,12 @@ class CsvGenerator extends AbstractGenerator {
 	  	«ENDFOR»
 		docker-compose build
 		''')
+		
+		fsa.generateFile('''«content.name»/run.sh''', '''
+		rm -r ./logs
+		mkdir -p ./logs
+		docker-compose up
+		''')
 	}
 
 }
