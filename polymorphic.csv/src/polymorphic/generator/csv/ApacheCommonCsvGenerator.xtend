@@ -6,10 +6,8 @@ import polymorphic.csv.Model
 import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
-import polymorphic.csv.SaveCSV
-
-import static extension org.eclipse.xtext.EcoreUtil2.*
 import polymorphic.csv.RefOpenAction
+import polymorphic.csv.SaveCSV
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
 
@@ -84,14 +82,6 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			final List<CSVRecord> «open.name» = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader("«open.file»")).spliterator(), false).collect(Collectors.toList());
 		'''
 	}
-	
-	private def dispatch name(OpenCSV open) {
-		open.name
-	}
-	
-	private def dispatch name(RefOpenAction roa) {
-		roa.open.name
-	} 
 
 	private def dispatch CharSequence javaAction(PrintCSV print, CharSequence className, Context ctx) {
 		val varX = ctx.nextCptr
@@ -100,27 +90,21 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 			«val tmp = '''tmp«varX»'''»
 			final StringBuilder «sb» = new StringBuilder();
 			try (CSVPrinter «tmp» = new CSVPrinter(«sb», CSVFormat.RFC4180)) {
-				«tmp».printRecords(«print.name»);
+				«tmp».printRecords(«print.open.name»);
 			}
 			System.out.println(«sb»);
 		'''
 	}
 
 	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className,
-		Context ctx) '''System.out.println(«nbRow.name».size());'''
+		Context ctx) '''System.out.println(«nbRow.open.name».size());'''
 
 	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {
-		val file = if (save.file !== null)
-				save.file
-			else
-				save.getContainerOfType(Model).actions.filter(OpenCSV).filter [
-					it.name == save.name
-				].head.file
-
+		val file = if(save.file !== null) save.file else save.open.file
 		val varX = ctx.nextCptr
 		'''
 			try (CSVPrinter tmp«varX» = new CSVPrinter(new FileWriter(new File("«file»")), CSVFormat.RFC4180)) {
-				tmp«varX».printRecords(«save.name»);
+				tmp«varX».printRecords(«save.open.name»);
 			}
 		'''
 	}

@@ -1,17 +1,13 @@
 package polymorphic.generator.csv;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
-import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -21,7 +17,6 @@ import polymorphic.csv.Model;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
-import polymorphic.csv.RefOpenAction;
 import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
@@ -206,14 +201,6 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
-  private String _name(final OpenCSV open) {
-    return open.getName();
-  }
-  
-  private String _name(final RefOpenAction roa) {
-    return roa.getOpen().getName();
-  }
-  
   private CharSequence _javaAction(final PrintCSV print, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
     CharSequence _xblockexpression = null;
     {
@@ -242,7 +229,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
       _builder.append("\t");
       _builder.append(tmp, "\t");
       _builder.append(".printRecords(");
-      String _name = this.name(print);
+      String _name = print.getOpen().getName();
       _builder.append(_name, "\t");
       _builder.append(");");
       _builder.newLineIfNotEmpty();
@@ -260,7 +247,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
   private CharSequence _javaAction(final NbRow nbRow, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("System.out.println(");
-    String _name = this.name(nbRow);
+    String _name = nbRow.getOpen().getName();
     _builder.append(_name);
     _builder.append(".size());");
     return _builder;
@@ -275,12 +262,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
       if (_tripleNotEquals) {
         _xifexpression = save.getFile();
       } else {
-        final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
-          String _name = it.getName();
-          String _name_1 = this.name(save);
-          return Boolean.valueOf(Objects.equal(_name, _name_1));
-        };
-        _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
+        _xifexpression = save.getOpen().getFile();
       }
       final String file = _xifexpression;
       final int varX = ctx.nextCptr();
@@ -295,7 +277,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
       _builder.append("tmp");
       _builder.append(varX, "\t");
       _builder.append(".printRecords(");
-      String _name = this.name(save);
+      String _name = save.getOpen().getName();
       _builder.append(_name, "\t");
       _builder.append(");");
       _builder.newLineIfNotEmpty();
@@ -325,17 +307,6 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(nbRow, className, ctx).toString());
-    }
-  }
-  
-  private String name(final Action open) {
-    if (open instanceof OpenCSV) {
-      return _name((OpenCSV)open);
-    } else if (open instanceof RefOpenAction) {
-      return _name((RefOpenAction)open);
-    } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(open).toString());
     }
   }
 }
