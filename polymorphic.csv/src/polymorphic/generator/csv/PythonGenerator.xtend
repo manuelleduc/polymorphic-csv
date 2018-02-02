@@ -55,8 +55,8 @@ class PythonGenerator implements ICsvGenerator {
 	private def dispatch CharSequence pythonAction(OpenCSV open) ''''''
 
 	private def dispatch CharSequence pythonAction(PrintCSV print) '''
-		for «print.name»_e in csv.reader(«print.openAction»):
-		  print(', '.join(«print.name»_e))
+		for «print.open.name»_e in csv.reader(«print.openAction»):
+		  print(', '.join(«print.open.name»_e))
 	'''
 
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
@@ -68,13 +68,13 @@ class PythonGenerator implements ICsvGenerator {
 				save.file
 			else
 				save.getContainerOfType(Model).actions.filter(OpenCSV).filter [
-					it.name == save.name
+					it.name == save.open.name
 				].head.file
 		'''
 			with open('«outputfile»', 'wt') as output_file:
-			  «save.name»_write = csv.writer(output_file)
-			  for «save.name»_e in csv.reader(«save.openAction»):
-			    «save.name»_write.writerow(tuple(«save.name»_e))
+			  «save.open.name»_write = csv.writer(output_file)
+			  for «save.open.name»_e in csv.reader(«save.openAction»):
+			    «save.open.name»_write.writerow(tuple(«save.open.name»_e))
 		'''
 
 	}

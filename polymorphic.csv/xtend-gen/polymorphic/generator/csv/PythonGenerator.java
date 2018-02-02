@@ -119,7 +119,7 @@ public class PythonGenerator implements ICsvGenerator {
   private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("for ");
-    String _name = this.name(print);
+    String _name = print.getOpen().getName();
     _builder.append(_name);
     _builder.append("_e in csv.reader(");
     CharSequence _openAction = this.openAction(print);
@@ -128,7 +128,7 @@ public class PythonGenerator implements ICsvGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("  ");
     _builder.append("print(\', \'.join(");
-    String _name_1 = this.name(print);
+    String _name_1 = print.getOpen().getName();
     _builder.append(_name_1, "  ");
     _builder.append("_e))");
     _builder.newLineIfNotEmpty();
@@ -156,7 +156,7 @@ public class PythonGenerator implements ICsvGenerator {
       } else {
         final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
           String _name = it.getName();
-          String _name_1 = this.name(save);
+          String _name_1 = save.getOpen().getName();
           return Boolean.valueOf(Objects.equal(_name, _name_1));
         };
         _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
@@ -168,13 +168,13 @@ public class PythonGenerator implements ICsvGenerator {
       _builder.append("\', \'wt\') as output_file:");
       _builder.newLineIfNotEmpty();
       _builder.append("  ");
-      String _name = this.name(save);
+      String _name = save.getOpen().getName();
       _builder.append(_name, "  ");
       _builder.append("_write = csv.writer(output_file)");
       _builder.newLineIfNotEmpty();
       _builder.append("  ");
       _builder.append("for ");
-      String _name_1 = this.name(save);
+      String _name_1 = save.getOpen().getName();
       _builder.append(_name_1, "  ");
       _builder.append("_e in csv.reader(");
       CharSequence _openAction = this.openAction(save);
@@ -182,10 +182,10 @@ public class PythonGenerator implements ICsvGenerator {
       _builder.append("):");
       _builder.newLineIfNotEmpty();
       _builder.append("    ");
-      String _name_2 = this.name(save);
+      String _name_2 = save.getOpen().getName();
       _builder.append(_name_2, "    ");
       _builder.append("_write.writerow(tuple(");
-      String _name_3 = this.name(save);
+      String _name_3 = save.getOpen().getName();
       _builder.append(_name_3, "    ");
       _builder.append("_e))");
       _builder.newLineIfNotEmpty();
