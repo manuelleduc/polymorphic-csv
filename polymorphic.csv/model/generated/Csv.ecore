@@ -8,7 +8,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="languages" upperBound="-1"
         eType="#//Language" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
-        eType="#//Actions" containment="true"/>
+        eType="#//Action" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Constraint">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -18,16 +18,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Actions">
+  <eClassifiers xsi:type="ecore:EClass" name="Action"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OpenCSV" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OpenCSV" eSuperTypes="#//Actions">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="charset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PrintCSV" eSuperTypes="#//Actions"/>
-  <eClassifiers xsi:type="ecore:EClass" name="NbRow" eSuperTypes="#//Actions"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SaveCSV" eSuperTypes="#//Actions">
+  <eClassifiers xsi:type="ecore:EClass" name="RefOpenAction" eSuperTypes="#//Action">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="open" eType="#//OpenCSV"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrintCSV" eSuperTypes="#//RefOpenAction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NbRow" eSuperTypes="#//RefOpenAction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SaveCSV" eSuperTypes="#//RefOpenAction">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

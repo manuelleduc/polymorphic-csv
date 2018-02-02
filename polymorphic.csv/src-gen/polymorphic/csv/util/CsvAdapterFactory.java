@@ -91,14 +91,19 @@ public class CsvAdapterFactory extends AdapterFactoryImpl
         return createLanguageAdapter();
       }
       @Override
-      public Adapter caseActions(Actions object)
+      public Adapter caseAction(Action object)
       {
-        return createActionsAdapter();
+        return createActionAdapter();
       }
       @Override
       public Adapter caseOpenCSV(OpenCSV object)
       {
         return createOpenCSVAdapter();
+      }
+      @Override
+      public Adapter caseRefOpenAction(RefOpenAction object)
+      {
+        return createRefOpenActionAdapter();
       }
       @Override
       public Adapter casePrintCSV(PrintCSV object)
@@ -183,16 +188,16 @@ public class CsvAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link polymorphic.csv.Actions <em>Actions</em>}'.
+   * Creates a new adapter for an object of class '{@link polymorphic.csv.Action <em>Action</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see polymorphic.csv.Actions
+   * @see polymorphic.csv.Action
    * @generated
    */
-  public Adapter createActionsAdapter()
+  public Adapter createActionAdapter()
   {
     return null;
   }
@@ -208,6 +213,21 @@ public class CsvAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createOpenCSVAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link polymorphic.csv.RefOpenAction <em>Ref Open Action</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see polymorphic.csv.RefOpenAction
+   * @generated
+   */
+  public Adapter createRefOpenActionAdapter()
   {
     return null;
   }

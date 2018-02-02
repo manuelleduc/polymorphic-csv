@@ -5,24 +5,26 @@ package polymorphic.csv.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import polymorphic.csv.Action;
 import polymorphic.csv.CsvPackage;
-import polymorphic.csv.PrintCSV;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Print CSV</b></em>'.
+ * An implementation of the model object '<em><b>Action</b></em>'.
  * <!-- end-user-doc -->
  *
  * @generated
  */
-public class PrintCSVImpl extends RefOpenActionImpl implements PrintCSV
+public class ActionImpl extends MinimalEObjectImpl.Container implements Action
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected PrintCSVImpl()
+  protected ActionImpl()
   {
     super();
   }
@@ -35,7 +37,7 @@ public class PrintCSVImpl extends RefOpenActionImpl implements PrintCSV
   @Override
   protected EClass eStaticClass()
   {
-    return CsvPackage.Literals.PRINT_CSV;
+    return CsvPackage.Literals.ACTION;
   }
 
-} //PrintCSVImpl
+} //ActionImpl

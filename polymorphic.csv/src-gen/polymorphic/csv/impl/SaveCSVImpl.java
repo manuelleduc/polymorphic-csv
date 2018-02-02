@@ -25,7 +25,7 @@ import polymorphic.csv.SaveCSV;
  *
  * @generated
  */
-public class SaveCSVImpl extends ActionsImpl implements SaveCSV
+public class SaveCSVImpl extends RefOpenActionImpl implements SaveCSV
 {
   /**
    * The default value of the '{@link #getFile() <em>File</em>}' attribute.

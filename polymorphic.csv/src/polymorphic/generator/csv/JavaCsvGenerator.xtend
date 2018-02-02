@@ -6,6 +6,7 @@ import polymorphic.csv.Model
 import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
+import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
@@ -150,26 +151,26 @@ class JavaCsvGenerator implements ICsvGenerator {
 
 	}
 
-	def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
+	private def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
 		'''
 			«className» «open.name» = new «className»();
 			«open.name».open(new File("«open.file»"));
 		'''
 	}
 
-	def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
+	private def dispatch CharSequence javaAction(PrintCSV open, CharSequence className) {
 		'''
 			System.out.println(«open.name».serialize(';'));
 		'''
 	}
 	
-	def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className) {
+	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className) {
 		'''
 			System.out.println(«nbRow.name».rows());
 		'''
 	}
 
-	def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {
+	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {
 		val file = if (save.file !== null)
 				save.file
 			else
@@ -185,5 +186,13 @@ class JavaCsvGenerator implements ICsvGenerator {
 	override def properties() {
 		newHashMap("java" -> true)
 	}
+	
+	private def dispatch name(OpenCSV open) {
+		open.name
+	}
+	
+	private def dispatch name(RefOpenAction roa) {
+		roa.open.name
+	} 
 
 }

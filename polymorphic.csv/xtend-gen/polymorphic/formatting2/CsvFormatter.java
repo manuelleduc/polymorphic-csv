@@ -17,7 +17,7 @@ import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xtype.XFunctionTypeRef;
 import org.eclipse.xtext.xtype.XImportDeclaration;
 import org.eclipse.xtext.xtype.XImportSection;
-import polymorphic.csv.Actions;
+import polymorphic.csv.Action;
 import polymorphic.csv.Constraint;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
@@ -38,9 +38,9 @@ public class CsvFormatter extends XtypeFormatter {
     for (final Language language : _languages) {
       document.<Language>format(language);
     }
-    EList<Actions> _actions = model.getActions();
-    for (final Actions actions : _actions) {
-      document.<Actions>format(actions);
+    EList<Action> _actions = model.getActions();
+    for (final Action action : _actions) {
+      document.<Action>format(action);
     }
   }
   

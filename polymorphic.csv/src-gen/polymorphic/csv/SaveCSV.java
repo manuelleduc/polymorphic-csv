@@ -20,7 +20,7 @@ package polymorphic.csv;
  * @model
  * @generated
  */
-public interface SaveCSV extends Actions
+public interface SaveCSV extends RefOpenAction
 {
   /**
    * Returns the value of the '<em><b>File</b></em>' attribute.

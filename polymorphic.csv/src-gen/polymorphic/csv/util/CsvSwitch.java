@@ -94,10 +94,10 @@ public class CsvSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case CsvPackage.ACTIONS:
+      case CsvPackage.ACTION:
       {
-        Actions actions = (Actions)theEObject;
-        T result = caseActions(actions);
+        Action action = (Action)theEObject;
+        T result = caseAction(action);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -105,7 +105,15 @@ public class CsvSwitch<T> extends Switch<T>
       {
         OpenCSV openCSV = (OpenCSV)theEObject;
         T result = caseOpenCSV(openCSV);
-        if (result == null) result = caseActions(openCSV);
+        if (result == null) result = caseAction(openCSV);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case CsvPackage.REF_OPEN_ACTION:
+      {
+        RefOpenAction refOpenAction = (RefOpenAction)theEObject;
+        T result = caseRefOpenAction(refOpenAction);
+        if (result == null) result = caseAction(refOpenAction);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -113,7 +121,8 @@ public class CsvSwitch<T> extends Switch<T>
       {
         PrintCSV printCSV = (PrintCSV)theEObject;
         T result = casePrintCSV(printCSV);
-        if (result == null) result = caseActions(printCSV);
+        if (result == null) result = caseRefOpenAction(printCSV);
+        if (result == null) result = caseAction(printCSV);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -121,7 +130,8 @@ public class CsvSwitch<T> extends Switch<T>
       {
         NbRow nbRow = (NbRow)theEObject;
         T result = caseNbRow(nbRow);
-        if (result == null) result = caseActions(nbRow);
+        if (result == null) result = caseRefOpenAction(nbRow);
+        if (result == null) result = caseAction(nbRow);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -129,7 +139,8 @@ public class CsvSwitch<T> extends Switch<T>
       {
         SaveCSV saveCSV = (SaveCSV)theEObject;
         T result = caseSaveCSV(saveCSV);
-        if (result == null) result = caseActions(saveCSV);
+        if (result == null) result = caseRefOpenAction(saveCSV);
+        if (result == null) result = caseAction(saveCSV);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -186,17 +197,17 @@ public class CsvSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Actions</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Action</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Actions</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Action</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseActions(Actions object)
+  public T caseAction(Action object)
   {
     return null;
   }
@@ -213,6 +224,22 @@ public class CsvSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseOpenCSV(OpenCSV object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Ref Open Action</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Ref Open Action</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseRefOpenAction(RefOpenAction object)
   {
     return null;
   }

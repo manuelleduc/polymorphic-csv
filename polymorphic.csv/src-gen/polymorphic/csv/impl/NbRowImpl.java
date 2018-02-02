@@ -15,7 +15,7 @@ import polymorphic.csv.NbRow;
  *
  * @generated
  */
-public class NbRowImpl extends ActionsImpl implements NbRow
+public class NbRowImpl extends RefOpenActionImpl implements NbRow
 {
   /**
    * <!-- begin-user-doc -->

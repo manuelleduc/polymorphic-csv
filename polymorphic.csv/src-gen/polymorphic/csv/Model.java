@@ -88,7 +88,7 @@ public interface Model extends EObject
 
   /**
    * Returns the value of the '<em><b>Actions</b></em>' containment reference list.
-   * The list contents are of type {@link polymorphic.csv.Actions}.
+   * The list contents are of type {@link polymorphic.csv.Action}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Actions</em>' containment reference list isn't clear,
@@ -100,6 +100,6 @@ public interface Model extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<Actions> getActions();
+  EList<Action> getActions();
 
 } // Model

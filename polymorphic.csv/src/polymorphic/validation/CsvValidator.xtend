@@ -42,7 +42,7 @@ class CsvValidator extends AbstractCsvValidator {
 	def checkDuplicateOpen(OpenCSV openCSV) {
 		if (getContainerOfType(openCSV, Model).actions.filter(OpenCSV).
 			exists[it != openCSV && it.name == openCSV.name]) {
-			error("Duplicate csv identifier '" + openCSV.name + "'", CsvPackage::eINSTANCE.actions_Name,
+			error("Duplicate csv identifier '" + openCSV.name + "'", CsvPackage::eINSTANCE.openCSV_Name,
 				DUPLICATE_OPEN_NAME)
 		}
 	}

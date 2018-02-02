@@ -20,14 +20,35 @@ import polymorphic.csv.OpenCSV;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getName <em>Name</em>}</li>
  *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getFile <em>File</em>}</li>
  *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getCharset <em>Charset</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class OpenCSVImpl extends ActionsImpl implements OpenCSV
+public class OpenCSVImpl extends ActionImpl implements OpenCSV
 {
+  /**
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected static final String NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected String name = NAME_EDEFAULT;
+
   /**
    * The default value of the '{@link #getFile() <em>File</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -94,6 +115,29 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setName(String newName)
+  {
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.OPEN_CSV__NAME, oldName, name));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getFile()
   {
     return file;
@@ -145,6 +189,8 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
   {
     switch (featureID)
     {
+      case CsvPackage.OPEN_CSV__NAME:
+        return getName();
       case CsvPackage.OPEN_CSV__FILE:
         return getFile();
       case CsvPackage.OPEN_CSV__CHARSET:
@@ -163,6 +209,9 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
   {
     switch (featureID)
     {
+      case CsvPackage.OPEN_CSV__NAME:
+        setName((String)newValue);
+        return;
       case CsvPackage.OPEN_CSV__FILE:
         setFile((String)newValue);
         return;
@@ -183,6 +232,9 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
   {
     switch (featureID)
     {
+      case CsvPackage.OPEN_CSV__NAME:
+        setName(NAME_EDEFAULT);
+        return;
       case CsvPackage.OPEN_CSV__FILE:
         setFile(FILE_EDEFAULT);
         return;
@@ -203,6 +255,8 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
   {
     switch (featureID)
     {
+      case CsvPackage.OPEN_CSV__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case CsvPackage.OPEN_CSV__FILE:
         return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
       case CsvPackage.OPEN_CSV__CHARSET:
@@ -222,7 +276,9 @@ public class OpenCSVImpl extends ActionsImpl implements OpenCSV
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (file: ");
+    result.append(" (name: ");
+    result.append(name);
+    result.append(", file: ");
     result.append(file);
     result.append(", charset: ");
     result.append(charset);

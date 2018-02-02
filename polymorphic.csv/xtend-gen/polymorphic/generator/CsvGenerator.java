@@ -88,5 +88,17 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_3.append("docker-compose build");
     _builder_3.newLine();
     fsa.generateFile(_builder_2.toString(), _builder_3);
+    StringConcatenation _builder_4 = new StringConcatenation();
+    String _name_6 = content.getName();
+    _builder_4.append(_name_6);
+    _builder_4.append("/run.sh");
+    StringConcatenation _builder_5 = new StringConcatenation();
+    _builder_5.append("rm -r ./logs");
+    _builder_5.newLine();
+    _builder_5.append("mkdir -p ./logs");
+    _builder_5.newLine();
+    _builder_5.append("docker-compose up");
+    _builder_5.newLine();
+    fsa.generateFile(_builder_4.toString(), _builder_5);
   }
 }

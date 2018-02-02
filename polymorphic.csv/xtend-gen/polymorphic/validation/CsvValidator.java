@@ -71,7 +71,7 @@ public class CsvValidator extends AbstractCsvValidator {
       String _name = openCSV.getName();
       String _plus = ("Duplicate csv identifier \'" + _name);
       String _plus_1 = (_plus + "\'");
-      this.error(_plus_1, CsvPackage.eINSTANCE.getActions_Name(), 
+      this.error(_plus_1, CsvPackage.eINSTANCE.getOpenCSV_Name(), 
         CsvValidator.DUPLICATE_OPEN_NAME);
     }
   }

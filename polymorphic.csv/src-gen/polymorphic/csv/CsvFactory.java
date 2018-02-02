@@ -51,13 +51,13 @@ public interface CsvFactory extends EFactory
   Language createLanguage();
 
   /**
-   * Returns a new object of class '<em>Actions</em>'.
+   * Returns a new object of class '<em>Action</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Actions</em>'.
+   * @return a new object of class '<em>Action</em>'.
    * @generated
    */
-  Actions createActions();
+  Action createAction();
 
   /**
    * Returns a new object of class '<em>Open CSV</em>'.
@@ -67,6 +67,15 @@ public interface CsvFactory extends EFactory
    * @generated
    */
   OpenCSV createOpenCSV();
+
+  /**
+   * Returns a new object of class '<em>Ref Open Action</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Ref Open Action</em>'.
+   * @generated
+   */
+  RefOpenAction createRefOpenAction();
 
   /**
    * Returns a new object of class '<em>Print CSV</em>'.

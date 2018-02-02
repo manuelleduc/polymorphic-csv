@@ -68,8 +68,9 @@ public class CsvFactoryImpl extends EFactoryImpl implements CsvFactory
       case CsvPackage.MODEL: return createModel();
       case CsvPackage.CONSTRAINT: return createConstraint();
       case CsvPackage.LANGUAGE: return createLanguage();
-      case CsvPackage.ACTIONS: return createActions();
+      case CsvPackage.ACTION: return createAction();
       case CsvPackage.OPEN_CSV: return createOpenCSV();
+      case CsvPackage.REF_OPEN_ACTION: return createRefOpenAction();
       case CsvPackage.PRINT_CSV: return createPrintCSV();
       case CsvPackage.NB_ROW: return createNbRow();
       case CsvPackage.SAVE_CSV: return createSaveCSV();
@@ -116,10 +117,10 @@ public class CsvFactoryImpl extends EFactoryImpl implements CsvFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Actions createActions()
+  public Action createAction()
   {
-    ActionsImpl actions = new ActionsImpl();
-    return actions;
+    ActionImpl action = new ActionImpl();
+    return action;
   }
 
   /**
@@ -131,6 +132,17 @@ public class CsvFactoryImpl extends EFactoryImpl implements CsvFactory
   {
     OpenCSVImpl openCSV = new OpenCSVImpl();
     return openCSV;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public RefOpenAction createRefOpenAction()
+  {
+    RefOpenActionImpl refOpenAction = new RefOpenActionImpl();
+    return refOpenAction;
   }
 
   /**

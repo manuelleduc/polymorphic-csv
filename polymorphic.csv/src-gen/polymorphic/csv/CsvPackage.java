@@ -187,32 +187,23 @@ public interface CsvPackage extends EPackage
   int LANGUAGE_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link polymorphic.csv.impl.ActionsImpl <em>Actions</em>}' class.
+   * The meta object id for the '{@link polymorphic.csv.impl.ActionImpl <em>Action</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see polymorphic.csv.impl.ActionsImpl
-   * @see polymorphic.csv.impl.CsvPackageImpl#getActions()
+   * @see polymorphic.csv.impl.ActionImpl
+   * @see polymorphic.csv.impl.CsvPackageImpl#getAction()
    * @generated
    */
-  int ACTIONS = 3;
+  int ACTION = 3;
 
   /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * The number of structural features of the '<em>Action</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ACTIONS__NAME = 0;
-
-  /**
-   * The number of structural features of the '<em>Actions</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ACTIONS_FEATURE_COUNT = 1;
+  int ACTION_FEATURE_COUNT = 0;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.OpenCSVImpl <em>Open CSV</em>}' class.
@@ -231,7 +222,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OPEN_CSV__NAME = ACTIONS__NAME;
+  int OPEN_CSV__NAME = ACTION_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>File</b></em>' attribute.
@@ -240,7 +231,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OPEN_CSV__FILE = ACTIONS_FEATURE_COUNT + 0;
+  int OPEN_CSV__FILE = ACTION_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Charset</b></em>' attribute.
@@ -249,7 +240,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OPEN_CSV__CHARSET = ACTIONS_FEATURE_COUNT + 1;
+  int OPEN_CSV__CHARSET = ACTION_FEATURE_COUNT + 2;
 
   /**
    * The number of structural features of the '<em>Open CSV</em>' class.
@@ -258,7 +249,35 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OPEN_CSV_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 2;
+  int OPEN_CSV_FEATURE_COUNT = ACTION_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link polymorphic.csv.impl.RefOpenActionImpl <em>Ref Open Action</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see polymorphic.csv.impl.RefOpenActionImpl
+   * @see polymorphic.csv.impl.CsvPackageImpl#getRefOpenAction()
+   * @generated
+   */
+  int REF_OPEN_ACTION = 5;
+
+  /**
+   * The feature id for the '<em><b>Open</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REF_OPEN_ACTION__OPEN = ACTION_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Ref Open Action</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REF_OPEN_ACTION_FEATURE_COUNT = ACTION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.PrintCSVImpl <em>Print CSV</em>}' class.
@@ -268,16 +287,16 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getPrintCSV()
    * @generated
    */
-  int PRINT_CSV = 5;
+  int PRINT_CSV = 6;
 
   /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * The feature id for the '<em><b>Open</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PRINT_CSV__NAME = ACTIONS__NAME;
+  int PRINT_CSV__OPEN = REF_OPEN_ACTION__OPEN;
 
   /**
    * The number of structural features of the '<em>Print CSV</em>' class.
@@ -286,7 +305,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int PRINT_CSV_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 0;
+  int PRINT_CSV_FEATURE_COUNT = REF_OPEN_ACTION_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.NbRowImpl <em>Nb Row</em>}' class.
@@ -296,16 +315,16 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getNbRow()
    * @generated
    */
-  int NB_ROW = 6;
+  int NB_ROW = 7;
 
   /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * The feature id for the '<em><b>Open</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int NB_ROW__NAME = ACTIONS__NAME;
+  int NB_ROW__OPEN = REF_OPEN_ACTION__OPEN;
 
   /**
    * The number of structural features of the '<em>Nb Row</em>' class.
@@ -314,7 +333,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int NB_ROW_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 0;
+  int NB_ROW_FEATURE_COUNT = REF_OPEN_ACTION_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.SaveCSVImpl <em>Save CSV</em>}' class.
@@ -324,16 +343,16 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getSaveCSV()
    * @generated
    */
-  int SAVE_CSV = 7;
+  int SAVE_CSV = 8;
 
   /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * The feature id for the '<em><b>Open</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SAVE_CSV__NAME = ACTIONS__NAME;
+  int SAVE_CSV__OPEN = REF_OPEN_ACTION__OPEN;
 
   /**
    * The feature id for the '<em><b>File</b></em>' attribute.
@@ -342,7 +361,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int SAVE_CSV__FILE = ACTIONS_FEATURE_COUNT + 0;
+  int SAVE_CSV__FILE = REF_OPEN_ACTION_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Save CSV</em>' class.
@@ -351,7 +370,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int SAVE_CSV_FEATURE_COUNT = ACTIONS_FEATURE_COUNT + 1;
+  int SAVE_CSV_FEATURE_COUNT = REF_OPEN_ACTION_FEATURE_COUNT + 1;
 
 
   /**
@@ -473,25 +492,14 @@ public interface CsvPackage extends EPackage
   EAttribute getLanguage_Target();
 
   /**
-   * Returns the meta object for class '{@link polymorphic.csv.Actions <em>Actions</em>}'.
+   * Returns the meta object for class '{@link polymorphic.csv.Action <em>Action</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Actions</em>'.
-   * @see polymorphic.csv.Actions
+   * @return the meta object for class '<em>Action</em>'.
+   * @see polymorphic.csv.Action
    * @generated
    */
-  EClass getActions();
-
-  /**
-   * Returns the meta object for the attribute '{@link polymorphic.csv.Actions#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see polymorphic.csv.Actions#getName()
-   * @see #getActions()
-   * @generated
-   */
-  EAttribute getActions_Name();
+  EClass getAction();
 
   /**
    * Returns the meta object for class '{@link polymorphic.csv.OpenCSV <em>Open CSV</em>}'.
@@ -502,6 +510,17 @@ public interface CsvPackage extends EPackage
    * @generated
    */
   EClass getOpenCSV();
+
+  /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.OpenCSV#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see polymorphic.csv.OpenCSV#getName()
+   * @see #getOpenCSV()
+   * @generated
+   */
+  EAttribute getOpenCSV_Name();
 
   /**
    * Returns the meta object for the attribute '{@link polymorphic.csv.OpenCSV#getFile <em>File</em>}'.
@@ -524,6 +543,27 @@ public interface CsvPackage extends EPackage
    * @generated
    */
   EAttribute getOpenCSV_Charset();
+
+  /**
+   * Returns the meta object for class '{@link polymorphic.csv.RefOpenAction <em>Ref Open Action</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Ref Open Action</em>'.
+   * @see polymorphic.csv.RefOpenAction
+   * @generated
+   */
+  EClass getRefOpenAction();
+
+  /**
+   * Returns the meta object for the reference '{@link polymorphic.csv.RefOpenAction#getOpen <em>Open</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Open</em>'.
+   * @see polymorphic.csv.RefOpenAction#getOpen()
+   * @see #getRefOpenAction()
+   * @generated
+   */
+  EReference getRefOpenAction_Open();
 
   /**
    * Returns the meta object for class '{@link polymorphic.csv.PrintCSV <em>Print CSV</em>}'.
@@ -684,22 +724,14 @@ public interface CsvPackage extends EPackage
     EAttribute LANGUAGE__TARGET = eINSTANCE.getLanguage_Target();
 
     /**
-     * The meta object literal for the '{@link polymorphic.csv.impl.ActionsImpl <em>Actions</em>}' class.
+     * The meta object literal for the '{@link polymorphic.csv.impl.ActionImpl <em>Action</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see polymorphic.csv.impl.ActionsImpl
-     * @see polymorphic.csv.impl.CsvPackageImpl#getActions()
+     * @see polymorphic.csv.impl.ActionImpl
+     * @see polymorphic.csv.impl.CsvPackageImpl#getAction()
      * @generated
      */
-    EClass ACTIONS = eINSTANCE.getActions();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute ACTIONS__NAME = eINSTANCE.getActions_Name();
+    EClass ACTION = eINSTANCE.getAction();
 
     /**
      * The meta object literal for the '{@link polymorphic.csv.impl.OpenCSVImpl <em>Open CSV</em>}' class.
@@ -710,6 +742,14 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EClass OPEN_CSV = eINSTANCE.getOpenCSV();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute OPEN_CSV__NAME = eINSTANCE.getOpenCSV_Name();
 
     /**
      * The meta object literal for the '<em><b>File</b></em>' attribute feature.
@@ -726,6 +766,24 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EAttribute OPEN_CSV__CHARSET = eINSTANCE.getOpenCSV_Charset();
+
+    /**
+     * The meta object literal for the '{@link polymorphic.csv.impl.RefOpenActionImpl <em>Ref Open Action</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see polymorphic.csv.impl.RefOpenActionImpl
+     * @see polymorphic.csv.impl.CsvPackageImpl#getRefOpenAction()
+     * @generated
+     */
+    EClass REF_OPEN_ACTION = eINSTANCE.getRefOpenAction();
+
+    /**
+     * The meta object literal for the '<em><b>Open</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REF_OPEN_ACTION__OPEN = eINSTANCE.getRefOpenAction_Open();
 
     /**
      * The meta object literal for the '{@link polymorphic.csv.impl.PrintCSVImpl <em>Print CSV</em>}' class.

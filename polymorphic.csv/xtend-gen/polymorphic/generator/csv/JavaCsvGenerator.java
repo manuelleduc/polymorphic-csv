@@ -15,12 +15,13 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
-import polymorphic.csv.Actions;
+import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
+import polymorphic.csv.RefOpenAction;
 import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
@@ -378,8 +379,8 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_5.append("try {");
     _builder_5.newLine();
     {
-      EList<Actions> _actions = content.getActions();
-      for(final Actions action : _actions) {
+      EList<Action> _actions = content.getActions();
+      for(final Action action : _actions) {
         _builder_5.append("\t\t     \t");
         CharSequence _javaAction = this.javaAction(action, className);
         _builder_5.append(_javaAction, "\t\t     \t");
@@ -403,7 +404,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_4.toString(), _builder_5);
   }
   
-  protected CharSequence _javaAction(final OpenCSV open, final CharSequence className) {
+  private CharSequence _javaAction(final OpenCSV open, final CharSequence className) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append(className);
     _builder.append(" ");
@@ -423,27 +424,27 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
-  protected CharSequence _javaAction(final PrintCSV open, final CharSequence className) {
+  private CharSequence _javaAction(final PrintCSV open, final CharSequence className) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("System.out.println(");
-    String _name = open.getName();
+    String _name = this.name(open);
     _builder.append(_name);
     _builder.append(".serialize(\';\'));");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  protected CharSequence _javaAction(final NbRow nbRow, final CharSequence className) {
+  private CharSequence _javaAction(final NbRow nbRow, final CharSequence className) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("System.out.println(");
-    String _name = nbRow.getName();
+    String _name = this.name(nbRow);
     _builder.append(_name);
     _builder.append(".rows());");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  protected CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
+  private CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
     CharSequence _xblockexpression = null;
     {
       String _xifexpression = null;
@@ -454,14 +455,14 @@ public class JavaCsvGenerator implements ICsvGenerator {
       } else {
         final Function1<OpenCSV, Boolean> _function = (OpenCSV it) -> {
           String _name = it.getName();
-          String _name_1 = save.getName();
+          String _name_1 = this.name(save);
           return Boolean.valueOf(Objects.equal(_name, _name_1));
         };
         _xifexpression = IterableExtensions.<OpenCSV>head(IterableExtensions.<OpenCSV>filter(Iterables.<OpenCSV>filter(EcoreUtil2.<Model>getContainerOfType(save, Model.class).getActions(), OpenCSV.class), _function)).getFile();
       }
       final String file = _xifexpression;
       StringConcatenation _builder = new StringConcatenation();
-      String _name = save.getName();
+      String _name = this.name(save);
       _builder.append(_name);
       _builder.append(".save(new File(\"");
       _builder.append(file);
@@ -478,18 +479,37 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  public CharSequence javaAction(final Actions nbRow, final CharSequence className) {
+  private String _name(final OpenCSV open) {
+    return open.getName();
+  }
+  
+  private String _name(final RefOpenAction roa) {
+    return roa.getOpen().getName();
+  }
+  
+  private CharSequence javaAction(final Action nbRow, final CharSequence className) {
     if (nbRow instanceof NbRow) {
       return _javaAction((NbRow)nbRow, className);
-    } else if (nbRow instanceof OpenCSV) {
-      return _javaAction((OpenCSV)nbRow, className);
     } else if (nbRow instanceof PrintCSV) {
       return _javaAction((PrintCSV)nbRow, className);
     } else if (nbRow instanceof SaveCSV) {
       return _javaAction((SaveCSV)nbRow, className);
+    } else if (nbRow instanceof OpenCSV) {
+      return _javaAction((OpenCSV)nbRow, className);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(nbRow, className).toString());
+    }
+  }
+  
+  private String name(final Action open) {
+    if (open instanceof OpenCSV) {
+      return _name((OpenCSV)open);
+    } else if (open instanceof RefOpenAction) {
+      return _name((RefOpenAction)open);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(open).toString());
     }
   }
 }

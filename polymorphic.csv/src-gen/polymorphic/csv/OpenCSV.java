@@ -13,6 +13,7 @@ package polymorphic.csv;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link polymorphic.csv.OpenCSV#getName <em>Name</em>}</li>
  *   <li>{@link polymorphic.csv.OpenCSV#getFile <em>File</em>}</li>
  *   <li>{@link polymorphic.csv.OpenCSV#getCharset <em>Charset</em>}</li>
  * </ul>
@@ -21,8 +22,34 @@ package polymorphic.csv;
  * @model
  * @generated
  */
-public interface OpenCSV extends Actions
+public interface OpenCSV extends Action
 {
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see polymorphic.csv.CsvPackage#getOpenCSV_Name()
+   * @model
+   * @generated
+   */
+  String getName();
+
+  /**
+   * Sets the value of the '{@link polymorphic.csv.OpenCSV#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
+
   /**
    * Returns the value of the '<em><b>File</b></em>' attribute.
    * <!-- begin-user-doc -->

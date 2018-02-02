@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.xtext.Action;
 import org.eclipse.xtext.Alternatives;
 import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Group;
@@ -42,7 +43,7 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLanguagesLanguageParserRuleCall_10_0 = (RuleCall)cLanguagesAssignment_10.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_11 = (Keyword)cGroup.eContents().get(11);
 		private final Assignment cActionsAssignment_12 = (Assignment)cGroup.eContents().get(12);
-		private final RuleCall cActionsActionsParserRuleCall_12_0 = (RuleCall)cActionsAssignment_12.eContents().get(0);
+		private final RuleCall cActionsActionParserRuleCall_12_0 = (RuleCall)cActionsAssignment_12.eContents().get(0);
 		
 		//Model:
 		//	{Model}
@@ -53,11 +54,11 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		//	'languages' '{'
 		//	languages+=Language*
 		//	'}'
-		//	actions+=Actions*;
+		//	actions+=Action*;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{Model} 'package' name=ID ';' 'constraints' '{' constraints+=Constraint* '}' 'languages' '{' languages+=Language* '}'
-		//actions+=Actions*
+		//actions+=Action*
 		public Group getGroup() { return cGroup; }
 		
 		//{Model}
@@ -105,11 +106,11 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_11() { return cRightCurlyBracketKeyword_11; }
 		
-		//actions+=Actions*
+		//actions+=Action*
 		public Assignment getActionsAssignment_12() { return cActionsAssignment_12; }
 		
-		//Actions
-		public RuleCall getActionsActionsParserRuleCall_12_0() { return cActionsActionsParserRuleCall_12_0; }
+		//Action
+		public RuleCall getActionsActionParserRuleCall_12_0() { return cActionsActionParserRuleCall_12_0; }
 	}
 	public class ConstraintElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.Constraint");
@@ -185,137 +186,211 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		//')'
 		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
 	}
-	public class ActionsElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.Actions");
+	public class ActionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.Action");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
-		private final Action cOpenCSVAction_0_0 = (Action)cGroup_0.eContents().get(0);
-		private final Keyword cReadKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
-		private final Assignment cNameAssignment_0_2 = (Assignment)cGroup_0.eContents().get(2);
-		private final RuleCall cNameIDTerminalRuleCall_0_2_0 = (RuleCall)cNameAssignment_0_2.eContents().get(0);
-		private final Assignment cFileAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
-		private final RuleCall cFileSTRINGTerminalRuleCall_0_3_0 = (RuleCall)cFileAssignment_0_3.eContents().get(0);
-		private final Assignment cCharsetAssignment_0_4 = (Assignment)cGroup_0.eContents().get(4);
-		private final Alternatives cCharsetAlternatives_0_4_0 = (Alternatives)cCharsetAssignment_0_4.eContents().get(0);
-		private final Keyword cCharsetLatin1Keyword_0_4_0_0 = (Keyword)cCharsetAlternatives_0_4_0.eContents().get(0);
-		private final Keyword cCharsetUtf8Keyword_0_4_0_1 = (Keyword)cCharsetAlternatives_0_4_0.eContents().get(1);
-		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final Action cPrintCSVAction_1_0 = (Action)cGroup_1.eContents().get(0);
-		private final Keyword cPrintKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
-		private final Assignment cNameAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
-		private final RuleCall cNameIDTerminalRuleCall_1_2_0 = (RuleCall)cNameAssignment_1_2.eContents().get(0);
-		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
-		private final Action cNbRowAction_2_0 = (Action)cGroup_2.eContents().get(0);
-		private final Keyword cNbrowKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
-		private final Assignment cNameAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
-		private final RuleCall cNameIDTerminalRuleCall_2_2_0 = (RuleCall)cNameAssignment_2_2.eContents().get(0);
-		private final Group cGroup_3 = (Group)cAlternatives.eContents().get(3);
-		private final Action cSaveCSVAction_3_0 = (Action)cGroup_3.eContents().get(0);
-		private final Keyword cSaveKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
-		private final Assignment cNameAssignment_3_2 = (Assignment)cGroup_3.eContents().get(2);
-		private final RuleCall cNameIDTerminalRuleCall_3_2_0 = (RuleCall)cNameAssignment_3_2.eContents().get(0);
-		private final Assignment cFileAssignment_3_3 = (Assignment)cGroup_3.eContents().get(3);
-		private final RuleCall cFileSTRINGTerminalRuleCall_3_3_0 = (RuleCall)cFileAssignment_3_3.eContents().get(0);
+		private final RuleCall cOpenCSVParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cRefOpenActionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
-		//Actions:
-		//	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8') | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow'
-		//	name=ID | {SaveCSV} 'save' name=ID file=STRING?;
+		//Action:
+		//	OpenCSV | RefOpenAction;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8') | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow' name=ID
-		//| {SaveCSV} 'save' name=ID file=STRING?
+		//OpenCSV | RefOpenAction
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
+		//OpenCSV
+		public RuleCall getOpenCSVParserRuleCall_0() { return cOpenCSVParserRuleCall_0; }
+		
+		//RefOpenAction
+		public RuleCall getRefOpenActionParserRuleCall_1() { return cRefOpenActionParserRuleCall_1; }
+	}
+	public class OpenCSVElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.OpenCSV");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cOpenCSVAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cReadKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		private final Assignment cFileAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cFileSTRINGTerminalRuleCall_3_0 = (RuleCall)cFileAssignment_3.eContents().get(0);
+		private final Assignment cCharsetAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final Alternatives cCharsetAlternatives_4_0 = (Alternatives)cCharsetAssignment_4.eContents().get(0);
+		private final Keyword cCharsetLatin1Keyword_4_0_0 = (Keyword)cCharsetAlternatives_4_0.eContents().get(0);
+		private final Keyword cCharsetUtf8Keyword_4_0_1 = (Keyword)cCharsetAlternatives_4_0.eContents().get(1);
+		
+		//OpenCSV:
+		//	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8');
+		@Override public ParserRule getRule() { return rule; }
+		
 		//{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8')
-		public Group getGroup_0() { return cGroup_0; }
+		public Group getGroup() { return cGroup; }
 		
 		//{OpenCSV}
-		public Action getOpenCSVAction_0_0() { return cOpenCSVAction_0_0; }
+		public Action getOpenCSVAction_0() { return cOpenCSVAction_0; }
 		
 		//'read'
-		public Keyword getReadKeyword_0_1() { return cReadKeyword_0_1; }
+		public Keyword getReadKeyword_1() { return cReadKeyword_1; }
 		
 		//name=ID
-		public Assignment getNameAssignment_0_2() { return cNameAssignment_0_2; }
+		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
 		
 		//ID
-		public RuleCall getNameIDTerminalRuleCall_0_2_0() { return cNameIDTerminalRuleCall_0_2_0; }
+		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
 		
 		//file=STRING
-		public Assignment getFileAssignment_0_3() { return cFileAssignment_0_3; }
+		public Assignment getFileAssignment_3() { return cFileAssignment_3; }
 		
 		//STRING
-		public RuleCall getFileSTRINGTerminalRuleCall_0_3_0() { return cFileSTRINGTerminalRuleCall_0_3_0; }
+		public RuleCall getFileSTRINGTerminalRuleCall_3_0() { return cFileSTRINGTerminalRuleCall_3_0; }
 		
 		//charset=('latin1' | 'utf8')
-		public Assignment getCharsetAssignment_0_4() { return cCharsetAssignment_0_4; }
+		public Assignment getCharsetAssignment_4() { return cCharsetAssignment_4; }
 		
 		//('latin1' | 'utf8')
-		public Alternatives getCharsetAlternatives_0_4_0() { return cCharsetAlternatives_0_4_0; }
+		public Alternatives getCharsetAlternatives_4_0() { return cCharsetAlternatives_4_0; }
 		
 		//'latin1'
-		public Keyword getCharsetLatin1Keyword_0_4_0_0() { return cCharsetLatin1Keyword_0_4_0_0; }
+		public Keyword getCharsetLatin1Keyword_4_0_0() { return cCharsetLatin1Keyword_4_0_0; }
 		
 		//'utf8'
-		public Keyword getCharsetUtf8Keyword_0_4_0_1() { return cCharsetUtf8Keyword_0_4_0_1; }
+		public Keyword getCharsetUtf8Keyword_4_0_1() { return cCharsetUtf8Keyword_4_0_1; }
+	}
+	public class RefOpenActionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.RefOpenAction");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cPrintCSVParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cNbRowParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cSaveCSVParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
-		//{PrintCSV} 'print' name=ID
-		public Group getGroup_1() { return cGroup_1; }
+		//RefOpenAction:
+		//	PrintCSV | NbRow | SaveCSV;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//PrintCSV | NbRow | SaveCSV
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//PrintCSV
+		public RuleCall getPrintCSVParserRuleCall_0() { return cPrintCSVParserRuleCall_0; }
+		
+		//NbRow
+		public RuleCall getNbRowParserRuleCall_1() { return cNbRowParserRuleCall_1; }
+		
+		//SaveCSV
+		public RuleCall getSaveCSVParserRuleCall_2() { return cSaveCSVParserRuleCall_2; }
+	}
+	public class PrintCSVElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.PrintCSV");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cPrintCSVAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cPrintKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOpenAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cOpenOpenCSVCrossReference_2_0 = (CrossReference)cOpenAssignment_2.eContents().get(0);
+		private final RuleCall cOpenOpenCSVIDTerminalRuleCall_2_0_1 = (RuleCall)cOpenOpenCSVCrossReference_2_0.eContents().get(1);
+		
+		//PrintCSV:
+		//	{PrintCSV} 'print' open=[OpenCSV];
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{PrintCSV} 'print' open=[OpenCSV]
+		public Group getGroup() { return cGroup; }
 		
 		//{PrintCSV}
-		public Action getPrintCSVAction_1_0() { return cPrintCSVAction_1_0; }
+		public Action getPrintCSVAction_0() { return cPrintCSVAction_0; }
 		
 		//'print'
-		public Keyword getPrintKeyword_1_1() { return cPrintKeyword_1_1; }
+		public Keyword getPrintKeyword_1() { return cPrintKeyword_1; }
 		
-		//name=ID
-		public Assignment getNameAssignment_1_2() { return cNameAssignment_1_2; }
+		//open=[OpenCSV]
+		public Assignment getOpenAssignment_2() { return cOpenAssignment_2; }
+		
+		//[OpenCSV]
+		public CrossReference getOpenOpenCSVCrossReference_2_0() { return cOpenOpenCSVCrossReference_2_0; }
 		
 		//ID
-		public RuleCall getNameIDTerminalRuleCall_1_2_0() { return cNameIDTerminalRuleCall_1_2_0; }
+		public RuleCall getOpenOpenCSVIDTerminalRuleCall_2_0_1() { return cOpenOpenCSVIDTerminalRuleCall_2_0_1; }
+	}
+	public class NbRowElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.NbRow");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cNbRowAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cNbrowKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOpenAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cOpenOpenCSVCrossReference_2_0 = (CrossReference)cOpenAssignment_2.eContents().get(0);
+		private final RuleCall cOpenOpenCSVIDTerminalRuleCall_2_0_1 = (RuleCall)cOpenOpenCSVCrossReference_2_0.eContents().get(1);
 		
-		//{NbRow} 'nbrow' name=ID
-		public Group getGroup_2() { return cGroup_2; }
+		//NbRow:
+		//	{NbRow} 'nbrow' open=[OpenCSV];
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{NbRow} 'nbrow' open=[OpenCSV]
+		public Group getGroup() { return cGroup; }
 		
 		//{NbRow}
-		public Action getNbRowAction_2_0() { return cNbRowAction_2_0; }
+		public Action getNbRowAction_0() { return cNbRowAction_0; }
 		
 		//'nbrow'
-		public Keyword getNbrowKeyword_2_1() { return cNbrowKeyword_2_1; }
+		public Keyword getNbrowKeyword_1() { return cNbrowKeyword_1; }
 		
-		//name=ID
-		public Assignment getNameAssignment_2_2() { return cNameAssignment_2_2; }
+		//open=[OpenCSV]
+		public Assignment getOpenAssignment_2() { return cOpenAssignment_2; }
+		
+		//[OpenCSV]
+		public CrossReference getOpenOpenCSVCrossReference_2_0() { return cOpenOpenCSVCrossReference_2_0; }
 		
 		//ID
-		public RuleCall getNameIDTerminalRuleCall_2_2_0() { return cNameIDTerminalRuleCall_2_2_0; }
+		public RuleCall getOpenOpenCSVIDTerminalRuleCall_2_0_1() { return cOpenOpenCSVIDTerminalRuleCall_2_0_1; }
+	}
+	public class SaveCSVElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.SaveCSV");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cSaveCSVAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cSaveKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOpenAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cOpenOpenCSVCrossReference_2_0 = (CrossReference)cOpenAssignment_2.eContents().get(0);
+		private final RuleCall cOpenOpenCSVIDTerminalRuleCall_2_0_1 = (RuleCall)cOpenOpenCSVCrossReference_2_0.eContents().get(1);
+		private final Assignment cFileAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cFileSTRINGTerminalRuleCall_3_0 = (RuleCall)cFileAssignment_3.eContents().get(0);
 		
-		//{SaveCSV} 'save' name=ID file=STRING?
-		public Group getGroup_3() { return cGroup_3; }
+		//SaveCSV:
+		//	{SaveCSV} 'save' open=[OpenCSV] file=STRING?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{SaveCSV} 'save' open=[OpenCSV] file=STRING?
+		public Group getGroup() { return cGroup; }
 		
 		//{SaveCSV}
-		public Action getSaveCSVAction_3_0() { return cSaveCSVAction_3_0; }
+		public Action getSaveCSVAction_0() { return cSaveCSVAction_0; }
 		
 		//'save'
-		public Keyword getSaveKeyword_3_1() { return cSaveKeyword_3_1; }
+		public Keyword getSaveKeyword_1() { return cSaveKeyword_1; }
 		
-		//name=ID
-		public Assignment getNameAssignment_3_2() { return cNameAssignment_3_2; }
+		//open=[OpenCSV]
+		public Assignment getOpenAssignment_2() { return cOpenAssignment_2; }
+		
+		//[OpenCSV]
+		public CrossReference getOpenOpenCSVCrossReference_2_0() { return cOpenOpenCSVCrossReference_2_0; }
 		
 		//ID
-		public RuleCall getNameIDTerminalRuleCall_3_2_0() { return cNameIDTerminalRuleCall_3_2_0; }
+		public RuleCall getOpenOpenCSVIDTerminalRuleCall_2_0_1() { return cOpenOpenCSVIDTerminalRuleCall_2_0_1; }
 		
 		//file=STRING?
-		public Assignment getFileAssignment_3_3() { return cFileAssignment_3_3; }
+		public Assignment getFileAssignment_3() { return cFileAssignment_3; }
 		
 		//STRING
-		public RuleCall getFileSTRINGTerminalRuleCall_3_3_0() { return cFileSTRINGTerminalRuleCall_3_3_0; }
+		public RuleCall getFileSTRINGTerminalRuleCall_3_0() { return cFileSTRINGTerminalRuleCall_3_0; }
 	}
 	
 	
 	private final ModelElements pModel;
 	private final ConstraintElements pConstraint;
 	private final LanguageElements pLanguage;
-	private final ActionsElements pActions;
+	private final ActionElements pAction;
+	private final OpenCSVElements pOpenCSV;
+	private final RefOpenActionElements pRefOpenAction;
+	private final PrintCSVElements pPrintCSV;
+	private final NbRowElements pNbRow;
+	private final SaveCSVElements pSaveCSV;
 	
 	private final Grammar grammar;
 	
@@ -329,7 +404,12 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		this.pModel = new ModelElements();
 		this.pConstraint = new ConstraintElements();
 		this.pLanguage = new LanguageElements();
-		this.pActions = new ActionsElements();
+		this.pAction = new ActionElements();
+		this.pOpenCSV = new OpenCSVElements();
+		this.pRefOpenAction = new RefOpenActionElements();
+		this.pPrintCSV = new PrintCSVElements();
+		this.pNbRow = new NbRowElements();
+		this.pSaveCSV = new SaveCSVElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -368,7 +448,7 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 	//	'languages' '{'
 	//	languages+=Language*
 	//	'}'
-	//	actions+=Actions*;
+	//	actions+=Action*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -397,15 +477,64 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		return getLanguageAccess().getRule();
 	}
 	
-	//Actions:
-	//	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8') | {PrintCSV} 'print' name=ID | {NbRow} 'nbrow'
-	//	name=ID | {SaveCSV} 'save' name=ID file=STRING?;
-	public ActionsElements getActionsAccess() {
-		return pActions;
+	//Action:
+	//	OpenCSV | RefOpenAction;
+	public ActionElements getActionAccess() {
+		return pAction;
 	}
 	
-	public ParserRule getActionsRule() {
-		return getActionsAccess().getRule();
+	public ParserRule getActionRule() {
+		return getActionAccess().getRule();
+	}
+	
+	//OpenCSV:
+	//	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8');
+	public OpenCSVElements getOpenCSVAccess() {
+		return pOpenCSV;
+	}
+	
+	public ParserRule getOpenCSVRule() {
+		return getOpenCSVAccess().getRule();
+	}
+	
+	//RefOpenAction:
+	//	PrintCSV | NbRow | SaveCSV;
+	public RefOpenActionElements getRefOpenActionAccess() {
+		return pRefOpenAction;
+	}
+	
+	public ParserRule getRefOpenActionRule() {
+		return getRefOpenActionAccess().getRule();
+	}
+	
+	//PrintCSV:
+	//	{PrintCSV} 'print' open=[OpenCSV];
+	public PrintCSVElements getPrintCSVAccess() {
+		return pPrintCSV;
+	}
+	
+	public ParserRule getPrintCSVRule() {
+		return getPrintCSVAccess().getRule();
+	}
+	
+	//NbRow:
+	//	{NbRow} 'nbrow' open=[OpenCSV];
+	public NbRowElements getNbRowAccess() {
+		return pNbRow;
+	}
+	
+	public ParserRule getNbRowRule() {
+		return getNbRowAccess().getRule();
+	}
+	
+	//SaveCSV:
+	//	{SaveCSV} 'save' open=[OpenCSV] file=STRING?;
+	public SaveCSVElements getSaveCSVAccess() {
+		return pSaveCSV;
+	}
+	
+	public ParserRule getSaveCSVRule() {
+		return getSaveCSVAccess().getRule();
 	}
 	
 	//JvmTypeReference:

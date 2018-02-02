@@ -174,9 +174,9 @@ ruleModel returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getActionsActionsParserRuleCall_12_0());
+					newCompositeNode(grammarAccess.getModelAccess().getActionsActionParserRuleCall_12_0());
 				}
-				lv_actions_12_0=ruleActions
+				lv_actions_12_0=ruleAction
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
@@ -185,7 +185,7 @@ ruleModel returns [EObject current=null]
 						$current,
 						"actions",
 						lv_actions_12_0,
-						"polymorphic.Csv.Actions");
+						"polymorphic.Csv.Action");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -319,15 +319,51 @@ ruleLanguage returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleActions
-entryRuleActions returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getActionsRule()); }
-	iv_ruleActions=ruleActions
-	{ $current=$iv_ruleActions.current; }
+// Entry rule entryRuleAction
+entryRuleAction returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getActionRule()); }
+	iv_ruleAction=ruleAction
+	{ $current=$iv_ruleAction.current; }
 	EOF;
 
-// Rule Actions
-ruleActions returns [EObject current=null]
+// Rule Action
+ruleAction returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		{
+			newCompositeNode(grammarAccess.getActionAccess().getOpenCSVParserRuleCall_0());
+		}
+		this_OpenCSV_0=ruleOpenCSV
+		{
+			$current = $this_OpenCSV_0.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getActionAccess().getRefOpenActionParserRuleCall_1());
+		}
+		this_RefOpenAction_1=ruleRefOpenAction
+		{
+			$current = $this_RefOpenAction_1.current;
+			afterParserOrEnumRuleCall();
+		}
+	)
+;
+
+// Entry rule entryRuleOpenCSV
+entryRuleOpenCSV returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getOpenCSVRule()); }
+	iv_ruleOpenCSV=ruleOpenCSV
+	{ $current=$iv_ruleOpenCSV.current; }
+	EOF;
+
+// Rule OpenCSV
+ruleOpenCSV returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -336,195 +372,271 @@ ruleActions returns [EObject current=null]
 }:
 	(
 		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getOpenCSVAccess().getOpenCSVAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='read'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getOpenCSVAccess().getReadKeyword_1());
+		}
+		(
 			(
+				lv_name_2_0=RULE_ID
 				{
-					$current = forceCreateModelElement(
-						grammarAccess.getActionsAccess().getOpenCSVAction_0_0(),
-						$current);
+					newLeafNode(lv_name_2_0, grammarAccess.getOpenCSVAccess().getNameIDTerminalRuleCall_2_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getOpenCSVRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_2_0,
+						"org.eclipse.xtext.xbase.Xtype.ID");
 				}
 			)
-			otherlv_1='read'
-			{
-				newLeafNode(otherlv_1, grammarAccess.getActionsAccess().getReadKeyword_0_1());
-			}
+		)
+		(
+			(
+				lv_file_3_0=RULE_STRING
+				{
+					newLeafNode(lv_file_3_0, grammarAccess.getOpenCSVAccess().getFileSTRINGTerminalRuleCall_3_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getOpenCSVRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"file",
+						lv_file_3_0,
+						"org.eclipse.xtext.xbase.Xtype.STRING");
+				}
+			)
+		)
+		(
 			(
 				(
-					lv_name_2_0=RULE_ID
+					lv_charset_4_1='latin1'
 					{
-						newLeafNode(lv_name_2_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_0_2_0());
+						newLeafNode(lv_charset_4_1, grammarAccess.getOpenCSVAccess().getCharsetLatin1Keyword_4_0_0());
 					}
 					{
 						if ($current==null) {
-							$current = createModelElement(grammarAccess.getActionsRule());
+							$current = createModelElement(grammarAccess.getOpenCSVRule());
 						}
-						setWithLastConsumed(
-							$current,
-							"name",
-							lv_name_2_0,
-							"org.eclipse.xtext.xbase.Xtype.ID");
+						setWithLastConsumed($current, "charset", lv_charset_4_1, null);
 					}
-				)
-			)
-			(
-				(
-					lv_file_3_0=RULE_STRING
+					    |
+					lv_charset_4_2='utf8'
 					{
-						newLeafNode(lv_file_3_0, grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_0_3_0());
+						newLeafNode(lv_charset_4_2, grammarAccess.getOpenCSVAccess().getCharsetUtf8Keyword_4_0_1());
 					}
 					{
 						if ($current==null) {
-							$current = createModelElement(grammarAccess.getActionsRule());
+							$current = createModelElement(grammarAccess.getOpenCSVRule());
 						}
-						setWithLastConsumed(
-							$current,
-							"file",
-							lv_file_3_0,
-							"org.eclipse.xtext.xbase.Xtype.STRING");
+						setWithLastConsumed($current, "charset", lv_charset_4_2, null);
 					}
-				)
-			)
-			(
-				(
-					(
-						lv_charset_4_1='latin1'
-						{
-							newLeafNode(lv_charset_4_1, grammarAccess.getActionsAccess().getCharsetLatin1Keyword_0_4_0_0());
-						}
-						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getActionsRule());
-							}
-							setWithLastConsumed($current, "charset", lv_charset_4_1, null);
-						}
-						    |
-						lv_charset_4_2='utf8'
-						{
-							newLeafNode(lv_charset_4_2, grammarAccess.getActionsAccess().getCharsetUtf8Keyword_0_4_0_1());
-						}
-						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getActionsRule());
-							}
-							setWithLastConsumed($current, "charset", lv_charset_4_2, null);
-						}
-					)
 				)
 			)
 		)
+	)
+;
+
+// Entry rule entryRuleRefOpenAction
+entryRuleRefOpenAction returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getRefOpenActionRule()); }
+	iv_ruleRefOpenAction=ruleRefOpenAction
+	{ $current=$iv_ruleRefOpenAction.current; }
+	EOF;
+
+// Rule RefOpenAction
+ruleRefOpenAction returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		{
+			newCompositeNode(grammarAccess.getRefOpenActionAccess().getPrintCSVParserRuleCall_0());
+		}
+		this_PrintCSV_0=rulePrintCSV
+		{
+			$current = $this_PrintCSV_0.current;
+			afterParserOrEnumRuleCall();
+		}
 		    |
+		{
+			newCompositeNode(grammarAccess.getRefOpenActionAccess().getNbRowParserRuleCall_1());
+		}
+		this_NbRow_1=ruleNbRow
+		{
+			$current = $this_NbRow_1.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getRefOpenActionAccess().getSaveCSVParserRuleCall_2());
+		}
+		this_SaveCSV_2=ruleSaveCSV
+		{
+			$current = $this_SaveCSV_2.current;
+			afterParserOrEnumRuleCall();
+		}
+	)
+;
+
+// Entry rule entryRulePrintCSV
+entryRulePrintCSV returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getPrintCSVRule()); }
+	iv_rulePrintCSV=rulePrintCSV
+	{ $current=$iv_rulePrintCSV.current; }
+	EOF;
+
+// Rule PrintCSV
+rulePrintCSV returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getPrintCSVAccess().getPrintCSVAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='print'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getPrintCSVAccess().getPrintKeyword_1());
+		}
 		(
 			(
 				{
-					$current = forceCreateModelElement(
-						grammarAccess.getActionsAccess().getPrintCSVAction_1_0(),
-						$current);
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getPrintCSVRule());
+					}
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getPrintCSVAccess().getOpenOpenCSVCrossReference_2_0());
 				}
 			)
-			otherlv_6='print'
-			{
-				newLeafNode(otherlv_6, grammarAccess.getActionsAccess().getPrintKeyword_1_1());
-			}
-			(
-				(
-					lv_name_7_0=RULE_ID
-					{
-						newLeafNode(lv_name_7_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_1_2_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getActionsRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"name",
-							lv_name_7_0,
-							"org.eclipse.xtext.xbase.Xtype.ID");
-					}
-				)
-			)
 		)
-		    |
+	)
+;
+
+// Entry rule entryRuleNbRow
+entryRuleNbRow returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getNbRowRule()); }
+	iv_ruleNbRow=ruleNbRow
+	{ $current=$iv_ruleNbRow.current; }
+	EOF;
+
+// Rule NbRow
+ruleNbRow returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getNbRowAccess().getNbRowAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='nbrow'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getNbRowAccess().getNbrowKeyword_1());
+		}
 		(
 			(
 				{
-					$current = forceCreateModelElement(
-						grammarAccess.getActionsAccess().getNbRowAction_2_0(),
-						$current);
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getNbRowRule());
+					}
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getNbRowAccess().getOpenOpenCSVCrossReference_2_0());
 				}
 			)
-			otherlv_9='nbrow'
-			{
-				newLeafNode(otherlv_9, grammarAccess.getActionsAccess().getNbrowKeyword_2_1());
-			}
-			(
-				(
-					lv_name_10_0=RULE_ID
-					{
-						newLeafNode(lv_name_10_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_2_2_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getActionsRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"name",
-							lv_name_10_0,
-							"org.eclipse.xtext.xbase.Xtype.ID");
-					}
-				)
-			)
 		)
-		    |
+	)
+;
+
+// Entry rule entryRuleSaveCSV
+entryRuleSaveCSV returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getSaveCSVRule()); }
+	iv_ruleSaveCSV=ruleSaveCSV
+	{ $current=$iv_ruleSaveCSV.current; }
+	EOF;
+
+// Rule SaveCSV
+ruleSaveCSV returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getSaveCSVAccess().getSaveCSVAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='save'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getSaveCSVAccess().getSaveKeyword_1());
+		}
 		(
 			(
 				{
-					$current = forceCreateModelElement(
-						grammarAccess.getActionsAccess().getSaveCSVAction_3_0(),
-						$current);
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getSaveCSVRule());
+					}
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getSaveCSVAccess().getOpenOpenCSVCrossReference_2_0());
 				}
 			)
-			otherlv_12='save'
-			{
-				newLeafNode(otherlv_12, grammarAccess.getActionsAccess().getSaveKeyword_3_1());
-			}
-			(
-				(
-					lv_name_13_0=RULE_ID
-					{
-						newLeafNode(lv_name_13_0, grammarAccess.getActionsAccess().getNameIDTerminalRuleCall_3_2_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getActionsRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"name",
-							lv_name_13_0,
-							"org.eclipse.xtext.xbase.Xtype.ID");
-					}
-				)
-			)
-			(
-				(
-					lv_file_14_0=RULE_STRING
-					{
-						newLeafNode(lv_file_14_0, grammarAccess.getActionsAccess().getFileSTRINGTerminalRuleCall_3_3_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getActionsRule());
-						}
-						setWithLastConsumed(
-							$current,
-							"file",
-							lv_file_14_0,
-							"org.eclipse.xtext.xbase.Xtype.STRING");
-					}
-				)
-			)?
 		)
+		(
+			(
+				lv_file_3_0=RULE_STRING
+				{
+					newLeafNode(lv_file_3_0, grammarAccess.getSaveCSVAccess().getFileSTRINGTerminalRuleCall_3_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getSaveCSVRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"file",
+						lv_file_3_0,
+						"org.eclipse.xtext.xbase.Xtype.STRING");
+				}
+			)
+		)?
 	)
 ;
 
