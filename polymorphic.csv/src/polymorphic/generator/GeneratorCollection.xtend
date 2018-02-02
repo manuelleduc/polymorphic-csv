@@ -4,7 +4,7 @@ import java.util.Map
 import polymorphic.generator.csv.ApacheCommonCsvGenerator
 import polymorphic.generator.csv.ICsvGenerator
 import polymorphic.generator.csv.JavaCsvGenerator
-import polymorphic.generator.csv.PythonGenerator
+import polymorphic.generator.csv.PythonCsvGenerator
 
 /**
  * TODO: should be replaced by a propre dependency injection mechanism.
@@ -15,7 +15,7 @@ class GeneratorCollection {
 	def getMap() {
 		map.put("java", new JavaCsvGenerator);
 		map.put("commons", new ApacheCommonCsvGenerator);
-		map.put("python", new PythonGenerator);
+		map.put("python", new PythonCsvGenerator);
 		map
 	}
 }

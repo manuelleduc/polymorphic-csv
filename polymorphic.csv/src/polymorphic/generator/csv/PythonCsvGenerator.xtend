@@ -13,7 +13,7 @@ import polymorphic.csv.SaveCSV
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
 
-class PythonGenerator implements ICsvGenerator {
+class PythonCsvGenerator implements ICsvGenerator {
 	override void generate(Model content, Language language, IFileSystemAccess2 fsa) { // TODO Auto-generated method stub
 		fsa.generateFile('''«content.name»/«language.name»/Dockerfile''', '''
 			FROM python
