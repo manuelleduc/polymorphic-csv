@@ -1,4 +1,15 @@
-target printz.my.Csv
-language Java
-read f1 "/tmp/test.csv"
-print f1
+package case1;
+
+constraints {
+	
+}
+
+languages {
+	java (generated.Code)
+	python (my.packag)
+}
+
+read f "/tmp/test.csv" latin1
+nbrow f
+save f "/tmp/test_copy.csv"
+print f
