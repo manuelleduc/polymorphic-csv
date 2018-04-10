@@ -18,23 +18,21 @@ Constraint:
 
 Language:
 	name=ID '(' target=QualifiedName ')';
-	
-	
 
 Action:
 	OpenCSV | RefOpenAction;
 
 OpenCSV:
-	{OpenCSV} 'read' name=ID file=STRING charset=('latin1'|'utf8');
-	
-	
+	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8');
+
 RefOpenAction:
-	PrintCSV | NbRow | SaveCSV
-;
+	PrintCSV | NbRow | SaveCSV;
+
 PrintCSV:
-	{PrintCSV} 'print' open=[OpenCSV|ID] ;
+	{PrintCSV} 'print' open=[OpenCSV|ID];
+
 NbRow:
-	{NbRow} 'nbrow' open=[OpenCSV|ID] ;
-	
+	{NbRow} 'nbrow' open=[OpenCSV|ID];
+
 SaveCSV:
 	{SaveCSV} 'save' open=[OpenCSV|ID] (file=STRING)?;
