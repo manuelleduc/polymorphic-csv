@@ -118,6 +118,8 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("# start print");
+    _builder.newLine();
     _builder.append("for ");
     String _name = print.getOpen().getName();
     _builder.append(_name);
@@ -132,6 +134,8 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.append(_name_1, "  ");
     _builder.append("_e))");
     _builder.newLineIfNotEmpty();
+    _builder.append("# end printprint");
+    _builder.newLine();
     return _builder;
   }
   
