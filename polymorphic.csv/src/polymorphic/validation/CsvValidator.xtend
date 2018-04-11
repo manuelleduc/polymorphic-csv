@@ -11,6 +11,7 @@ import polymorphic.csv.CsvPackage
 import org.eclipse.xtext.validation.Check
 import polymorphic.csv.Language
 import polymorphic.generator.GeneratorCollection
+import polymorphic.csv.RefOpenAction
 
 /**
  * This class contains custom validation rules. 
@@ -46,12 +47,19 @@ class CsvValidator extends AbstractCsvValidator {
 				DUPLICATE_OPEN_NAME)
 		}
 	}
-	
+
 	@Check
 	def checkLanguageExists(Language language) {
-		if(!generators.map.containsKey(language.name)) {
+		if (!generators.map.containsKey(language.name)) {
 			error('''Language «language.name» does not exist.''', language, CsvPackage::eINSTANCE.language_Name,
 				LANGUAGE_DOES_NOT_EXIST, language.name)
+		}
+	}
+
+	@Check
+	def isOpenCSVUsed(OpenCSV openCSV) {
+		if (!(openCSV.eContainer as Model).actions.filter(RefOpenAction).exists[roa|roa.open === openCSV]) {
+			warning('''This open is never used''', openCSV, CsvPackage::eINSTANCE.openCSV_Name)
 		}
 	}
 
