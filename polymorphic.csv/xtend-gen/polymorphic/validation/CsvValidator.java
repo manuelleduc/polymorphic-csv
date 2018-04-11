@@ -5,6 +5,7 @@ package polymorphic.validation;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.validation.Check;
@@ -15,6 +16,7 @@ import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.csv.OpenCSV;
+import polymorphic.csv.RefOpenAction;
 import polymorphic.generator.GeneratorCollection;
 import polymorphic.validation.AbstractCsvValidator;
 
@@ -88,6 +90,22 @@ public class CsvValidator extends AbstractCsvValidator {
       _builder.append(" does not exist.");
       this.error(_builder.toString(), language, CsvPackage.eINSTANCE.getLanguage_Name(), 
         CsvValidator.LANGUAGE_DOES_NOT_EXIST, language.getName());
+    }
+  }
+  
+  @Check
+  public void isOpenCSVUsed(final OpenCSV openCSV) {
+    EObject _eContainer = openCSV.eContainer();
+    final Function1<RefOpenAction, Boolean> _function = (RefOpenAction roa) -> {
+      OpenCSV _open = roa.getOpen();
+      return Boolean.valueOf((_open == openCSV));
+    };
+    boolean _exists = IterableExtensions.<RefOpenAction>exists(Iterables.<RefOpenAction>filter(((Model) _eContainer).getActions(), RefOpenAction.class), _function);
+    boolean _not = (!_exists);
+    if (_not) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("This open is never used");
+      this.warning(_builder.toString(), openCSV, CsvPackage.eINSTANCE.getOpenCSV_Name());
     }
   }
 }
