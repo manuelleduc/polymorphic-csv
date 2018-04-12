@@ -36,6 +36,98 @@ public class CsvParsingTest {
   private ValidationTestHelper _validationTestHelper;
   
   @Test
+  public void bashTest1() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package mpackage;");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.newLine();
+      _builder.append("constraints {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("java = true");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("maven = true");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("languages {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("bash (a.b.java.C)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("read a \"/tmp/test.csv\"");
+      _builder.newLine();
+      _builder.append("print a");
+      _builder.newLine();
+      _builder.append("//save a");
+      _builder.newLine();
+      _builder.append("save a \"/tmp/test2.csv\"");
+      _builder.newLine();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("MULTIPLE FILES WERE GENERATED");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("File 1 : /myProject/./src-gen/mpackage/bash/a/b/java/C.sh");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("#!/bin/bash");
+      _builder_1.newLine();
+      _builder_1.append("cat /tmp/test.csv");
+      _builder_1.newLine();
+      _builder_1.append("cp /tmp/test.csv /tmp/test2.csv");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("File 2 : /myProject/./src-gen/mpackage/build.sh");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("mkdir -p ./inputs");
+      _builder_1.newLine();
+      _builder_1.append("rm -r ./bash/inputs");
+      _builder_1.newLine();
+      _builder_1.append("cp -r ./inputs ./bash/inputs");
+      _builder_1.newLine();
+      _builder_1.append("docker-compose build");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("File 3 : /myProject/./src-gen/mpackage/docker-compose.yml");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("version: \'3\'");
+      _builder_1.newLine();
+      _builder_1.append("services:");
+      _builder_1.newLine();
+      _builder_1.append("  ");
+      _builder_1.append("bash:");
+      _builder_1.newLine();
+      _builder_1.append("    ");
+      _builder_1.append("build:");
+      _builder_1.newLine();
+      _builder_1.append("      ");
+      _builder_1.append("context: ./bash");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("File 4 : /myProject/./src-gen/mpackage/run.sh");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("rm -r ./logs");
+      _builder_1.newLine();
+      _builder_1.append("mkdir -p ./logs");
+      _builder_1.newLine();
+      _builder_1.append("docker-compose up");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      this._compilationTestHelper.assertCompilesTo(_builder, _builder_1);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  @Test
   public void loadModel() {
     try {
       StringConcatenation _builder = new StringConcatenation();
