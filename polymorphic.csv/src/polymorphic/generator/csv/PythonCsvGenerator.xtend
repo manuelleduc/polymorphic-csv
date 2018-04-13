@@ -55,10 +55,8 @@ class PythonCsvGenerator implements ICsvGenerator {
 	private def dispatch CharSequence pythonAction(OpenCSV open) ''''''
 
 	private def dispatch CharSequence pythonAction(PrintCSV print) '''
-		# start print
 		for «print.open.name»_e in csv.reader(«print.openAction»):
 		  print(', '.join(«print.open.name»_e))
-		# end printprint
 	'''
 
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
