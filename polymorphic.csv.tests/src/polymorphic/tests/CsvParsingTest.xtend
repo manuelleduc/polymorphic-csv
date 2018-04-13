@@ -68,10 +68,35 @@ class CsvParsingTest {
 		rm -r ./logs
 		mkdir -p ./logs
 		docker-compose up
-		
 		''')
-		
 	}
+	
+	@Test
+	def bashTest2(){
+		'''
+		package mpackage;
+					
+		constraints {
+			java = true
+			maven = true
+		}
+		languages {
+			bash (a.b.java.C)
+		}
+		read a "/tmp/test.csv"
+		print a
+		//save a
+		save a "/tmp/test2.csv"
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/uuu/build.sh''' -> '''	
+		File 1 : /myProject/./src-gen/mpackage/bash/a/b/java/C.sh
+		
+		#!/bin/bash
+		cat /tmp/test.csv
+		cp /tmp/test.csv /tmp/test2.csv
+		'''}
+		)
+	}
+	
 	@Test
 	def void loadModel() {
 		'''
@@ -90,8 +115,7 @@ class CsvParsingTest {
 			print a
 			//save a
 			save a "/tmp/test2.csv"
-		'''.assertFileCompilesTo(
-			#{'''/myProject/./src-gen/uuu/build.sh''' -> '''
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/uuu/build.sh''' -> '''
 				mkdir -p ./inputs
 				rm -r ./java/inputs
 				cp -r ./inputs ./java/inputs
@@ -353,8 +377,8 @@ class CsvParsingTest {
 			rm -r ./logs
 			mkdir -p ./logs
 			docker-compose up
-		'''})
-
+		'''}
+		)
 	}
 
 	@Test
@@ -575,7 +599,8 @@ class CsvParsingTest {
 			mkdir -p ./logs
 			docker-compose up
 			
-		'''})
+		'''}
+		)
 	}
 
 	@Test

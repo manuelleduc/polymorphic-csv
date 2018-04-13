@@ -123,8 +123,59 @@ public class CsvParsingTest {
       _builder_1.newLine();
       _builder_1.append("docker-compose up");
       _builder_1.newLine();
-      _builder_1.newLine();
-      this._compilationTestHelper.assertCompilesTo(_builder, _builder_1);
+      this._polymorphicCsvCompilationTestHelper.assertCompilesTo(_builder, _builder_1);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  @Test
+  public void bashTest2() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package mpackage;");
+      _builder.newLine();
+      _builder.append("\t\t\t");
+      _builder.newLine();
+      _builder.append("constraints {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("java = true");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("maven = true");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("languages {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("bash (a.b.java.C)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("read a \"/tmp/test.csv\"");
+      _builder.newLine();
+      _builder.append("print a");
+      _builder.newLine();
+      _builder.append("//save a");
+      _builder.newLine();
+      _builder.append("save a \"/tmp/test2.csv\"");
+      _builder.newLine();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("/myProject/./src-gen/uuu/build.sh");
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("File 1 : /myProject/./src-gen/mpackage/bash/a/b/java/C.sh");
+      _builder_2.newLine();
+      _builder_2.newLine();
+      _builder_2.append("#!/bin/bash");
+      _builder_2.newLine();
+      _builder_2.append("cat /tmp/test.csv");
+      _builder_2.newLine();
+      _builder_2.append("cp /tmp/test.csv /tmp/test2.csv");
+      _builder_2.newLine();
+      Pair<String, String> _mappedTo = Pair.<String, String>of(_builder_1.toString(), _builder_2.toString());
+      this._polymorphicCsvCompilationTestHelper.assertFileCompilesTo(_builder, Collections.<String, CharSequence>unmodifiableMap(CollectionLiterals.<String, CharSequence>newHashMap(_mappedTo)));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -741,8 +792,7 @@ public class CsvParsingTest {
       _builder_22.append("docker-compose up");
       _builder_22.newLine();
       Pair<String, String> _mappedTo_10 = Pair.<String, String>of(_builder_21.toString(), _builder_22.toString());
-      this._polymorphicCsvCompilationTestHelper.assertFileCompilesTo(_builder, 
-        Collections.<String, CharSequence>unmodifiableMap(CollectionLiterals.<String, CharSequence>newHashMap(_mappedTo, _mappedTo_1, _mappedTo_2, _mappedTo_3, _mappedTo_4, _mappedTo_5, _mappedTo_6, _mappedTo_7, _mappedTo_8, _mappedTo_9, _mappedTo_10)));
+      this._polymorphicCsvCompilationTestHelper.assertFileCompilesTo(_builder, Collections.<String, CharSequence>unmodifiableMap(CollectionLiterals.<String, CharSequence>newHashMap(_mappedTo, _mappedTo_1, _mappedTo_2, _mappedTo_3, _mappedTo_4, _mappedTo_5, _mappedTo_6, _mappedTo_7, _mappedTo_8, _mappedTo_9, _mappedTo_10)));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
