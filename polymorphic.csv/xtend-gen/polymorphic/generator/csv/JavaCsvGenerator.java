@@ -401,8 +401,6 @@ public class JavaCsvGenerator implements ICsvGenerator {
   
   private CharSequence _javaAction(final OpenCSV open, final CharSequence className) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("// Action java");
-    _builder.newLine();
     _builder.append(className);
     _builder.append(" ");
     String _name = open.getName();
