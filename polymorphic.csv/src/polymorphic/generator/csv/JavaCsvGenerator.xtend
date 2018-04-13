@@ -152,7 +152,6 @@ class JavaCsvGenerator implements ICsvGenerator {
 
 	private def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
 		'''
-			// Action java
 			«className» «open.name» = new «className»();
 			«open.name».open(new File("«open.file»"));
 		'''
