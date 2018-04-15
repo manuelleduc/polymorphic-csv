@@ -21,7 +21,6 @@ class CsvParsingTest {
 	@Inject extension ParseHelper<Model>
 	@Inject extension PolymorphicCsvCompilationTestHelper
 	@Inject extension ValidationTestHelper
-	
 
 	@Test
 	def bashTest1(){
@@ -37,7 +36,6 @@ class CsvParsingTest {
 		}
 		read a "/tmp/test.csv"
 		print a
-		//save a
 		save a "/tmp/test2.csv"
 		'''.assertCompilesTo('''
 		MULTIPLE FILES WERE GENERATED
@@ -68,6 +66,7 @@ class CsvParsingTest {
 		rm -r ./logs
 		mkdir -p ./logs
 		docker-compose up
+		
 		''')
 	}
 	
@@ -85,14 +84,38 @@ class CsvParsingTest {
 		}
 		read a "/tmp/test.csv"
 		print a
-		//save a
 		save a "/tmp/test2.csv"
-		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/uuu/build.sh''' -> '''	
-		File 1 : /myProject/./src-gen/mpackage/bash/a/b/java/C.sh
-		
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/mpackage/bash/a/b/java/C.sh''' -> '''	
 		#!/bin/bash
 		cat /tmp/test.csv
 		cp /tmp/test.csv /tmp/test2.csv
+		'''}
+		)
+	}
+	
+	@Test
+	def bashTest3(){
+		'''
+		package important;
+		
+		constraints {
+			
+		}
+		
+		languages {
+			bash (truc)
+		}
+		
+		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
+		print aaa
+		nbrow aaa
+		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
+
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/bash/truc.sh''' -> '''	
+		#!/bin/bash
+		cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]
+		cp /home/yannick/Bureau/dossier_test/Sans_nom_1.csv /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
 		'''}
 		)
 	}
