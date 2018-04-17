@@ -7,6 +7,7 @@ import polymorphic.generator.csv.BashCsvGenerator;
 import polymorphic.generator.csv.ICsvGenerator;
 import polymorphic.generator.csv.JavaCsvGenerator;
 import polymorphic.generator.csv.PythonCsvGenerator;
+import polymorphic.generator.csv.RCsvGenerator;
 
 /**
  * TODO: should be replaced by a propre dependency injection mechanism.
@@ -24,6 +25,8 @@ public class GeneratorCollection {
     this.map.put("python", _pythonCsvGenerator);
     BashCsvGenerator _bashCsvGenerator = new BashCsvGenerator();
     this.map.put("bash", _bashCsvGenerator);
+    RCsvGenerator _rCsvGenerator = new RCsvGenerator();
+    this.map.put("R", _rCsvGenerator);
     return this.map;
   }
 }

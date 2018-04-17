@@ -21,7 +21,7 @@ class CsvGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val content = resource.contents.head as Model
 		content.languages.forEach [ language |
-			generators.map.get(language.name.toLowerCase).generate(content, language, fsa)
+			generators.map.get(language.name).generate(content, language, fsa)
 		]
 
 		fsa.generateFile('''«content.name»/docker-compose.yml''', '''

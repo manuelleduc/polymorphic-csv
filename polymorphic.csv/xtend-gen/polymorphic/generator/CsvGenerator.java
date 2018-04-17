@@ -30,7 +30,7 @@ public class CsvGenerator extends AbstractGenerator {
     EObject _head = IterableExtensions.<EObject>head(resource.getContents());
     final Model content = ((Model) _head);
     final Consumer<Language> _function = (Language language) -> {
-      this.generators.getMap().get(language.getName().toLowerCase()).generate(content, language, fsa);
+      this.generators.getMap().get(language.getName()).generate(content, language, fsa);
     };
     content.getLanguages().forEach(_function);
     StringConcatenation _builder = new StringConcatenation();

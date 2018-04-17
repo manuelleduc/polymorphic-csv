@@ -17,7 +17,7 @@ import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
-public class BashCsvGenerator implements ICsvGenerator {
+public class RCsvGenerator implements ICsvGenerator {
   @Override
   public void generate(final Model content, final Language language, final IFileSystemAccess2 fsa) {
     StringConcatenation _builder = new StringConcatenation();
@@ -29,72 +29,68 @@ public class BashCsvGenerator implements ICsvGenerator {
     _builder.append("/");
     String _replaceAll = language.getTarget().replaceAll("\\.", "/");
     _builder.append(_replaceAll);
-    _builder.append(".sh");
+    _builder.append(".R");
     StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append("#!/bin/bash");
-    _builder_1.newLine();
     {
       EList<Action> _actions = content.getActions();
       for(final Action action : _actions) {
-        CharSequence _bashAction = this.bashAction(action);
-        _builder_1.append(_bashAction);
+        CharSequence _RAction = this.RAction(action);
+        _builder_1.append(_RAction);
         _builder_1.newLineIfNotEmpty();
       }
     }
     fsa.generateFile(_builder.toString(), _builder_1);
   }
   
-  private CharSequence _bashAction(final OpenCSV open) {
+  private CharSequence _RAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
-    return _builder;
-  }
-  
-  private CharSequence _bashAction(final PrintCSV print) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cat ");
-    String _file = print.getOpen().getFile();
+    _builder.append("table = read.csv(\"");
+    String _file = open.getFile();
     _builder.append(_file);
+    _builder.append("\", header=TRUE, sep=\",\")");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  private CharSequence _bashAction(final NbRow nbrow) {
+  private CharSequence _RAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("echo $[$(wc -l < ");
-    String _file = nbrow.getOpen().getFile();
-    _builder.append(_file);
-    _builder.append(")-1]");
-    _builder.newLineIfNotEmpty();
+    _builder.append("table");
+    _builder.newLine();
     return _builder;
   }
   
-  private CharSequence _bashAction(final SaveCSV save) {
+  private CharSequence _RAction(final NbRow nbrow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cp ");
-    String _file = save.getOpen().getFile();
+    _builder.append("nrow(table)");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  private CharSequence _RAction(final SaveCSV save) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("write.csv(table, \"");
+    String _file = save.getFile();
     _builder.append(_file);
-    _builder.append(" ");
-    String _file_1 = save.getFile();
-    _builder.append(_file_1);
+    _builder.append("\", quote=FALSE, row.names=FALSE)");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   @Override
   public Map<String, Boolean> properties() {
-    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("bash", Boolean.valueOf(true));
+    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("R", Boolean.valueOf(true));
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  private CharSequence bashAction(final Action nbrow) {
+  private CharSequence RAction(final Action nbrow) {
     if (nbrow instanceof NbRow) {
-      return _bashAction((NbRow)nbrow);
+      return _RAction((NbRow)nbrow);
     } else if (nbrow instanceof PrintCSV) {
-      return _bashAction((PrintCSV)nbrow);
+      return _RAction((PrintCSV)nbrow);
     } else if (nbrow instanceof SaveCSV) {
-      return _bashAction((SaveCSV)nbrow);
+      return _RAction((SaveCSV)nbrow);
     } else if (nbrow instanceof OpenCSV) {
-      return _bashAction((OpenCSV)nbrow);
+      return _RAction((OpenCSV)nbrow);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(nbrow).toString());

@@ -34,7 +34,7 @@ class BashCsvGenerator implements ICsvGenerator {
 	'''
 
 	override properties() {
-		newHashMap()
+		newHashMap("bash" -> true)
 	}
 
 }
