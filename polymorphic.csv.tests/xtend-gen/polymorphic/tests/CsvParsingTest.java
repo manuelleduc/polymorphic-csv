@@ -225,7 +225,7 @@ public class CsvParsingTest {
   }
   
   @Test
-  public void bashR() {
+  public void RTest() {
     try {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package important;");
@@ -241,7 +241,7 @@ public class CsvParsingTest {
       _builder.append("languages {");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("bash (truc)");
+      _builder.append("R (file_R)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -256,15 +256,15 @@ public class CsvParsingTest {
       _builder.newLine();
       _builder.newLine();
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("/myProject/./src-gen/important/bash/truc.sh");
+      _builder_1.append("/myProject/./src-gen/important/R/file_R.R");
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("#!/bin/bash");
+      _builder_2.append("aaa = read.csv(\"/home/yannick/Bureau/dossier_test/Sans_nom_1.csv\", header=TRUE, sep=\",\")");
       _builder_2.newLine();
-      _builder_2.append("cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv");
+      _builder_2.append("aaa");
       _builder_2.newLine();
-      _builder_2.append("echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]");
+      _builder_2.append("nrow(aaa)");
       _builder_2.newLine();
-      _builder_2.append("cp /home/yannick/Bureau/dossier_test/Sans_nom_1.csv /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
+      _builder_2.append("write.csv(aaa, \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\", quote=FALSE, row.names=FALSE)");
       _builder_2.newLine();
       Pair<String, String> _mappedTo = Pair.<String, String>of(_builder_1.toString(), _builder_2.toString());
       this._polymorphicCsvCompilationTestHelper.assertFileCompilesTo(_builder, Collections.<String, CharSequence>unmodifiableMap(CollectionLiterals.<String, CharSequence>newHashMap(_mappedTo)));
