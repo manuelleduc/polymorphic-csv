@@ -336,6 +336,34 @@ public interface CsvPackage extends EPackage
   int NB_ROW_FEATURE_COUNT = REF_OPEN_ACTION_FEATURE_COUNT + 0;
 
   /**
+   * The meta object id for the '{@link polymorphic.csv.impl.NbColImpl <em>Nb Col</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see polymorphic.csv.impl.NbColImpl
+   * @see polymorphic.csv.impl.CsvPackageImpl#getNbCol()
+   * @generated
+   */
+  int NB_COL = 8;
+
+  /**
+   * The feature id for the '<em><b>Open</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NB_COL__OPEN = REF_OPEN_ACTION__OPEN;
+
+  /**
+   * The number of structural features of the '<em>Nb Col</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NB_COL_FEATURE_COUNT = REF_OPEN_ACTION_FEATURE_COUNT + 0;
+
+  /**
    * The meta object id for the '{@link polymorphic.csv.impl.SaveCSVImpl <em>Save CSV</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -343,7 +371,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getSaveCSV()
    * @generated
    */
-  int SAVE_CSV = 8;
+  int SAVE_CSV = 9;
 
   /**
    * The feature id for the '<em><b>Open</b></em>' reference.
@@ -586,6 +614,16 @@ public interface CsvPackage extends EPackage
   EClass getNbRow();
 
   /**
+   * Returns the meta object for class '{@link polymorphic.csv.NbCol <em>Nb Col</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Nb Col</em>'.
+   * @see polymorphic.csv.NbCol
+   * @generated
+   */
+  EClass getNbCol();
+
+  /**
    * Returns the meta object for class '{@link polymorphic.csv.SaveCSV <em>Save CSV</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -804,6 +842,16 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EClass NB_ROW = eINSTANCE.getNbRow();
+
+    /**
+     * The meta object literal for the '{@link polymorphic.csv.impl.NbColImpl <em>Nb Col</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see polymorphic.csv.impl.NbColImpl
+     * @see polymorphic.csv.impl.CsvPackageImpl#getNbCol()
+     * @generated
+     */
+    EClass NB_COL = eINSTANCE.getNbCol();
 
     /**
      * The meta object literal for the '{@link polymorphic.csv.impl.SaveCSVImpl <em>Save CSV</em>}' class.

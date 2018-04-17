@@ -121,6 +121,33 @@ class CsvParsingTest {
 	}
 	
 	@Test
+	def bashR(){
+		'''
+		package important;
+		
+		constraints {
+			
+		}
+		
+		languages {
+			bash (truc)
+		}
+		
+		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
+		print aaa
+		nbrow aaa
+		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
+
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/bash/truc.sh''' -> '''	
+		#!/bin/bash
+		cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]
+		cp /home/yannick/Bureau/dossier_test/Sans_nom_1.csv /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		'''}
+		)
+	}
+	
+	@Test
 	def void loadModel() {
 		'''
 			package uuu;

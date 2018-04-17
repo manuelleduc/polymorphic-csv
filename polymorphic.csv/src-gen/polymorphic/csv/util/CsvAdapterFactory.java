@@ -116,6 +116,11 @@ public class CsvAdapterFactory extends AdapterFactoryImpl
         return createNbRowAdapter();
       }
       @Override
+      public Adapter caseNbCol(NbCol object)
+      {
+        return createNbColAdapter();
+      }
+      @Override
       public Adapter caseSaveCSV(SaveCSV object)
       {
         return createSaveCSVAdapter();
@@ -258,6 +263,21 @@ public class CsvAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createNbRowAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link polymorphic.csv.NbCol <em>Nb Col</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see polymorphic.csv.NbCol
+   * @generated
+   */
+  public Adapter createNbColAdapter()
   {
     return null;
   }

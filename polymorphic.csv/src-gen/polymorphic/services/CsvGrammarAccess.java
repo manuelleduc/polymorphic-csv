@@ -261,13 +261,14 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cPrintCSVParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cNbRowParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cSaveCSVParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cNbColParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cSaveCSVParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//RefOpenAction:
-		//	PrintCSV | NbRow | SaveCSV;
+		//	PrintCSV | NbRow | NbCol | SaveCSV;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//PrintCSV | NbRow | SaveCSV
+		//PrintCSV | NbRow | NbCol | SaveCSV
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//PrintCSV
@@ -276,8 +277,11 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		//NbRow
 		public RuleCall getNbRowParserRuleCall_1() { return cNbRowParserRuleCall_1; }
 		
+		//NbCol
+		public RuleCall getNbColParserRuleCall_2() { return cNbColParserRuleCall_2; }
+		
 		//SaveCSV
-		public RuleCall getSaveCSVParserRuleCall_2() { return cSaveCSVParserRuleCall_2; }
+		public RuleCall getSaveCSVParserRuleCall_3() { return cSaveCSVParserRuleCall_3; }
 	}
 	public class PrintCSVElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.PrintCSV");
@@ -341,6 +345,37 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getOpenOpenCSVIDTerminalRuleCall_2_0_1() { return cOpenOpenCSVIDTerminalRuleCall_2_0_1; }
 	}
+	public class NbColElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.NbCol");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cNbColAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cNbcolKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cOpenAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cOpenOpenCSVCrossReference_2_0 = (CrossReference)cOpenAssignment_2.eContents().get(0);
+		private final RuleCall cOpenOpenCSVIDTerminalRuleCall_2_0_1 = (RuleCall)cOpenOpenCSVCrossReference_2_0.eContents().get(1);
+		
+		//NbCol:
+		//	{NbCol} 'nbcol' open=[OpenCSV];
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{NbCol} 'nbcol' open=[OpenCSV]
+		public Group getGroup() { return cGroup; }
+		
+		//{NbCol}
+		public Action getNbColAction_0() { return cNbColAction_0; }
+		
+		//'nbcol'
+		public Keyword getNbcolKeyword_1() { return cNbcolKeyword_1; }
+		
+		//open=[OpenCSV]
+		public Assignment getOpenAssignment_2() { return cOpenAssignment_2; }
+		
+		//[OpenCSV]
+		public CrossReference getOpenOpenCSVCrossReference_2_0() { return cOpenOpenCSVCrossReference_2_0; }
+		
+		//ID
+		public RuleCall getOpenOpenCSVIDTerminalRuleCall_2_0_1() { return cOpenOpenCSVIDTerminalRuleCall_2_0_1; }
+	}
 	public class SaveCSVElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "polymorphic.Csv.SaveCSV");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -390,6 +425,7 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 	private final RefOpenActionElements pRefOpenAction;
 	private final PrintCSVElements pPrintCSV;
 	private final NbRowElements pNbRow;
+	private final NbColElements pNbCol;
 	private final SaveCSVElements pSaveCSV;
 	
 	private final Grammar grammar;
@@ -409,6 +445,7 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 		this.pRefOpenAction = new RefOpenActionElements();
 		this.pPrintCSV = new PrintCSVElements();
 		this.pNbRow = new NbRowElements();
+		this.pNbCol = new NbColElements();
 		this.pSaveCSV = new SaveCSVElements();
 	}
 	
@@ -498,7 +535,7 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//RefOpenAction:
-	//	PrintCSV | NbRow | SaveCSV;
+	//	PrintCSV | NbRow | NbCol | SaveCSV;
 	public RefOpenActionElements getRefOpenActionAccess() {
 		return pRefOpenAction;
 	}
@@ -525,6 +562,16 @@ public class CsvGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getNbRowRule() {
 		return getNbRowAccess().getRule();
+	}
+	
+	//NbCol:
+	//	{NbCol} 'nbcol' open=[OpenCSV];
+	public NbColElements getNbColAccess() {
+		return pNbCol;
+	}
+	
+	public ParserRule getNbColRule() {
+		return getNbColAccess().getRule();
 	}
 	
 	//SaveCSV:

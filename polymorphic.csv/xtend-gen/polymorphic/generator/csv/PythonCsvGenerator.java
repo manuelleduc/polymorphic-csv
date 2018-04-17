@@ -15,6 +15,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -145,6 +146,11 @@ public class PythonCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
+  private CharSequence _pythonAction(final NbCol nbCol) {
+    StringConcatenation _builder = new StringConcatenation();
+    return _builder;
+  }
+  
   private CharSequence _pythonAction(final SaveCSV save) {
     CharSequence _xblockexpression = null;
     {
@@ -208,18 +214,20 @@ public class PythonCsvGenerator implements ICsvGenerator {
     return roa.getOpen().getName();
   }
   
-  private CharSequence pythonAction(final Action nbRow) {
-    if (nbRow instanceof NbRow) {
-      return _pythonAction((NbRow)nbRow);
-    } else if (nbRow instanceof PrintCSV) {
-      return _pythonAction((PrintCSV)nbRow);
-    } else if (nbRow instanceof SaveCSV) {
-      return _pythonAction((SaveCSV)nbRow);
-    } else if (nbRow instanceof OpenCSV) {
-      return _pythonAction((OpenCSV)nbRow);
+  private CharSequence pythonAction(final Action nbCol) {
+    if (nbCol instanceof NbCol) {
+      return _pythonAction((NbCol)nbCol);
+    } else if (nbCol instanceof NbRow) {
+      return _pythonAction((NbRow)nbCol);
+    } else if (nbCol instanceof PrintCSV) {
+      return _pythonAction((PrintCSV)nbCol);
+    } else if (nbCol instanceof SaveCSV) {
+      return _pythonAction((SaveCSV)nbCol);
+    } else if (nbCol instanceof OpenCSV) {
+      return _pythonAction((OpenCSV)nbCol);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbRow).toString());
+        Arrays.<Object>asList(nbCol).toString());
     }
   }
   

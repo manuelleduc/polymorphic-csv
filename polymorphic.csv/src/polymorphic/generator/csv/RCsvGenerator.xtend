@@ -7,6 +7,7 @@ import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.csv.NbRow
 import polymorphic.csv.SaveCSV
+import polymorphic.csv.NbCol
 
 class RCsvGenerator implements ICsvGenerator {
 	
@@ -19,19 +20,21 @@ class RCsvGenerator implements ICsvGenerator {
 	}
 	
 	private def dispatch CharSequence RAction(OpenCSV open) '''
-	table = read.csv("«open.file»", header=TRUE, sep=",")
+	«open.name» = read.csv("«open.file»", header=TRUE, sep=",")
 	'''
 	
 	private def dispatch CharSequence RAction(PrintCSV print) '''
-	table
+	«print.open.name»
 	'''
 	
 	private def dispatch CharSequence RAction(NbRow nbrow) '''
-	nrow(table)
+	nrow(«nbrow.open.name»)
 	'''
 	
+	private def dispatch CharSequence RAction(NbCol nbcol) ''''''
+	
 	private def dispatch CharSequence RAction(SaveCSV save) '''
-	write.csv(table, "«save.file»", quote=FALSE, row.names=FALSE)
+	write.csv(«save.open.name», "«save.file»", quote=FALSE, row.names=FALSE)
 	'''
 
 	override properties() {

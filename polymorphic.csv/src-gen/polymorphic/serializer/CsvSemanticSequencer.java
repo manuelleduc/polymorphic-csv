@@ -30,6 +30,7 @@ import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -58,6 +59,9 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 				return; 
 			case CsvPackage.MODEL:
 				sequence_Model(context, (Model) semanticObject); 
+				return; 
+			case CsvPackage.NB_COL:
+				sequence_NbCol(context, (NbCol) semanticObject); 
 				return; 
 			case CsvPackage.NB_ROW:
 				sequence_NbRow(context, (NbRow) semanticObject); 
@@ -178,6 +182,26 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Action returns NbCol
+	 *     RefOpenAction returns NbCol
+	 *     NbCol returns NbCol
+	 *
+	 * Constraint:
+	 *     open=[OpenCSV|ID]
+	 */
+	protected void sequence_NbCol(ISerializationContext context, NbCol semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, CsvPackage.Literals.REF_OPEN_ACTION__OPEN) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, CsvPackage.Literals.REF_OPEN_ACTION__OPEN));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getNbColAccess().getOpenOpenCSVIDTerminalRuleCall_2_0_1(), semanticObject.eGet(CsvPackage.Literals.REF_OPEN_ACTION__OPEN, false));
+		feeder.finish();
 	}
 	
 	

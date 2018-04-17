@@ -10,6 +10,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -68,6 +69,11 @@ public class BashCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
+  private CharSequence _bashAction(final NbCol nbcol) {
+    StringConcatenation _builder = new StringConcatenation();
+    return _builder;
+  }
+  
   private CharSequence _bashAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("cp ");
@@ -86,18 +92,20 @@ public class BashCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  private CharSequence bashAction(final Action nbrow) {
-    if (nbrow instanceof NbRow) {
-      return _bashAction((NbRow)nbrow);
-    } else if (nbrow instanceof PrintCSV) {
-      return _bashAction((PrintCSV)nbrow);
-    } else if (nbrow instanceof SaveCSV) {
-      return _bashAction((SaveCSV)nbrow);
-    } else if (nbrow instanceof OpenCSV) {
-      return _bashAction((OpenCSV)nbrow);
+  private CharSequence bashAction(final Action nbcol) {
+    if (nbcol instanceof NbCol) {
+      return _bashAction((NbCol)nbcol);
+    } else if (nbcol instanceof NbRow) {
+      return _bashAction((NbRow)nbcol);
+    } else if (nbcol instanceof PrintCSV) {
+      return _bashAction((PrintCSV)nbcol);
+    } else if (nbcol instanceof SaveCSV) {
+      return _bashAction((SaveCSV)nbcol);
+    } else if (nbcol instanceof OpenCSV) {
+      return _bashAction((OpenCSV)nbcol);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbrow).toString());
+        Arrays.<Object>asList(nbcol).toString());
     }
   }
 }

@@ -12,6 +12,7 @@ import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import polymorphic.csv.NbCol
 
 class PythonCsvGenerator implements ICsvGenerator {
 	
@@ -63,6 +64,8 @@ class PythonCsvGenerator implements ICsvGenerator {
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
 		print(sum(1 for row in csv.reader(«nbRow.openAction»)))
 	'''
+	
+	private def dispatch CharSequence pythonAction(NbCol nbCol) ''''''
 
 	private def dispatch CharSequence pythonAction(SaveCSV save) {
 		val outputfile = if (save.file !== null)

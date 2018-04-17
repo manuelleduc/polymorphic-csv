@@ -14,6 +14,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -250,6 +251,12 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     String _name = nbRow.getOpen().getName();
     _builder.append(_name);
     _builder.append(".size());");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  private CharSequence _javaAction(final NbCol nbCol, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+    StringConcatenation _builder = new StringConcatenation();
     return _builder;
   }
   
@@ -295,18 +302,20 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo, _mappedTo_1);
   }
   
-  private CharSequence javaAction(final Action nbRow, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
-    if (nbRow instanceof NbRow) {
-      return _javaAction((NbRow)nbRow, className, ctx);
-    } else if (nbRow instanceof PrintCSV) {
-      return _javaAction((PrintCSV)nbRow, className, ctx);
-    } else if (nbRow instanceof SaveCSV) {
-      return _javaAction((SaveCSV)nbRow, className, ctx);
-    } else if (nbRow instanceof OpenCSV) {
-      return _javaAction((OpenCSV)nbRow, className, ctx);
+  private CharSequence javaAction(final Action nbCol, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+    if (nbCol instanceof NbCol) {
+      return _javaAction((NbCol)nbCol, className, ctx);
+    } else if (nbCol instanceof NbRow) {
+      return _javaAction((NbRow)nbCol, className, ctx);
+    } else if (nbCol instanceof PrintCSV) {
+      return _javaAction((PrintCSV)nbCol, className, ctx);
+    } else if (nbCol instanceof SaveCSV) {
+      return _javaAction((SaveCSV)nbCol, className, ctx);
+    } else if (nbCol instanceof OpenCSV) {
+      return _javaAction((OpenCSV)nbCol, className, ctx);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbRow, className, ctx).toString());
+        Arrays.<Object>asList(nbCol, className, ctx).toString());
     }
   }
 }

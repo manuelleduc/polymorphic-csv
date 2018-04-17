@@ -10,6 +10,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -44,7 +45,9 @@ public class RCsvGenerator implements ICsvGenerator {
   
   private CharSequence _RAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("table = read.csv(\"");
+    String _name = open.getName();
+    _builder.append(_name);
+    _builder.append(" = read.csv(\"");
     String _file = open.getFile();
     _builder.append(_file);
     _builder.append("\", header=TRUE, sep=\",\")");
@@ -54,21 +57,33 @@ public class RCsvGenerator implements ICsvGenerator {
   
   private CharSequence _RAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("table");
-    _builder.newLine();
+    String _name = print.getOpen().getName();
+    _builder.append(_name);
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   private CharSequence _RAction(final NbRow nbrow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("nrow(table)");
-    _builder.newLine();
+    _builder.append("nrow(");
+    String _name = nbrow.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(")");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  private CharSequence _RAction(final NbCol nbcol) {
+    StringConcatenation _builder = new StringConcatenation();
     return _builder;
   }
   
   private CharSequence _RAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("write.csv(table, \"");
+    _builder.append("write.csv(");
+    String _name = save.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(", \"");
     String _file = save.getFile();
     _builder.append(_file);
     _builder.append("\", quote=FALSE, row.names=FALSE)");
@@ -82,18 +97,20 @@ public class RCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  private CharSequence RAction(final Action nbrow) {
-    if (nbrow instanceof NbRow) {
-      return _RAction((NbRow)nbrow);
-    } else if (nbrow instanceof PrintCSV) {
-      return _RAction((PrintCSV)nbrow);
-    } else if (nbrow instanceof SaveCSV) {
-      return _RAction((SaveCSV)nbrow);
-    } else if (nbrow instanceof OpenCSV) {
-      return _RAction((OpenCSV)nbrow);
+  private CharSequence RAction(final Action nbcol) {
+    if (nbcol instanceof NbCol) {
+      return _RAction((NbCol)nbcol);
+    } else if (nbcol instanceof NbRow) {
+      return _RAction((NbRow)nbcol);
+    } else if (nbcol instanceof PrintCSV) {
+      return _RAction((PrintCSV)nbcol);
+    } else if (nbcol instanceof SaveCSV) {
+      return _RAction((SaveCSV)nbcol);
+    } else if (nbcol instanceof OpenCSV) {
+      return _RAction((OpenCSV)nbcol);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbrow).toString());
+        Arrays.<Object>asList(nbcol).toString());
     }
   }
 }

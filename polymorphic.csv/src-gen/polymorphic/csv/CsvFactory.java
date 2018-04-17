@@ -96,6 +96,15 @@ public interface CsvFactory extends EFactory
   NbRow createNbRow();
 
   /**
+   * Returns a new object of class '<em>Nb Col</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Nb Col</em>'.
+   * @generated
+   */
+  NbCol createNbCol();
+
+  /**
    * Returns a new object of class '<em>Save CSV</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

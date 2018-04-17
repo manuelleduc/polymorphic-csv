@@ -8,6 +8,7 @@ import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
+import polymorphic.csv.NbCol
 
 class ApacheCommonCsvGenerator implements ICsvGenerator {
 
@@ -97,7 +98,11 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 	}
 
 	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className,
-		Context ctx) '''System.out.println(«nbRow.open.name».size());'''
+		Context ctx) '''System.out.println(«nbRow.open.name».size());
+		'''
+		
+	private def dispatch CharSequence javaAction(NbCol nbCol, CharSequence className,
+		Context ctx) ''''''
 
 	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {
 		val file = if(save.file !== null) save.file else save.open.file

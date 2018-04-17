@@ -135,6 +135,15 @@ public class CsvSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case CsvPackage.NB_COL:
+      {
+        NbCol nbCol = (NbCol)theEObject;
+        T result = caseNbCol(nbCol);
+        if (result == null) result = caseRefOpenAction(nbCol);
+        if (result == null) result = caseAction(nbCol);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case CsvPackage.SAVE_CSV:
       {
         SaveCSV saveCSV = (SaveCSV)theEObject;
@@ -272,6 +281,22 @@ public class CsvSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseNbRow(NbRow object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Nb Col</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Nb Col</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNbCol(NbCol object)
   {
     return null;
   }

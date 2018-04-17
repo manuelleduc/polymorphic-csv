@@ -14,6 +14,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -439,6 +440,11 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
+  private CharSequence _javaAction(final NbCol nbCol, final CharSequence className) {
+    StringConcatenation _builder = new StringConcatenation();
+    return _builder;
+  }
+  
   private CharSequence _javaAction(final SaveCSV save, final CharSequence className) {
     CharSequence _xblockexpression = null;
     {
@@ -469,18 +475,20 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  private CharSequence javaAction(final Action nbRow, final CharSequence className) {
-    if (nbRow instanceof NbRow) {
-      return _javaAction((NbRow)nbRow, className);
-    } else if (nbRow instanceof PrintCSV) {
-      return _javaAction((PrintCSV)nbRow, className);
-    } else if (nbRow instanceof SaveCSV) {
-      return _javaAction((SaveCSV)nbRow, className);
-    } else if (nbRow instanceof OpenCSV) {
-      return _javaAction((OpenCSV)nbRow, className);
+  private CharSequence javaAction(final Action nbCol, final CharSequence className) {
+    if (nbCol instanceof NbCol) {
+      return _javaAction((NbCol)nbCol, className);
+    } else if (nbCol instanceof NbRow) {
+      return _javaAction((NbRow)nbCol, className);
+    } else if (nbCol instanceof PrintCSV) {
+      return _javaAction((PrintCSV)nbCol, className);
+    } else if (nbCol instanceof SaveCSV) {
+      return _javaAction((SaveCSV)nbCol, className);
+    } else if (nbCol instanceof OpenCSV) {
+      return _javaAction((OpenCSV)nbCol, className);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbRow, className).toString());
+        Arrays.<Object>asList(nbCol, className).toString());
     }
   }
 }

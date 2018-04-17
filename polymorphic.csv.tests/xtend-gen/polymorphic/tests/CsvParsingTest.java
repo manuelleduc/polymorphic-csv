@@ -225,6 +225,55 @@ public class CsvParsingTest {
   }
   
   @Test
+  public void bashR() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("package important;");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("constraints {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("languages {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("bash (truc)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.newLine();
+      _builder.append("read aaa \"/home/yannick/Bureau/dossier_test/Sans_nom_1.csv\" utf8");
+      _builder.newLine();
+      _builder.append("print aaa");
+      _builder.newLine();
+      _builder.append("nbrow aaa");
+      _builder.newLine();
+      _builder.append("save aaa \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\"");
+      _builder.newLine();
+      _builder.newLine();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("/myProject/./src-gen/important/bash/truc.sh");
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("#!/bin/bash");
+      _builder_2.newLine();
+      _builder_2.append("cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv");
+      _builder_2.newLine();
+      _builder_2.append("echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]");
+      _builder_2.newLine();
+      _builder_2.append("cp /home/yannick/Bureau/dossier_test/Sans_nom_1.csv /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
+      _builder_2.newLine();
+      Pair<String, String> _mappedTo = Pair.<String, String>of(_builder_1.toString(), _builder_2.toString());
+      this._polymorphicCsvCompilationTestHelper.assertFileCompilesTo(_builder, Collections.<String, CharSequence>unmodifiableMap(CollectionLiterals.<String, CharSequence>newHashMap(_mappedTo)));
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  @Test
   public void loadModel() {
     try {
       StringConcatenation _builder = new StringConcatenation();

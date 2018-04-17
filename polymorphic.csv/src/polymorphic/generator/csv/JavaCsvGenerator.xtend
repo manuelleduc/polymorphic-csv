@@ -8,6 +8,7 @@ import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
+import polymorphic.csv.NbCol
 
 class JavaCsvGenerator implements ICsvGenerator {
 
@@ -167,6 +168,10 @@ class JavaCsvGenerator implements ICsvGenerator {
 		'''
 			System.out.println(«nbRow.open.name».rows());
 		'''
+	}
+	
+	private def dispatch CharSequence javaAction(NbCol nbCol, CharSequence className) {
+		''''''
 	}
 
 	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {

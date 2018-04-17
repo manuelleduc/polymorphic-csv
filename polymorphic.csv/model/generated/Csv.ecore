@@ -29,6 +29,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrintCSV" eSuperTypes="#//RefOpenAction"/>
   <eClassifiers xsi:type="ecore:EClass" name="NbRow" eSuperTypes="#//RefOpenAction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NbCol" eSuperTypes="#//RefOpenAction"/>
   <eClassifiers xsi:type="ecore:EClass" name="SaveCSV" eSuperTypes="#//RefOpenAction">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

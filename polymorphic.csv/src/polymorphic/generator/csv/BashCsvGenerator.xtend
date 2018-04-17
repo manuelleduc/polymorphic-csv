@@ -7,6 +7,7 @@ import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.csv.NbRow
 import polymorphic.csv.SaveCSV
+import polymorphic.csv.NbCol
 
 class BashCsvGenerator implements ICsvGenerator {
 
@@ -28,6 +29,8 @@ class BashCsvGenerator implements ICsvGenerator {
 	private def dispatch CharSequence bashAction(NbRow nbrow) '''
 		echo $[$(wc -l < «nbrow.open.file»)-1]
 	'''
+	
+	private def dispatch CharSequence bashAction(NbCol nbcol) ''''''
 	
 	private def dispatch CharSequence bashAction(SaveCSV save) '''
 		cp «save.open.file» «save.file»

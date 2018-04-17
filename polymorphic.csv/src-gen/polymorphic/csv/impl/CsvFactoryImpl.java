@@ -73,6 +73,7 @@ public class CsvFactoryImpl extends EFactoryImpl implements CsvFactory
       case CsvPackage.REF_OPEN_ACTION: return createRefOpenAction();
       case CsvPackage.PRINT_CSV: return createPrintCSV();
       case CsvPackage.NB_ROW: return createNbRow();
+      case CsvPackage.NB_COL: return createNbCol();
       case CsvPackage.SAVE_CSV: return createSaveCSV();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -165,6 +166,17 @@ public class CsvFactoryImpl extends EFactoryImpl implements CsvFactory
   {
     NbRowImpl nbRow = new NbRowImpl();
     return nbRow;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NbCol createNbCol()
+  {
+    NbColImpl nbCol = new NbColImpl();
+    return nbCol;
   }
 
   /**

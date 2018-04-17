@@ -26,13 +26,16 @@ OpenCSV:
 	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8');
 
 RefOpenAction:
-	PrintCSV | NbRow | SaveCSV;
+	PrintCSV | NbRow | NbCol | SaveCSV;
 
 PrintCSV:
 	{PrintCSV} 'print' open=[OpenCSV|ID];
 
 NbRow:
 	{NbRow} 'nbrow' open=[OpenCSV|ID];
+	
+NbCol:
+	{NbCol} 'nbcol' open=[OpenCSV|ID];
 
 SaveCSV:
 	{SaveCSV} 'save' open=[OpenCSV|ID] (file=STRING)?;
