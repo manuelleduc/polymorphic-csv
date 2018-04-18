@@ -2,16 +2,12 @@ package polymorphic.generator.csv
 
 import java.util.Map
 import org.eclipse.xtext.generator.IFileSystemAccess2
-import polymorphic.csv.Action
 import polymorphic.csv.Language
 import polymorphic.csv.Model
 import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
-import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
-
-import static extension org.eclipse.xtext.EcoreUtil2.*
 import polymorphic.csv.NbCol
 
 class PythonCsvGenerator implements ICsvGenerator {
@@ -28,6 +24,7 @@ class PythonCsvGenerator implements ICsvGenerator {
 		fsa.generateFile(
 			'''«content.name»/«language.name»/«language.target».py''',
 			'''
+				#!/usr/bin/python
 				# -*- coding: utf-8 -*-
 				from __future__ import print_function
 				import csv
@@ -39,22 +36,25 @@ class PythonCsvGenerator implements ICsvGenerator {
 		)
 	}
 
-	private def dispatch CharSequence pythonAction(OpenCSV open) '''
-		with open("«open.file»") as read:
-			tmp = read.readlines()
-	'''
+	private def dispatch CharSequence pythonAction(OpenCSV open) ''''''
 
 	private def dispatch CharSequence pythonAction(PrintCSV print) '''
-		for line in tmp:
-		  print(line, end="")
+		with open("«print.open.file»", "r") as CSV_file:
+			read = csv.reader(CSV_file)
+			for elt in read:
+				print(elt)
 	'''
 
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
-		print(sum(1 for row in tmp) -1 )
+		with open("«nbRow.open.file»", "r") as CSV_file:
+			read = csv.reader(CSV_file)
+			print(sum(1 for elt in read))
 	'''
 	
 	private def dispatch CharSequence pythonAction(NbCol nbCol) '''
-		
+		with open("«nbCol.open.file»", "r") as CSV_file:
+			read = csv.reader(CSV_file)
+			print(sum(1 for elt in read))
 	'''
 
 	private def dispatch CharSequence pythonAction(SaveCSV save) { '''

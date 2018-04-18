@@ -54,6 +54,8 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder_2.append(_target_1);
     _builder_2.append(".py");
     StringConcatenation _builder_3 = new StringConcatenation();
+    _builder_3.append("#!/usr/bin/python");
+    _builder_3.newLine();
     _builder_3.append("# -*- coding: utf-8 -*-");
     _builder_3.newLine();
     _builder_3.append("from __future__ import print_function");
@@ -74,37 +76,56 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   private CharSequence _pythonAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(\"");
-    String _file = open.getFile();
-    _builder.append(_file);
-    _builder.append("\") as read:");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("tmp = read.readlines()");
-    _builder.newLine();
     return _builder;
   }
   
   private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("for line in tmp:");
+    _builder.append("with open(\"");
+    String _file = print.getOpen().getFile();
+    _builder.append(_file);
+    _builder.append("\", \"r\") as CSV_file:");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("read = csv.reader(CSV_file)");
     _builder.newLine();
-    _builder.append("  ");
-    _builder.append("print(line, end=\"\")");
+    _builder.append("\t");
+    _builder.append("for elt in read:");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("print(elt)");
     _builder.newLine();
     return _builder;
   }
   
   private CharSequence _pythonAction(final NbRow nbRow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("print(sum(1 for row in tmp) -1 )");
+    _builder.append("with open(\"");
+    String _file = nbRow.getOpen().getFile();
+    _builder.append(_file);
+    _builder.append("\", \"r\") as CSV_file:");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("read = csv.reader(CSV_file)");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("print(sum(1 for elt in read))");
     _builder.newLine();
     return _builder;
   }
   
   private CharSequence _pythonAction(final NbCol nbCol) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("\t\t");
+    _builder.append("with open(\"");
+    String _file = nbCol.getOpen().getFile();
+    _builder.append(_file);
+    _builder.append("\", \"r\") as CSV_file:");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("read = csv.reader(CSV_file)");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("print(sum(1 for elt in read))");
     _builder.newLine();
     return _builder;
   }
