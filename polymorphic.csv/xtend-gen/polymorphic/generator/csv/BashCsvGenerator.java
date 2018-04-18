@@ -71,6 +71,11 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final NbCol nbcol) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("head -1 ");
+    String _file = nbcol.getOpen().getFile();
+    _builder.append(_file);
+    _builder.append(" | sed \'s/[^,]//g\' | wc -c");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   

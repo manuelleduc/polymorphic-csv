@@ -28,6 +28,8 @@ class PythonCsvGenerator implements ICsvGenerator {
 		fsa.generateFile(
 			'''«content.name»/«language.name»/«language.target».py''',
 			'''
+				# -*- coding: utf-8 -*-
+				from __future__ import print_function
 				import csv
 				«FOR action : content.actions»
 					«action.pythonAction»
@@ -37,61 +39,31 @@ class PythonCsvGenerator implements ICsvGenerator {
 		)
 	}
 
-	private def encodingFormat(String encoding) {
-		switch encoding {
-			case 'latin1': 'latin-1'
-			case 'utf8': 'utf-8'
-		}
-
-	}
-
-	private def openAction(Action action) {
-		val open = action.getContainerOfType(Model).actions.filter(OpenCSV).filter [
-			it.name == action.name
-		].head
-		val file = open.file
-		val encoding = open.charset
-		'''open('«file»', 'rt', encoding='«encoding.encodingFormat»')'''
-	}
-
-	private def dispatch CharSequence pythonAction(OpenCSV open) ''''''
+	private def dispatch CharSequence pythonAction(OpenCSV open) '''
+		with open("«open.file»") as read:
+			tmp = read.readlines()
+	'''
 
 	private def dispatch CharSequence pythonAction(PrintCSV print) '''
-		for «print.open.name»_e in csv.reader(«print.openAction»):
-		  print(', '.join(«print.open.name»_e))
+		for line in tmp:
+		  print(line, end="")
 	'''
 
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
-		print(sum(1 for row in csv.reader(«nbRow.openAction»)))
+		print(sum(1 for row in tmp) -1 )
 	'''
 	
-	private def dispatch CharSequence pythonAction(NbCol nbCol) ''''''
+	private def dispatch CharSequence pythonAction(NbCol nbCol) '''
+		
+	'''
 
-	private def dispatch CharSequence pythonAction(SaveCSV save) {
-		val outputfile = if (save.file !== null)
-				save.file
-			else
-				save.getContainerOfType(Model).actions.filter(OpenCSV).filter [
-					it.name == save.open.name
-				].head.file
-		'''
-			with open('«outputfile»', 'wt') as output_file:
-			  «save.open.name»_write = csv.writer(output_file)
-			  for «save.open.name»_e in csv.reader(«save.openAction»):
-			    «save.open.name»_write.writerow(tuple(«save.open.name»_e))
-		'''
+	private def dispatch CharSequence pythonAction(SaveCSV save) { '''
 
+	'''
 	}
 
 	override Map<String, Boolean> properties() {
 		return newHashMap("python" -> true)
 	}
 
-	private def dispatch name(OpenCSV open) {
-		open.name
-	}
-
-	private def dispatch name(RefOpenAction roa) {
-		roa.open.name
-	}
 }

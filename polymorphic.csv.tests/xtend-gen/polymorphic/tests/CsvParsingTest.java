@@ -203,6 +203,8 @@ public class CsvParsingTest {
       _builder.newLine();
       _builder.append("nbrow aaa");
       _builder.newLine();
+      _builder.append("nbcol aaa");
+      _builder.newLine();
       _builder.append("save aaa \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\"");
       _builder.newLine();
       _builder.newLine();
@@ -214,6 +216,8 @@ public class CsvParsingTest {
       _builder_2.append("cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv");
       _builder_2.newLine();
       _builder_2.append("echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]");
+      _builder_2.newLine();
+      _builder_2.append("head -1 /home/yannick/Bureau/dossier_test/Sans_nom_1.csv | sed \'s/[^,]//g\' | wc -c");
       _builder_2.newLine();
       _builder_2.append("cp /home/yannick/Bureau/dossier_test/Sans_nom_1.csv /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
       _builder_2.newLine();
@@ -252,6 +256,8 @@ public class CsvParsingTest {
       _builder.newLine();
       _builder.append("nbrow aaa");
       _builder.newLine();
+      _builder.append("nbcol aaa");
+      _builder.newLine();
       _builder.append("save aaa \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\"");
       _builder.newLine();
       _builder.newLine();
@@ -263,6 +269,8 @@ public class CsvParsingTest {
       _builder_2.append("aaa");
       _builder_2.newLine();
       _builder_2.append("nrow(aaa)");
+      _builder_2.newLine();
+      _builder_2.append("ncol(aaa)");
       _builder_2.newLine();
       _builder_2.append("write.csv(aaa, \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\", quote=FALSE, row.names=FALSE)");
       _builder_2.newLine();

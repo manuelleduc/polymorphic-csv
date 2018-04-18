@@ -109,12 +109,14 @@ class CsvParsingTest {
 		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
 		print aaa
 		nbrow aaa
+		nbcol aaa
 		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
 
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/bash/truc.sh''' -> '''	
 		#!/bin/bash
 		cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv
 		echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]
+		head -1 /home/yannick/Bureau/dossier_test/Sans_nom_1.csv | sed 's/[^,]//g' | wc -c
 		cp /home/yannick/Bureau/dossier_test/Sans_nom_1.csv /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
 		'''}
 		)
@@ -136,12 +138,14 @@ class CsvParsingTest {
 		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
 		print aaa
 		nbrow aaa
+		nbcol aaa
 		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
 
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/R/file_R.R''' -> '''	
 		aaa = read.csv("/home/yannick/Bureau/dossier_test/Sans_nom_1.csv", header=TRUE, sep=",")
 		aaa
 		nrow(aaa)
+		ncol(aaa)
 		write.csv(aaa, "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv", quote=FALSE, row.names=FALSE)
 '''}
 		)

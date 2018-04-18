@@ -30,7 +30,9 @@ class BashCsvGenerator implements ICsvGenerator {
 		echo $[$(wc -l < «nbrow.open.file»)-1]
 	'''
 	
-	private def dispatch CharSequence bashAction(NbCol nbcol) ''''''
+	private def dispatch CharSequence bashAction(NbCol nbcol) '''
+		head -1 «nbcol.open.file» | sed 's/[^,]//g' | wc -c
+	'''
 	
 	private def dispatch CharSequence bashAction(SaveCSV save) '''
 		cp «save.open.file» «save.file»

@@ -75,6 +75,11 @@ public class RCsvGenerator implements ICsvGenerator {
   
   private CharSequence _RAction(final NbCol nbcol) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("ncol(");
+    String _name = nbcol.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(")");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
