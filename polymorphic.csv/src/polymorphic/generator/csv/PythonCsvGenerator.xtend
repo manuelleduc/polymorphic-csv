@@ -44,12 +44,19 @@ class PythonCsvGenerator implements ICsvGenerator {
 	}
 
 	private def openAction(Action action) {
-		val open = action.getContainerOfType(Model).actions.filter(OpenCSV).filter [
-			it.name == action.name
-		].head
+		val open = action.getRelatedOpen
 		val file = open.file
 		val encoding = open.charset
+
 		'''open('«file»', 'rt', encoding='«encoding.encodingFormat»')'''
+	}
+
+	def dispatch getRelatedOpen(OpenCSV a) {
+		a
+	}
+
+	def dispatch getRelatedOpen(RefOpenAction a) {
+		a.open
 	}
 
 	private def dispatch CharSequence pythonAction(OpenCSV open) ''''''
@@ -81,13 +88,5 @@ class PythonCsvGenerator implements ICsvGenerator {
 
 	override Map<String, Boolean> properties() {
 		return newHashMap("python" -> true)
-	}
-
-	private def dispatch name(OpenCSV open) {
-		open.name
-	}
-
-	private def dispatch name(RefOpenAction roa) {
-		roa.open.name
 	}
 }
