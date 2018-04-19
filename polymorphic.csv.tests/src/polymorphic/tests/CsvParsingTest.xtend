@@ -23,6 +23,56 @@ class CsvParsingTest {
 	@Inject extension ValidationTestHelper
 	
 
+
+	@Test
+	def bashTest1(){
+		'''
+		package mpackage;
+					
+		constraints {
+			java = true
+			maven = true
+		}
+		languages {
+			bash (a.b.java.C)
+		}
+		read a "/tmp/test.csv"
+		print a
+		//save a
+		save a "/tmp/test2.csv"
+		'''.assertCompilesTo('''
+		MULTIPLE FILES WERE GENERATED
+		
+		File 1 : /myProject/./src-gen/mpackage/bash/a/b/java/C.sh
+		
+		#!/bin/bash
+		cat /tmp/test.csv
+		cp /tmp/test.csv /tmp/test2.csv
+		
+		File 2 : /myProject/./src-gen/mpackage/build.sh
+		
+		mkdir -p ./inputs
+		rm -r ./bash/inputs
+		cp -r ./inputs ./bash/inputs
+		docker-compose build
+		
+		File 3 : /myProject/./src-gen/mpackage/docker-compose.yml
+		
+		version: '3'
+		services:
+		  bash:
+		    build:
+		      context: ./bash
+		
+		File 4 : /myProject/./src-gen/mpackage/run.sh
+		
+		rm -r ./logs
+		mkdir -p ./logs
+		docker-compose up
+		
+		''')
+		
+	}
 	@Test
 	def void loadModel() {
 		'''
