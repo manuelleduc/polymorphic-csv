@@ -54,11 +54,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder_2.append(_target_1);
     _builder_2.append(".py");
     StringConcatenation _builder_3 = new StringConcatenation();
-    _builder_3.append("#!/usr/bin/python");
-    _builder_3.newLine();
-    _builder_3.append("# -*- coding: utf-8 -*-");
-    _builder_3.newLine();
-    _builder_3.append("from __future__ import print_function");
+    _builder_3.append("#!/usr/bin/env python");
     _builder_3.newLine();
     _builder_3.append("import csv");
     _builder_3.newLine();
@@ -74,6 +70,21 @@ public class PythonCsvGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_2.toString(), _builder_3);
   }
   
+  private String encodingFormat(final String encoding) {
+    String _switchResult = null;
+    if (encoding != null) {
+      switch (encoding) {
+        case "latin1":
+          _switchResult = "latin-1";
+          break;
+        case "utf8":
+          _switchResult = "utf-8";
+          break;
+      }
+    }
+    return _switchResult;
+  }
+  
   private CharSequence _pythonAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
     return _builder;
@@ -84,7 +95,10 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.append("with open(\"");
     String _file = print.getOpen().getFile();
     _builder.append(_file);
-    _builder.append("\", \"r\") as CSV_file:");
+    _builder.append("\", \"r\", encoding=\"");
+    String _encodingFormat = this.encodingFormat(print.getOpen().getCharset());
+    _builder.append(_encodingFormat);
+    _builder.append("\") as CSV_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("read = csv.reader(CSV_file)");
@@ -103,7 +117,10 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.append("with open(\"");
     String _file = nbRow.getOpen().getFile();
     _builder.append(_file);
-    _builder.append("\", \"r\") as CSV_file:");
+    _builder.append("\", \"r\", encoding=\"");
+    String _encodingFormat = this.encodingFormat(nbRow.getOpen().getCharset());
+    _builder.append(_encodingFormat);
+    _builder.append("\") as CSV_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("read = csv.reader(CSV_file)");
@@ -119,19 +136,50 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.append("with open(\"");
     String _file = nbCol.getOpen().getFile();
     _builder.append(_file);
-    _builder.append("\", \"r\") as CSV_file:");
+    _builder.append("\", \"r\", encoding=\"");
+    String _encodingFormat = this.encodingFormat(nbCol.getOpen().getCharset());
+    _builder.append(_encodingFormat);
+    _builder.append("\") as CSV_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("read = csv.reader(CSV_file)");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("print(sum(1 for elt in read))");
+    _builder.append("first_line = next(read)");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("print(sum(1 for elt in first_line))");
     _builder.newLine();
     return _builder;
   }
   
   private CharSequence _pythonAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("with open(\"");
+    String _file = save.getFile();
+    _builder.append(_file);
+    _builder.append("\", \"w\", encoding=\"");
+    String _encodingFormat = this.encodingFormat(save.getOpen().getCharset());
+    _builder.append(_encodingFormat);
+    _builder.append("\") as read_file:");
+    _builder.newLineIfNotEmpty();
+    _builder.append("    ");
+    _builder.append("read = csv.writer(read_file)");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("with open(\"");
+    String _file_1 = save.getOpen().getFile();
+    _builder.append(_file_1, "    ");
+    _builder.append("\", \"r\", encoding=\"");
+    String _encodingFormat_1 = this.encodingFormat(save.getOpen().getCharset());
+    _builder.append(_encodingFormat_1, "    ");
+    _builder.append("\") as write_file:");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("read_Y = csv.reader(write_file)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("read.writerows(read_Y)");
     _builder.newLine();
     return _builder;
   }
