@@ -7,6 +7,7 @@ import polymorphic.generator.csv.ICsvGenerator
 import polymorphic.generator.csv.JavaCsvGenerator
 import polymorphic.generator.csv.PythonCsvGenerator
 import polymorphic.generator.csv.RCsvGenerator
+import polymorphic.generator.csv.RCsvGenerator_fwrite
 
 /**
  * TODO: should be replaced by a propre dependency injection mechanism.
@@ -20,6 +21,7 @@ class GeneratorCollection {
 		map.put("python", new PythonCsvGenerator)
 		map.put("bash", new BashCsvGenerator)
 		map.put("R", new RCsvGenerator)
+		map.put("R_fwrite", new RCsvGenerator_fwrite)
 		return map
 	}
 }

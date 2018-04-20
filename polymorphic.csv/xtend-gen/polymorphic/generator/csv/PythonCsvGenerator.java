@@ -14,6 +14,7 @@ import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
+import polymorphic.csv.RefOpenAction;
 import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
@@ -70,19 +71,43 @@ public class PythonCsvGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_2.toString(), _builder_3);
   }
   
-  private String encodingFormat(final String encoding) {
-    String _switchResult = null;
-    if (encoding != null) {
-      switch (encoding) {
-        case "latin1":
-          _switchResult = "latin-1";
-          break;
-        case "utf8":
-          _switchResult = "utf-8";
-          break;
-      }
+  protected OpenCSV _getRelatedOpen(final OpenCSV a) {
+    return a;
+  }
+  
+  protected OpenCSV _getRelatedOpen(final RefOpenAction a) {
+    return a.getOpen();
+  }
+  
+  private CharSequence target(final RefOpenAction roa) {
+    CharSequence _xblockexpression = null;
+    {
+      final String open = this.getRelatedOpen(roa).getFile();
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append(open);
+      _xblockexpression = _builder;
     }
-    return _switchResult;
+    return _xblockexpression;
+  }
+  
+  private String encoding(final Action action) {
+    String _xblockexpression = null;
+    {
+      final String encoding = this.getRelatedOpen(action).getCharset();
+      String _switchResult = null;
+      if (encoding != null) {
+        switch (encoding) {
+          case "latin1":
+            _switchResult = "latin-1";
+            break;
+          case "utf8":
+            _switchResult = "utf-8";
+            break;
+        }
+      }
+      _xblockexpression = _switchResult;
+    }
+    return _xblockexpression;
   }
   
   private CharSequence _pythonAction(final OpenCSV open) {
@@ -93,11 +118,11 @@ public class PythonCsvGenerator implements ICsvGenerator {
   private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("with open(\"");
-    String _file = print.getOpen().getFile();
-    _builder.append(_file);
+    CharSequence _target = this.target(print);
+    _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
-    String _encodingFormat = this.encodingFormat(print.getOpen().getCharset());
-    _builder.append(_encodingFormat);
+    String _encoding = this.encoding(print);
+    _builder.append(_encoding);
     _builder.append("\") as CSV_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
@@ -115,11 +140,11 @@ public class PythonCsvGenerator implements ICsvGenerator {
   private CharSequence _pythonAction(final NbRow nbRow) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("with open(\"");
-    String _file = nbRow.getOpen().getFile();
-    _builder.append(_file);
+    CharSequence _target = this.target(nbRow);
+    _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
-    String _encodingFormat = this.encodingFormat(nbRow.getOpen().getCharset());
-    _builder.append(_encodingFormat);
+    String _encoding = this.encoding(nbRow);
+    _builder.append(_encoding);
     _builder.append("\") as CSV_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
@@ -134,11 +159,11 @@ public class PythonCsvGenerator implements ICsvGenerator {
   private CharSequence _pythonAction(final NbCol nbCol) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("with open(\"");
-    String _file = nbCol.getOpen().getFile();
-    _builder.append(_file);
+    CharSequence _target = this.target(nbCol);
+    _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
-    String _encodingFormat = this.encodingFormat(nbCol.getOpen().getCharset());
-    _builder.append(_encodingFormat);
+    String _encoding = this.encoding(nbCol);
+    _builder.append(_encoding);
     _builder.append("\") as CSV_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
@@ -159,27 +184,27 @@ public class PythonCsvGenerator implements ICsvGenerator {
     String _file = save.getFile();
     _builder.append(_file);
     _builder.append("\", \"w\", encoding=\"");
-    String _encodingFormat = this.encodingFormat(save.getOpen().getCharset());
-    _builder.append(_encodingFormat);
+    String _encoding = this.encoding(save);
+    _builder.append(_encoding);
     _builder.append("\") as read_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("    ");
-    _builder.append("read = csv.writer(read_file)");
+    _builder.append("read_W = csv.writer(read_file)");
     _builder.newLine();
     _builder.append("    ");
     _builder.append("with open(\"");
-    String _file_1 = save.getOpen().getFile();
-    _builder.append(_file_1, "    ");
+    CharSequence _target = this.target(save);
+    _builder.append(_target, "    ");
     _builder.append("\", \"r\", encoding=\"");
-    String _encodingFormat_1 = this.encodingFormat(save.getOpen().getCharset());
-    _builder.append(_encodingFormat_1, "    ");
+    String _encoding_1 = this.encoding(save);
+    _builder.append(_encoding_1, "    ");
     _builder.append("\") as write_file:");
     _builder.newLineIfNotEmpty();
     _builder.append("        ");
-    _builder.append("read_Y = csv.reader(write_file)");
+    _builder.append("read_R = csv.reader(write_file)");
     _builder.newLine();
     _builder.append("        ");
-    _builder.append("read.writerows(read_Y)");
+    _builder.append("read_W.writerows(read_R)");
     _builder.newLine();
     return _builder;
   }
@@ -188,6 +213,17 @@ public class PythonCsvGenerator implements ICsvGenerator {
   public Map<String, Boolean> properties() {
     Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("python", Boolean.valueOf(true));
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
+  }
+  
+  public OpenCSV getRelatedOpen(final Action a) {
+    if (a instanceof OpenCSV) {
+      return _getRelatedOpen((OpenCSV)a);
+    } else if (a instanceof RefOpenAction) {
+      return _getRelatedOpen((RefOpenAction)a);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(a).toString());
+    }
   }
   
   private CharSequence pythonAction(final Action nbCol) {

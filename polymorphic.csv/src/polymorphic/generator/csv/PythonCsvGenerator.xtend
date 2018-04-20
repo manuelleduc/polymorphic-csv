@@ -9,6 +9,8 @@ import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
 import polymorphic.csv.SaveCSV
 import polymorphic.csv.NbCol
+import polymorphic.csv.Action
+import polymorphic.csv.RefOpenAction
 
 class PythonCsvGenerator implements ICsvGenerator {
 	
@@ -33,8 +35,18 @@ class PythonCsvGenerator implements ICsvGenerator {
 			'''
 		)
 	}
+
+	def dispatch getRelatedOpen(OpenCSV a) { a }
+
+	def dispatch getRelatedOpen(RefOpenAction a) { a.open }
 	
-	private def encodingFormat(String encoding) {
+	private def target(RefOpenAction roa) {
+		val open = roa.getRelatedOpen.file
+		'''«open»'''
+	}
+
+	private def encoding(Action action) {
+		val encoding = action.getRelatedOpen.charset
 		switch encoding {
 			case 'latin1': 'latin-1'
 			case 'utf8': 'utf-8'
@@ -47,31 +59,31 @@ class PythonCsvGenerator implements ICsvGenerator {
 	'''
 
 	private def dispatch CharSequence pythonAction(PrintCSV print) '''
-		with open("«print.open.file»", "r", encoding="«print.open.charset.encodingFormat»") as CSV_file:
+		with open("«print.target»", "r", encoding="«print.encoding»") as CSV_file:
 			read = csv.reader(CSV_file)
 			for elt in read:
 				print(elt)
 	'''
 
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
-		with open("«nbRow.open.file»", "r", encoding="«nbRow.open.charset.encodingFormat»") as CSV_file:
+		with open("«nbRow.target»", "r", encoding="«nbRow.encoding»") as CSV_file:
 			read = csv.reader(CSV_file)
 			print(sum(1 for elt in read))
 	'''
 	
 	private def dispatch CharSequence pythonAction(NbCol nbCol) '''
-		with open("«nbCol.open.file»", "r", encoding="«nbCol.open.charset.encodingFormat»") as CSV_file:
+		with open("«nbCol.target»", "r", encoding="«nbCol.encoding»") as CSV_file:
 			read = csv.reader(CSV_file)
 			first_line = next(read)
 			print(sum(1 for elt in first_line))
 	'''
 
 	private def dispatch CharSequence pythonAction(SaveCSV save) { '''
-		with open("«save.file»", "w", encoding="«save.open.charset.encodingFormat»") as read_file:
-		    read = csv.writer(read_file)
-		    with open("«save.open.file»", "r", encoding="«save.open.charset.encodingFormat»") as write_file:
-		        read_Y = csv.reader(write_file)
-		        read.writerows(read_Y)
+		with open("«save.file»", "w", encoding="«save.encoding»") as read_file:
+		    read_W = csv.writer(read_file)
+		    with open("«save.target»", "r", encoding="«save.encoding»") as write_file:
+		        read_R = csv.reader(write_file)
+		        read_W.writerows(read_R)
 	'''
 	}
 
