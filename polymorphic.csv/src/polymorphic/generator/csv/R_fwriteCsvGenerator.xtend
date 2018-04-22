@@ -9,11 +9,11 @@ import polymorphic.csv.NbCol
 import polymorphic.csv.SaveCSV
 import org.eclipse.xtext.generator.IFileSystemAccess2
 
-class RCsvGenerator_fwrite implements ICsvGenerator {
+class R_fwriteCsvGenerator implements ICsvGenerator {
 	
 	override generate(Model content, Language language, IFileSystemAccess2 fsa) {
 		fsa.generateFile('''«content.name»/«language.name»/«language.target.replaceAll("\\.", "/")».R''', '''
-			install.packages("data.table")
+			#install.packages("data.table")
 			library(data.table)
 			«FOR action : content.actions»
 				«action.RAction»
@@ -30,11 +30,11 @@ class RCsvGenerator_fwrite implements ICsvGenerator {
 	'''
 	
 	private def dispatch CharSequence RAction(NbRow nbrow) '''
-	nrow(«nbrow.open.name»)
+	cat( nrow(«nbrow.open.name»),"\n" )
 	'''
 	
 	private def dispatch CharSequence RAction(NbCol nbcol) '''
-	ncol(«nbcol.open.name»)
+	cat( ncol(«nbcol.open.name»),"\n" )
 	'''
 	
 	private def dispatch CharSequence RAction(SaveCSV save) '''

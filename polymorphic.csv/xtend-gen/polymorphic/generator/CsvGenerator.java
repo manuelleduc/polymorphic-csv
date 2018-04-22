@@ -45,20 +45,17 @@ public class CsvGenerator extends AbstractGenerator {
     {
       EList<Language> _languages = content.getLanguages();
       for(final Language l : _languages) {
-        _builder_1.append("  ");
         String _name_1 = l.getName();
-        _builder_1.append(_name_1, "  ");
+        _builder_1.append(_name_1);
         _builder_1.append(":");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("  ");
-        _builder_1.append("  ");
         _builder_1.append("build:");
         _builder_1.newLine();
-        _builder_1.append("  ");
         _builder_1.append("    ");
         _builder_1.append("context: ./");
         String _name_2 = l.getName();
-        _builder_1.append(_name_2, "      ");
+        _builder_1.append(_name_2, "    ");
         _builder_1.newLineIfNotEmpty();
       }
     }
@@ -68,6 +65,8 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_2.append(_name_3);
     _builder_2.append("/build.sh");
     StringConcatenation _builder_3 = new StringConcatenation();
+    _builder_3.append("#!/bin/bash");
+    _builder_3.newLine();
     _builder_3.append("mkdir -p ./inputs");
     _builder_3.newLine();
     {
@@ -93,6 +92,8 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_4.append(_name_6);
     _builder_4.append("/run.sh");
     StringConcatenation _builder_5 = new StringConcatenation();
+    _builder_5.append("#!/bin/bash");
+    _builder_5.newLine();
     _builder_5.append("rm -r ./logs");
     _builder_5.newLine();
     _builder_5.append("mkdir -p ./logs");
@@ -100,5 +101,134 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_5.append("docker-compose up");
     _builder_5.newLine();
     fsa.generateFile(_builder_4.toString(), _builder_5);
+    StringConcatenation _builder_6 = new StringConcatenation();
+    String _name_7 = content.getName();
+    _builder_6.append(_name_7);
+    _builder_6.append("/exec.sh");
+    StringConcatenation _builder_7 = new StringConcatenation();
+    _builder_7.append("#!/bin/bash");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("# local exec.sh");
+    _builder_7.newLine();
+    _builder_7.append("# syntax : exec.sh path data results");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("echo \"<<$1>>\" >> $3");
+    _builder_7.newLine();
+    _builder_7.append("echo \"\" >> $3");
+    _builder_7.newLine();
+    {
+      EList<Language> _languages_2 = content.getLanguages();
+      for(final Language l_2 : _languages_2) {
+        _builder_7.append("echo \"< ");
+        String _name_8 = l_2.getName();
+        _builder_7.append(_name_8);
+        _builder_7.append(" >\"");
+        _builder_7.newLineIfNotEmpty();
+        _builder_7.append("echo \"< ");
+        String _name_9 = l_2.getName();
+        _builder_7.append(_name_9);
+        _builder_7.append(" >\" >> $3");
+        _builder_7.newLineIfNotEmpty();
+        String _bash_command = this.bash_command(l_2.getName());
+        _builder_7.append(_bash_command);
+        _builder_7.append(".$1/");
+        String _name_10 = l_2.getName();
+        _builder_7.append(_name_10);
+        _builder_7.append("/");
+        String _target = l_2.getTarget();
+        _builder_7.append(_target);
+        _builder_7.append(".");
+        String _file_extension = this.file_extension(l_2.getName());
+        _builder_7.append(_file_extension);
+        _builder_7.append(" $2 >> $3");
+        _builder_7.newLineIfNotEmpty();
+        _builder_7.append("echo \"<END ");
+        String _name_11 = l_2.getName();
+        _builder_7.append(_name_11);
+        _builder_7.append(" >\" >> $3");
+        _builder_7.newLineIfNotEmpty();
+        _builder_7.append("echo \"<END ");
+        String _name_12 = l_2.getName();
+        _builder_7.append(_name_12);
+        _builder_7.append(" >\"");
+        _builder_7.newLineIfNotEmpty();
+        _builder_7.append("echo \"\"");
+        _builder_7.newLine();
+        _builder_7.append("echo \"----------------------------------------\" >> $3");
+        _builder_7.newLine();
+        _builder_7.newLine();
+      }
+    }
+    fsa.generateFile(_builder_6.toString(), _builder_7);
+  }
+  
+  private String bash_command(final String language) {
+    String _xblockexpression = null;
+    {
+      final String command = language;
+      String _switchResult = null;
+      if (command != null) {
+        switch (command) {
+          case "bash":
+            _switchResult = "";
+            break;
+          case "bash_awk":
+            _switchResult = "";
+            break;
+          case "R":
+            _switchResult = "Rscript ";
+            break;
+          case "R_fwrite":
+            _switchResult = "Rscript ";
+            break;
+          case "python3":
+            _switchResult = "python3 ";
+            break;
+          default:
+            _switchResult = "#";
+            break;
+        }
+      } else {
+        _switchResult = "#";
+      }
+      _xblockexpression = _switchResult;
+    }
+    return _xblockexpression;
+  }
+  
+  private String file_extension(final String language) {
+    String _xblockexpression = null;
+    {
+      final String dot_extension = language;
+      String _switchResult = null;
+      if (dot_extension != null) {
+        switch (dot_extension) {
+          case "bash":
+            _switchResult = "sh";
+            break;
+          case "bash_awk":
+            _switchResult = "sh";
+            break;
+          case "R":
+            _switchResult = "R";
+            break;
+          case "R_fwrite":
+            _switchResult = "R";
+            break;
+          case "python3":
+            _switchResult = "py";
+            break;
+          default:
+            _switchResult = "#";
+            break;
+        }
+      } else {
+        _switchResult = "#";
+      }
+      _xblockexpression = _switchResult;
+    }
+    return _xblockexpression;
   }
 }

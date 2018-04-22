@@ -25,30 +25,75 @@ class CsvGenerator extends AbstractGenerator {
 		]
 
 		fsa.generateFile('''«content.name»/docker-compose.yml''', '''
-			version: '3'
-			services:
-			  «FOR l : content.languages»
-			  	«l.name»:
-			  	  build:
-			  	    context: ./«l.name»
-			  «ENDFOR»
+		version: '3'
+		services:
+		«FOR l : content.languages»
+		  	«l.name»:
+		  	  build:
+		  	    context: ./«l.name»
+		«ENDFOR»
 		''')
 		
-		
 		fsa.generateFile('''«content.name»/build.sh''', '''
+		#!/bin/bash
 		mkdir -p ./inputs
 		«FOR l : content.languages»
-		rm -r ./«l.name»/inputs
-		cp -r ./inputs ./«l.name»/inputs
+			rm -r ./«l.name»/inputs
+			cp -r ./inputs ./«l.name»/inputs
 	  	«ENDFOR»
 		docker-compose build
 		''')
 		
 		fsa.generateFile('''«content.name»/run.sh''', '''
+		#!/bin/bash
 		rm -r ./logs
 		mkdir -p ./logs
 		docker-compose up
 		''')
+		
+		fsa.generateFile('''«content.name»/exec.sh''', '''
+		#!/bin/bash
+		
+		# local exec.sh
+		# syntax : exec.sh path data results
+		
+		echo "<<$1>>" >> $3
+		echo "" >> $3
+		«FOR l : content.languages»
+			echo "< «l.name» >"
+			echo "< «l.name» >" >> $3
+			«bash_command(l.name)».$1/«l.name»/«l.target».«file_extension(l.name)» $2 >> $3
+			echo "<END «l.name» >" >> $3
+			echo "<END «l.name» >"
+			echo ""
+			echo "----------------------------------------" >> $3
+			
+		«ENDFOR»
+		''')
+	}
+	
+	private def bash_command(String language) {
+		val command = language
+		switch command {
+			case 'bash': ''
+			case 'bash_awk': ''
+			case 'R': 'Rscript '
+			case 'R_fwrite': 'Rscript '
+			case 'python3': 'python3 '
+			default: '#'
+		}
+	}
+	
+	private def file_extension(String language) {
+		val dot_extension = language
+		switch dot_extension {
+			case 'bash': 'sh'
+			case 'bash_awk': 'sh'
+			case 'R': 'R'
+			case 'R_fwrite': 'R'
+			case 'python3': 'py'
+			default: '#'
+		}
 	}
 
 }

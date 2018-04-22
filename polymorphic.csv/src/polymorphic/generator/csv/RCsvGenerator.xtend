@@ -28,11 +28,11 @@ class RCsvGenerator implements ICsvGenerator {
 	'''
 	
 	private def dispatch CharSequence RAction(NbRow nbrow) '''
-	nrow(«nbrow.open.name»)
+	cat( nrow(«nbrow.open.name»),"\n" )
 	'''
 	
 	private def dispatch CharSequence RAction(NbCol nbcol) '''
-	ncol(«nbcol.open.name»)
+	cat( ncol(«nbcol.open.name»),"\n" )
 	'''
 	
 	private def dispatch CharSequence RAction(SaveCSV save) '''

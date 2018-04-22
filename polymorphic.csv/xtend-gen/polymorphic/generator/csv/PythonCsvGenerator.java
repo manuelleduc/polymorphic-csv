@@ -67,7 +67,6 @@ public class PythonCsvGenerator implements ICsvGenerator {
         _builder_3.newLineIfNotEmpty();
       }
     }
-    _builder_3.newLine();
     fsa.generateFile(_builder_2.toString(), _builder_3);
   }
   
@@ -79,13 +78,11 @@ public class PythonCsvGenerator implements ICsvGenerator {
     return a.getOpen();
   }
   
-  private CharSequence target(final RefOpenAction roa) {
-    CharSequence _xblockexpression = null;
+  private String target(final RefOpenAction roa) {
+    String _xblockexpression = null;
     {
       final String open = this.getRelatedOpen(roa).getFile();
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append(open);
-      _xblockexpression = _builder;
+      _xblockexpression = open;
     }
     return _xblockexpression;
   }
@@ -118,7 +115,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("with open(\"");
-    CharSequence _target = this.target(print);
+    String _target = this.target(print);
     _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
     String _encoding = this.encoding(print);
@@ -140,7 +137,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   private CharSequence _pythonAction(final NbRow nbRow) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("with open(\"");
-    CharSequence _target = this.target(nbRow);
+    String _target = this.target(nbRow);
     _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
     String _encoding = this.encoding(nbRow);
@@ -151,7 +148,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.append("read = csv.reader(CSV_file)");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("print(sum(1 for elt in read))");
+    _builder.append("print(sum(1 for elt in read) -1)");
     _builder.newLine();
     return _builder;
   }
@@ -159,7 +156,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   private CharSequence _pythonAction(final NbCol nbCol) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("with open(\"");
-    CharSequence _target = this.target(nbCol);
+    String _target = this.target(nbCol);
     _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
     String _encoding = this.encoding(nbCol);
@@ -193,7 +190,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.newLine();
     _builder.append("    ");
     _builder.append("with open(\"");
-    CharSequence _target = this.target(save);
+    String _target = this.target(save);
     _builder.append(_target, "    ");
     _builder.append("\", \"r\", encoding=\"");
     String _encoding_1 = this.encoding(save);

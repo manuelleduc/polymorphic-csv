@@ -18,7 +18,7 @@ import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
-public class RCsvGenerator implements ICsvGenerator {
+public class R_fwriteCsvGenerator implements ICsvGenerator {
   @Override
   public void generate(final Model content, final Language language, final IFileSystemAccess2 fsa) {
     StringConcatenation _builder = new StringConcatenation();
@@ -32,6 +32,10 @@ public class RCsvGenerator implements ICsvGenerator {
     _builder.append(_replaceAll);
     _builder.append(".R");
     StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("#install.packages(\"data.table\")");
+    _builder_1.newLine();
+    _builder_1.append("library(data.table)");
+    _builder_1.newLine();
     {
       EList<Action> _actions = content.getActions();
       for(final Action action : _actions) {
@@ -85,13 +89,13 @@ public class RCsvGenerator implements ICsvGenerator {
   
   private CharSequence _RAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("write.csv(");
+    _builder.append("fwrite(");
     String _name = save.getOpen().getName();
     _builder.append(_name);
-    _builder.append(", \"");
+    _builder.append(", file = \"");
     String _file = save.getFile();
     _builder.append(_file);
-    _builder.append("\", quote=FALSE, row.names=FALSE)");
+    _builder.append("\", quote = \"auto\")");
     _builder.newLineIfNotEmpty();
     return _builder;
   }

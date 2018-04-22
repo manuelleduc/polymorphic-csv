@@ -6,7 +6,6 @@ import polymorphic.csv.Model
 import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
-import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
 import polymorphic.csv.NbCol
 

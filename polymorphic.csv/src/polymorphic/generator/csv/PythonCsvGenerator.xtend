@@ -23,17 +23,13 @@ class PythonCsvGenerator implements ICsvGenerator {
 			ENTRYPOINT python «language.target».py
 		''')
 
-		fsa.generateFile(
-			'''«content.name»/«language.name»/«language.target».py''',
-			'''
-				#!/usr/bin/env python
-				import csv
-				«FOR action : content.actions»
-					«action.pythonAction»
-				«ENDFOR»
-				
-			'''
-		)
+		fsa.generateFile('''«content.name»/«language.name»/«language.target».py''','''
+			#!/usr/bin/env python
+			import csv
+			«FOR action : content.actions»
+				«action.pythonAction»
+			«ENDFOR»
+		''')
 	}
 
 	def dispatch getRelatedOpen(OpenCSV a) { a }
@@ -42,7 +38,7 @@ class PythonCsvGenerator implements ICsvGenerator {
 	
 	private def target(RefOpenAction roa) {
 		val open = roa.getRelatedOpen.file
-		'''«open»'''
+		open
 	}
 
 	private def encoding(Action action) {
@@ -68,7 +64,7 @@ class PythonCsvGenerator implements ICsvGenerator {
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
 		with open("«nbRow.target»", "r", encoding="«nbRow.encoding»") as CSV_file:
 			read = csv.reader(CSV_file)
-			print(sum(1 for elt in read))
+			print(sum(1 for elt in read) -1)
 	'''
 	
 	private def dispatch CharSequence pythonAction(NbCol nbCol) '''
