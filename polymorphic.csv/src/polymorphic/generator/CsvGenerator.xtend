@@ -57,38 +57,33 @@ class CsvGenerator extends AbstractGenerator {
 		# local exec.sh
 		# syntax : bash exec.sh
 		
-		if [ -z ${var+x} ]; then name="code_1"; else name=$1; fi	# if local call = no $1
-		
-		if [ -z ${var+x} ]; then path_1="../../data"; else path_1="data"; fi	# if local call = no path of first launcher
-		
-		if [ -z ${var+x} ]; then path_2="."; else path_2="./src-gen/$name/"; fi	# if local call = no path of first launcher
-		
-		for D in $path_1/$name/*/		# for each folder in directory
+		name=«content.name»
+
+		for D in ./data/*;		# for each folder in directory
 		do
 		
-		target=$D"results"			# results' file
+		echo $D
 		
-		echo "$path_1 -> path_1"
-		echo "$target -> target"
+		target=$D"/results"			# results' file
+		echo $target" -> target"
 		
-		path_2="./src-gen/$name/"
 		
-		echo "<< $1 >>" >> $target
+		echo "<< $name >>" >> $target
 		echo "" >> $target
 		
-		«FOR l : content.languages»
-			echo "< «l.name» >"
-			echo "< «l.name» >" >> $target
-			«bash_command(l.name)»$path_2«l.name»/«l.target».«file_extension(l.name)» >> $target
-			pwd
-			echo "<END «l.name» >" >> $target
-			echo "<END «l.name» >"
-			echo ""
-			echo "----------------------------------------" >> $target
-			
-		«ENDFOR»
+«««		«FOR l : content.languages»
+«««			echo "< «l.name» >"
+«««			echo "< «l.name» >" >> $target
+«««			«bash_command(l.name)»$path_2«l.name»/«l.target».«file_extension(l.name)» >> $target
+«««			pwd
+«««			echo "<END «l.name» >" >> $target
+«««			echo "<END «l.name» >"
+«««			echo ""
+«««			echo "----------------------------------------" >> $target
+«««			
+«««		«ENDFOR»
 		
-		done
+		done;
 		''')
 	}
 	
