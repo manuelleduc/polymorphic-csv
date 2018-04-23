@@ -43,7 +43,7 @@ class R_fwriteCsvGenerator implements ICsvGenerator {
 	'''
 
 	override properties() {
-		newHashMap("R" -> true)
+		newHashMap("R_fwrite" -> true)
 	}
 
 }

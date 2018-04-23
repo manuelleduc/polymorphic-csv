@@ -39,7 +39,7 @@ class Bash_awkCsvGenerator implements ICsvGenerator {
 	'''
 
 	override properties() {
-		newHashMap("bash" -> true)
+		newHashMap("bash_awk" -> true)
 	}
 
 }

@@ -16,15 +16,15 @@ class PythonCsvGenerator implements ICsvGenerator {
 	
 	override void generate(Model content, Language language, IFileSystemAccess2 fsa) { // TODO Auto-generated method stub
 		fsa.generateFile('''«content.name»/«language.name»/Dockerfile''', '''
-			FROM python
+			FROM python3
 			COPY . /project
 			COPY ./inputs /inputs
 			WORKDIR project
-			ENTRYPOINT python «language.target».py
+			ENTRYPOINT python3 «language.target».py
 		''')
 
 		fsa.generateFile('''«content.name»/«language.name»/«language.target».py''','''
-			#!/usr/bin/env python
+			#!/usr/bin/env python3
 			import csv
 			«FOR action : content.actions»
 				«action.pythonAction»
@@ -84,6 +84,6 @@ class PythonCsvGenerator implements ICsvGenerator {
 	}
 
 	override Map<String, Boolean> properties() {
-		return newHashMap("python" -> true)
+		return newHashMap("python3" -> true)
 	}
 }

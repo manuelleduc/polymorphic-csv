@@ -91,7 +91,7 @@ public class Bash_awkCsvGenerator implements ICsvGenerator {
   
   @Override
   public Map<String, Boolean> properties() {
-    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("bash", Boolean.valueOf(true));
+    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("bash_awk", Boolean.valueOf(true));
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   

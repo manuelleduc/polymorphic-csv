@@ -30,7 +30,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.append(_name_1);
     _builder.append("/Dockerfile");
     StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append("FROM python");
+    _builder_1.append("FROM python3");
     _builder_1.newLine();
     _builder_1.append("COPY . /project");
     _builder_1.newLine();
@@ -38,7 +38,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder_1.newLine();
     _builder_1.append("WORKDIR project");
     _builder_1.newLine();
-    _builder_1.append("ENTRYPOINT python ");
+    _builder_1.append("ENTRYPOINT python3 ");
     String _target = language.getTarget();
     _builder_1.append(_target);
     _builder_1.append(".py");
@@ -55,7 +55,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder_2.append(_target_1);
     _builder_2.append(".py");
     StringConcatenation _builder_3 = new StringConcatenation();
-    _builder_3.append("#!/usr/bin/env python");
+    _builder_3.append("#!/usr/bin/env python3");
     _builder_3.newLine();
     _builder_3.append("import csv");
     _builder_3.newLine();
@@ -208,7 +208,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   @Override
   public Map<String, Boolean> properties() {
-    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("python", Boolean.valueOf(true));
+    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("python3", Boolean.valueOf(true));
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   

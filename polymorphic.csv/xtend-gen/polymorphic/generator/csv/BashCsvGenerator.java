@@ -81,10 +81,10 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cp ");
+    _builder.append("cat ");
     String _file = save.getOpen().getFile();
     _builder.append(_file);
-    _builder.append(" ");
+    _builder.append(" > ");
     String _file_1 = save.getFile();
     _builder.append(_file_1);
     _builder.newLineIfNotEmpty();

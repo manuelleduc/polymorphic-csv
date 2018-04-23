@@ -23,16 +23,16 @@ class CsvGenerator extends AbstractGenerator {
 		content.languages.forEach [ language |
 			generators.map.get(language.name).generate(content, language, fsa)
 		]
-
-		fsa.generateFile('''«content.name»/docker-compose.yml''', '''
+  	
+    	fsa.generateFile('''«content.name»/docker-compose.yml''', '''
 		version: '3'
 		services:
-		«FOR l : content.languages»
-		  	«l.name»:
-		  	  build:
-		  	    context: ./«l.name»
-		«ENDFOR»
-		''')
+		  «FOR l : content.languages»
+		  «l.name»:
+		    build:
+		      context: ./«l.name»
+          «ENDFOR»
+    	''')
 		
 		fsa.generateFile('''«content.name»/build.sh''', '''
 		#!/bin/bash
@@ -55,20 +55,40 @@ class CsvGenerator extends AbstractGenerator {
 		#!/bin/bash
 		
 		# local exec.sh
-		# syntax : exec.sh path data results
+		# syntax : bash exec.sh
 		
-		echo "<<$1>>" >> $3
-		echo "" >> $3
+		if [ -z ${var+x} ]; then name="code_1"; else name=$1; fi	# if local call = no $1
+		
+		if [ -z ${var+x} ]; then path_1="../../data"; else path_1="data"; fi	# if local call = no path of first launcher
+		
+		if [ -z ${var+x} ]; then path_2="."; else path_2="./src-gen/$name/"; fi	# if local call = no path of first launcher
+		
+		for D in $path_1/$name/*/		# for each folder in directory
+		do
+		
+		target=$D"results"			# results' file
+		
+		echo "$path_1 -> path_1"
+		echo "$target -> target"
+		
+		path_2="./src-gen/$name/"
+		
+		echo "<< $1 >>" >> $target
+		echo "" >> $target
+		
 		«FOR l : content.languages»
 			echo "< «l.name» >"
-			echo "< «l.name» >" >> $3
-			«bash_command(l.name)».$1/«l.name»/«l.target».«file_extension(l.name)» $2 >> $3
-			echo "<END «l.name» >" >> $3
+			echo "< «l.name» >" >> $target
+			«bash_command(l.name)»$path_2«l.name»/«l.target».«file_extension(l.name)» >> $target
+			pwd
+			echo "<END «l.name» >" >> $target
 			echo "<END «l.name» >"
 			echo ""
-			echo "----------------------------------------" >> $3
+			echo "----------------------------------------" >> $target
 			
 		«ENDFOR»
+		
+		done
 		''')
 	}
 	

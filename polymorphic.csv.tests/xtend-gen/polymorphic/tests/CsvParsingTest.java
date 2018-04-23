@@ -39,7 +39,7 @@ public class CsvParsingTest {
   private ValidationTestHelper _validationTestHelper;
   
   @Test
-  public void bashTest1() {
+  public void bashTest_old() {
     try {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package mpackage;");
@@ -80,11 +80,13 @@ public class CsvParsingTest {
       _builder_1.newLine();
       _builder_1.append("cat /tmp/test.csv");
       _builder_1.newLine();
-      _builder_1.append("cp /tmp/test.csv /tmp/test2.csv");
+      _builder_1.append("cat /tmp/test.csv > /tmp/test2.csv");
       _builder_1.newLine();
       _builder_1.newLine();
       _builder_1.append("File 2 : /myProject/./src-gen/mpackage/build.sh");
       _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("#!/bin/bash");
       _builder_1.newLine();
       _builder_1.append("mkdir -p ./inputs");
       _builder_1.newLine();
@@ -112,8 +114,41 @@ public class CsvParsingTest {
       _builder_1.append("context: ./bash");
       _builder_1.newLine();
       _builder_1.newLine();
-      _builder_1.append("File 4 : /myProject/./src-gen/mpackage/run.sh");
+      _builder_1.append("File 4 : /myProject/./src-gen/mpackage/exec.sh");
       _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("#!/bin/bash");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("# local exec.sh");
+      _builder_1.newLine();
+      _builder_1.append("# syntax : exec.sh path data results");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("echo \"<< $1 >>\" >> $3");
+      _builder_1.newLine();
+      _builder_1.append("echo \"\" >> $3");
+      _builder_1.newLine();
+      _builder_1.append("echo \"< bash >\"");
+      _builder_1.newLine();
+      _builder_1.append("echo \"< bash >\" >> $3");
+      _builder_1.newLine();
+      _builder_1.append(".$1/bash/a.b.java.C.sh $2 >> $3");
+      _builder_1.newLine();
+      _builder_1.append("echo \"<END bash >\" >> $3");
+      _builder_1.newLine();
+      _builder_1.append("echo \"<END bash >\"");
+      _builder_1.newLine();
+      _builder_1.append("echo \"\"");
+      _builder_1.newLine();
+      _builder_1.append("echo \"----------------------------------------\" >> $3");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("File 5 : /myProject/./src-gen/mpackage/run.sh");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _builder_1.append("#!/bin/bash");
       _builder_1.newLine();
       _builder_1.append("rm -r ./logs");
       _builder_1.newLine();
@@ -129,44 +164,64 @@ public class CsvParsingTest {
   }
   
   @Test
-  public void bashTest2() {
+  public void bashTest_awk() {
     try {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("package mpackage;");
+      _builder.append("package important;");
       _builder.newLine();
-      _builder.append("\t\t\t");
       _builder.newLine();
       _builder.append("constraints {");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("java = true");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("maven = true");
       _builder.newLine();
       _builder.append("}");
+      _builder.newLine();
       _builder.newLine();
       _builder.append("languages {");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("bash (a.b.java.C)");
+      _builder.append("bash_awk (truc)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
-      _builder.append("read a \"/tmp/test.csv\"");
       _builder.newLine();
-      _builder.append("print a");
+      _builder.append("read aaa \"/home/yannick/Bureau/dossier_test/Sans_nom_1.csv\" utf8");
       _builder.newLine();
-      _builder.append("save a \"/tmp/test2.csv\"");
+      _builder.append("print aaa");
+      _builder.newLine();
+      _builder.append("nbrow aaa");
+      _builder.newLine();
+      _builder.append("nbcol aaa");
+      _builder.newLine();
+      _builder.append("save aaa \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\"");
+      _builder.newLine();
+      _builder.append("read bbb \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\" utf8");
+      _builder.newLine();
+      _builder.append("print bbb");
+      _builder.newLine();
+      _builder.append("nbrow bbb");
+      _builder.newLine();
+      _builder.append("nbcol bbb");
+      _builder.newLine();
       _builder.newLine();
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("/myProject/./src-gen/mpackage/bash/a/b/java/C.sh");
+      _builder_1.append("/myProject/./src-gen/important/bash_awk/truc.sh");
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("#!/bin/bash");
       _builder_2.newLine();
-      _builder_2.append("cat /tmp/test.csv");
+      _builder_2.append("awk \'{ print $0 }\' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv");
       _builder_2.newLine();
-      _builder_2.append("cp /tmp/test.csv /tmp/test2.csv");
+      _builder_2.append("awk \'END { print NR-1 }\' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv");
+      _builder_2.newLine();
+      _builder_2.append("awk \'BEGIN { FS = \",\" } ; END { print NF }\' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv");
+      _builder_2.newLine();
+      _builder_2.append("awk \'{ print $0 }\' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv > /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
+      _builder_2.newLine();
+      _builder_2.append("awk \'{ print $0 }\' /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
+      _builder_2.newLine();
+      _builder_2.append("awk \'END { print NR-1 }\' /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
+      _builder_2.newLine();
+      _builder_2.append("awk \'BEGIN { FS = \",\" } ; END { print NF }\' /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
       _builder_2.newLine();
       Pair<String, String> _mappedTo = Pair.<String, String>of(_builder_1.toString(), _builder_2.toString());
       this._polymorphicCsvCompilationTestHelper.assertFileCompilesTo(_builder, Collections.<String, CharSequence>unmodifiableMap(CollectionLiterals.<String, CharSequence>newHashMap(_mappedTo)));
@@ -176,7 +231,7 @@ public class CsvParsingTest {
   }
   
   @Test
-  public void bashTest3() {
+  public void bashTest() {
     try {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package important;");
@@ -227,7 +282,7 @@ public class CsvParsingTest {
       _builder_2.newLine();
       _builder_2.append("head -1 /home/yannick/Bureau/dossier_test/Sans_nom_1.csv | sed \'s/[^,]//g\' | wc -c");
       _builder_2.newLine();
-      _builder_2.append("cp /home/yannick/Bureau/dossier_test/Sans_nom_1.csv /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
+      _builder_2.append("cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv > /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
       _builder_2.newLine();
       _builder_2.append("cat /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv");
       _builder_2.newLine();
@@ -282,9 +337,9 @@ public class CsvParsingTest {
       _builder_2.newLine();
       _builder_2.append("aaa");
       _builder_2.newLine();
-      _builder_2.append("nrow(aaa)");
+      _builder_2.append("cat( nrow(aaa),\"\\n\" )");
       _builder_2.newLine();
-      _builder_2.append("ncol(aaa)");
+      _builder_2.append("cat( ncol(aaa),\"\\n\" )");
       _builder_2.newLine();
       _builder_2.append("write.csv(aaa, \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\", quote=FALSE, row.names=FALSE)");
       _builder_2.newLine();
@@ -331,7 +386,7 @@ public class CsvParsingTest {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("/myProject/./src-gen/important/R_fwrite/file_R_fwrite.R");
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("install.packages(\"data.table\")");
+      _builder_2.append("#install.packages(\"data.table\")");
       _builder_2.newLine();
       _builder_2.append("library(data.table)");
       _builder_2.newLine();
@@ -339,9 +394,9 @@ public class CsvParsingTest {
       _builder_2.newLine();
       _builder_2.append("aaa");
       _builder_2.newLine();
-      _builder_2.append("nrow(aaa)");
+      _builder_2.append("cat( nrow(aaa),\"\\n\" )");
       _builder_2.newLine();
-      _builder_2.append("ncol(aaa)");
+      _builder_2.append("cat( ncol(aaa),\"\\n\" )");
       _builder_2.newLine();
       _builder_2.append("fwrite(aaa, file = \"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv\", quote = \"auto\")");
       _builder_2.newLine();
@@ -369,7 +424,7 @@ public class CsvParsingTest {
       _builder.append("languages {");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("python (truc)");
+      _builder.append("python3 (truc)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -394,9 +449,9 @@ public class CsvParsingTest {
       _builder.newLine();
       _builder.newLine();
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("/myProject/./src-gen/important/python/truc.py");
+      _builder_1.append("/myProject/./src-gen/important/python3/truc.py");
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("#!/usr/bin/env python");
+      _builder_2.append("#!/usr/bin/env python3");
       _builder_2.newLine();
       _builder_2.append("import csv");
       _builder_2.newLine();
@@ -417,7 +472,7 @@ public class CsvParsingTest {
       _builder_2.append("read = csv.reader(CSV_file)");
       _builder_2.newLine();
       _builder_2.append("\t");
-      _builder_2.append("print(sum(1 for elt in read))");
+      _builder_2.append("print(sum(1 for elt in read) -1)");
       _builder_2.newLine();
       _builder_2.append("with open(\"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv\", \"r\", encoding=\"utf-8\") as CSV_file:");
       _builder_2.newLine();
@@ -461,7 +516,7 @@ public class CsvParsingTest {
       _builder_2.append("read = csv.reader(CSV_file)");
       _builder_2.newLine();
       _builder_2.append("\t");
-      _builder_2.append("print(sum(1 for elt in read))");
+      _builder_2.append("print(sum(1 for elt in read) -1)");
       _builder_2.newLine();
       _builder_2.append("with open(\"/udd/ynamour/Desktop/dossier_test/test_copy.csv\", \"r\", encoding=\"latin-1\") as CSV_file:");
       _builder_2.newLine();
@@ -507,7 +562,7 @@ public class CsvParsingTest {
       _builder.append("commons (a.b.commons.C)");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("python (python_version)");
+      _builder.append("python3 (python3_version)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -522,6 +577,8 @@ public class CsvParsingTest {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("/myProject/./src-gen/uuu/build.sh");
       StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("#!/bin/bash");
+      _builder_2.newLine();
       _builder_2.append("mkdir -p ./inputs");
       _builder_2.newLine();
       _builder_2.append("rm -r ./java/inputs");
@@ -532,9 +589,9 @@ public class CsvParsingTest {
       _builder_2.newLine();
       _builder_2.append("cp -r ./inputs ./commons/inputs");
       _builder_2.newLine();
-      _builder_2.append("rm -r ./python/inputs");
+      _builder_2.append("rm -r ./python3/inputs");
       _builder_2.newLine();
-      _builder_2.append("cp -r ./inputs ./python/inputs");
+      _builder_2.append("cp -r ./inputs ./python3/inputs");
       _builder_2.newLine();
       _builder_2.append("docker-compose build");
       _builder_2.newLine();
@@ -696,13 +753,13 @@ public class CsvParsingTest {
       _builder_10.append("context: ./commons");
       _builder_10.newLine();
       _builder_10.append("  ");
-      _builder_10.append("python:");
+      _builder_10.append("python3:");
       _builder_10.newLine();
       _builder_10.append("    ");
       _builder_10.append("build:");
       _builder_10.newLine();
       _builder_10.append("      ");
-      _builder_10.append("context: ./python");
+      _builder_10.append("context: ./python3");
       _builder_10.newLine();
       Pair<String, String> _mappedTo_4 = Pair.<String, String>of(_builder_9.toString(), _builder_10.toString());
       StringConcatenation _builder_11 = new StringConcatenation();
@@ -1048,9 +1105,9 @@ public class CsvParsingTest {
       _builder_16.newLine();
       Pair<String, String> _mappedTo_7 = Pair.<String, String>of(_builder_15.toString(), _builder_16.toString());
       StringConcatenation _builder_17 = new StringConcatenation();
-      _builder_17.append("/myProject/./src-gen/uuu/python/Dockerfile");
+      _builder_17.append("/myProject/./src-gen/uuu/python3/Dockerfile");
       StringConcatenation _builder_18 = new StringConcatenation();
-      _builder_18.append("FROM python");
+      _builder_18.append("FROM python3");
       _builder_18.newLine();
       _builder_18.append("COPY . /project");
       _builder_18.newLine();
@@ -1058,13 +1115,13 @@ public class CsvParsingTest {
       _builder_18.newLine();
       _builder_18.append("WORKDIR project");
       _builder_18.newLine();
-      _builder_18.append("ENTRYPOINT python python_version.py");
+      _builder_18.append("ENTRYPOINT python3 python3_version.py");
       _builder_18.newLine();
       Pair<String, String> _mappedTo_8 = Pair.<String, String>of(_builder_17.toString(), _builder_18.toString());
       StringConcatenation _builder_19 = new StringConcatenation();
-      _builder_19.append("/myProject/./src-gen/uuu/python/python_version.py");
+      _builder_19.append("/myProject/./src-gen/uuu/python3/python3_version.py");
       StringConcatenation _builder_20 = new StringConcatenation();
-      _builder_20.append("#!/usr/bin/env python");
+      _builder_20.append("#!/usr/bin/env python3");
       _builder_20.newLine();
       _builder_20.append("import csv");
       _builder_20.newLine();
@@ -1097,6 +1154,8 @@ public class CsvParsingTest {
       StringConcatenation _builder_21 = new StringConcatenation();
       _builder_21.append("/myProject/./src-gen/uuu/run.sh");
       StringConcatenation _builder_22 = new StringConcatenation();
+      _builder_22.append("#!/bin/bash");
+      _builder_22.newLine();
       _builder_22.append("rm -r ./logs");
       _builder_22.newLine();
       _builder_22.append("mkdir -p ./logs");
@@ -1129,7 +1188,7 @@ public class CsvParsingTest {
       _builder.append("languages {");
       _builder.newLine();
       _builder.append("    ");
-      _builder.append("python (a)");
+      _builder.append("python3 (a)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -1148,11 +1207,13 @@ public class CsvParsingTest {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("/myProject/./src-gen/foo/build.sh");
       StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("#!/bin/bash");
+      _builder_2.newLine();
       _builder_2.append("mkdir -p ./inputs");
       _builder_2.newLine();
-      _builder_2.append("rm -r ./python/inputs");
+      _builder_2.append("rm -r ./python3/inputs");
       _builder_2.newLine();
-      _builder_2.append("cp -r ./inputs ./python/inputs");
+      _builder_2.append("cp -r ./inputs ./python3/inputs");
       _builder_2.newLine();
       _builder_2.append("docker-compose build");
       _builder_2.newLine();
@@ -1165,19 +1226,19 @@ public class CsvParsingTest {
       _builder_4.append("services:");
       _builder_4.newLine();
       _builder_4.append("  ");
-      _builder_4.append("python:");
+      _builder_4.append("python3:");
       _builder_4.newLine();
       _builder_4.append("    ");
       _builder_4.append("build:");
       _builder_4.newLine();
       _builder_4.append("      ");
-      _builder_4.append("context: ./python");
+      _builder_4.append("context: ./python3");
       _builder_4.newLine();
       Pair<String, String> _mappedTo_1 = Pair.<String, String>of(_builder_3.toString(), _builder_4.toString());
       StringConcatenation _builder_5 = new StringConcatenation();
-      _builder_5.append("/myProject/./src-gen/foo/python/Dockerfile");
+      _builder_5.append("/myProject/./src-gen/foo/python3/Dockerfile");
       StringConcatenation _builder_6 = new StringConcatenation();
-      _builder_6.append("FROM python");
+      _builder_6.append("FROM python3");
       _builder_6.newLine();
       _builder_6.append("COPY . /project");
       _builder_6.newLine();
@@ -1185,13 +1246,13 @@ public class CsvParsingTest {
       _builder_6.newLine();
       _builder_6.append("WORKDIR project");
       _builder_6.newLine();
-      _builder_6.append("ENTRYPOINT python a.py");
+      _builder_6.append("ENTRYPOINT python3 a.py");
       _builder_6.newLine();
       Pair<String, String> _mappedTo_2 = Pair.<String, String>of(_builder_5.toString(), _builder_6.toString());
       StringConcatenation _builder_7 = new StringConcatenation();
-      _builder_7.append("/myProject/./src-gen/foo/python/a.py");
+      _builder_7.append("/myProject/./src-gen/foo/python3/a.py");
       StringConcatenation _builder_8 = new StringConcatenation();
-      _builder_8.append("#!/usr/bin/env python");
+      _builder_8.append("#!/usr/bin/env python3");
       _builder_8.newLine();
       _builder_8.append("import csv");
       _builder_8.newLine();
@@ -1201,7 +1262,7 @@ public class CsvParsingTest {
       _builder_8.append("read = csv.reader(CSV_file)");
       _builder_8.newLine();
       _builder_8.append("\t");
-      _builder_8.append("print(sum(1 for elt in read))");
+      _builder_8.append("print(sum(1 for elt in read) -1)");
       _builder_8.newLine();
       _builder_8.append("with open(\"/tmp/test2.csv\", \"r\", encoding=\"\") as CSV_file:");
       _builder_8.newLine();
@@ -1209,12 +1270,14 @@ public class CsvParsingTest {
       _builder_8.append("read = csv.reader(CSV_file)");
       _builder_8.newLine();
       _builder_8.append("\t");
-      _builder_8.append("print(sum(1 for elt in read))");
+      _builder_8.append("print(sum(1 for elt in read) -1)");
       _builder_8.newLine();
       Pair<String, String> _mappedTo_3 = Pair.<String, String>of(_builder_7.toString(), _builder_8.toString());
       StringConcatenation _builder_9 = new StringConcatenation();
       _builder_9.append("/myProject/./src-gen/foo/run.sh");
       StringConcatenation _builder_10 = new StringConcatenation();
+      _builder_10.append("#!/bin/bash");
+      _builder_10.newLine();
       _builder_10.append("rm -r ./logs");
       _builder_10.newLine();
       _builder_10.append("mkdir -p ./logs");
@@ -1248,7 +1311,7 @@ public class CsvParsingTest {
       _builder.append("commons (a.b.commons.C)");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("python (python_version)");
+      _builder.append("python3 (python3_version)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -1259,6 +1322,8 @@ public class CsvParsingTest {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("/myProject/./src-gen/uuu/build.sh");
       StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("#!/bin/bash");
+      _builder_2.newLine();
       _builder_2.append("mkdir -p ./inputs");
       _builder_2.newLine();
       _builder_2.append("rm -r ./java/inputs");
@@ -1269,9 +1334,9 @@ public class CsvParsingTest {
       _builder_2.newLine();
       _builder_2.append("cp -r ./inputs ./commons/inputs");
       _builder_2.newLine();
-      _builder_2.append("rm -r ./python/inputs");
+      _builder_2.append("rm -r ./python3/inputs");
       _builder_2.newLine();
-      _builder_2.append("cp -r ./inputs ./python/inputs");
+      _builder_2.append("cp -r ./inputs ./python3/inputs");
       _builder_2.newLine();
       _builder_2.append("docker-compose build");
       _builder_2.newLine();
@@ -1412,13 +1477,13 @@ public class CsvParsingTest {
       _builder_10.append("context: ./commons");
       _builder_10.newLine();
       _builder_10.append("  ");
-      _builder_10.append("python:");
+      _builder_10.append("python3:");
       _builder_10.newLine();
       _builder_10.append("    ");
       _builder_10.append("build:");
       _builder_10.newLine();
       _builder_10.append("      ");
-      _builder_10.append("context: ./python");
+      _builder_10.append("context: ./python3");
       _builder_10.newLine();
       Pair<String, String> _mappedTo_4 = Pair.<String, String>of(_builder_9.toString(), _builder_10.toString());
       StringConcatenation _builder_11 = new StringConcatenation();
@@ -1761,9 +1826,9 @@ public class CsvParsingTest {
       _builder_16.newLine();
       Pair<String, String> _mappedTo_7 = Pair.<String, String>of(_builder_15.toString(), _builder_16.toString());
       StringConcatenation _builder_17 = new StringConcatenation();
-      _builder_17.append("/myProject/./src-gen/uuu/python/Dockerfile");
+      _builder_17.append("/myProject/./src-gen/uuu/python3/Dockerfile");
       StringConcatenation _builder_18 = new StringConcatenation();
-      _builder_18.append("FROM python");
+      _builder_18.append("FROM python3");
       _builder_18.newLine();
       _builder_18.append("COPY . /project");
       _builder_18.newLine();
@@ -1771,13 +1836,13 @@ public class CsvParsingTest {
       _builder_18.newLine();
       _builder_18.append("WORKDIR project");
       _builder_18.newLine();
-      _builder_18.append("ENTRYPOINT python python_version.py");
+      _builder_18.append("ENTRYPOINT python3 python3_version.py");
       _builder_18.newLine();
       Pair<String, String> _mappedTo_8 = Pair.<String, String>of(_builder_17.toString(), _builder_18.toString());
       StringConcatenation _builder_19 = new StringConcatenation();
-      _builder_19.append("/myProject/./src-gen/uuu/python/python_version.py");
+      _builder_19.append("/myProject/./src-gen/uuu/python3/python3_version.py");
       StringConcatenation _builder_20 = new StringConcatenation();
-      _builder_20.append("#!/usr/bin/env python");
+      _builder_20.append("#!/usr/bin/env python3");
       _builder_20.newLine();
       _builder_20.append("import csv");
       _builder_20.newLine();
@@ -1787,12 +1852,14 @@ public class CsvParsingTest {
       _builder_20.append("read = csv.reader(CSV_file)");
       _builder_20.newLine();
       _builder_20.append("\t");
-      _builder_20.append("print(sum(1 for elt in read))");
+      _builder_20.append("print(sum(1 for elt in read) -1)");
       _builder_20.newLine();
       Pair<String, String> _mappedTo_9 = Pair.<String, String>of(_builder_19.toString(), _builder_20.toString());
       StringConcatenation _builder_21 = new StringConcatenation();
       _builder_21.append("/myProject/./src-gen/uuu/run.sh");
       StringConcatenation _builder_22 = new StringConcatenation();
+      _builder_22.append("#!/bin/bash");
+      _builder_22.newLine();
       _builder_22.append("rm -r ./logs");
       _builder_22.newLine();
       _builder_22.append("mkdir -p ./logs");

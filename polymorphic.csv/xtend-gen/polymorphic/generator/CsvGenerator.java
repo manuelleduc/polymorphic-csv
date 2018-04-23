@@ -45,17 +45,20 @@ public class CsvGenerator extends AbstractGenerator {
     {
       EList<Language> _languages = content.getLanguages();
       for(final Language l : _languages) {
+        _builder_1.append("  ");
         String _name_1 = l.getName();
-        _builder_1.append(_name_1);
+        _builder_1.append(_name_1, "  ");
         _builder_1.append(":");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("  ");
+        _builder_1.append("  ");
         _builder_1.append("build:");
         _builder_1.newLine();
+        _builder_1.append("  ");
         _builder_1.append("    ");
         _builder_1.append("context: ./");
         String _name_2 = l.getName();
-        _builder_1.append(_name_2, "    ");
+        _builder_1.append(_name_2, "      ");
         _builder_1.newLineIfNotEmpty();
       }
     }
@@ -111,12 +114,38 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_7.newLine();
     _builder_7.append("# local exec.sh");
     _builder_7.newLine();
-    _builder_7.append("# syntax : exec.sh path data results");
+    _builder_7.append("# syntax : bash exec.sh");
     _builder_7.newLine();
     _builder_7.newLine();
-    _builder_7.append("echo \"<<$1>>\" >> $3");
+    _builder_7.append("if [ -z ${var+x} ]; then name=\"code_1\"; else name=$1; fi\t# if local call = no $1");
     _builder_7.newLine();
-    _builder_7.append("echo \"\" >> $3");
+    _builder_7.newLine();
+    _builder_7.append("if [ -z ${var+x} ]; then path_1=\"../../data\"; else path_1=\"data\"; fi\t# if local call = no path of first launcher");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("if [ -z ${var+x} ]; then path_2=\".\"; else path_2=\"./src-gen/$name/\"; fi\t# if local call = no path of first launcher");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("for D in $path_1/$name/*/\t\t# for each folder in directory");
+    _builder_7.newLine();
+    _builder_7.append("do");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("target=$D\"results\"\t\t\t# results\' file");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("echo \"$path_1 -> path_1\"");
+    _builder_7.newLine();
+    _builder_7.append("echo \"$target -> target\"");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("path_2=\"./src-gen/$name/\"");
+    _builder_7.newLine();
+    _builder_7.newLine();
+    _builder_7.append("echo \"<< $1 >>\" >> $target");
+    _builder_7.newLine();
+    _builder_7.append("echo \"\" >> $target");
+    _builder_7.newLine();
     _builder_7.newLine();
     {
       EList<Language> _languages_2 = content.getLanguages();
@@ -129,11 +158,11 @@ public class CsvGenerator extends AbstractGenerator {
         _builder_7.append("echo \"< ");
         String _name_9 = l_2.getName();
         _builder_7.append(_name_9);
-        _builder_7.append(" >\" >> $3");
+        _builder_7.append(" >\" >> $target");
         _builder_7.newLineIfNotEmpty();
         String _bash_command = this.bash_command(l_2.getName());
         _builder_7.append(_bash_command);
-        _builder_7.append(".$1/");
+        _builder_7.append("$path_2");
         String _name_10 = l_2.getName();
         _builder_7.append(_name_10);
         _builder_7.append("/");
@@ -142,12 +171,14 @@ public class CsvGenerator extends AbstractGenerator {
         _builder_7.append(".");
         String _file_extension = this.file_extension(l_2.getName());
         _builder_7.append(_file_extension);
-        _builder_7.append(" $2 >> $3");
+        _builder_7.append(" >> $target");
         _builder_7.newLineIfNotEmpty();
+        _builder_7.append("pwd");
+        _builder_7.newLine();
         _builder_7.append("echo \"<END ");
         String _name_11 = l_2.getName();
         _builder_7.append(_name_11);
-        _builder_7.append(" >\" >> $3");
+        _builder_7.append(" >\" >> $target");
         _builder_7.newLineIfNotEmpty();
         _builder_7.append("echo \"<END ");
         String _name_12 = l_2.getName();
@@ -156,11 +187,14 @@ public class CsvGenerator extends AbstractGenerator {
         _builder_7.newLineIfNotEmpty();
         _builder_7.append("echo \"\"");
         _builder_7.newLine();
-        _builder_7.append("echo \"----------------------------------------\" >> $3");
+        _builder_7.append("echo \"----------------------------------------\" >> $target");
         _builder_7.newLine();
         _builder_7.newLine();
       }
     }
+    _builder_7.newLine();
+    _builder_7.append("done");
+    _builder_7.newLine();
     fsa.generateFile(_builder_6.toString(), _builder_7);
   }
   
