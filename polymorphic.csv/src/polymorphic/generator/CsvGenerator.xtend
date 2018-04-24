@@ -56,34 +56,30 @@ class CsvGenerator extends AbstractGenerator {
 		
 		# local exec.sh
 		# syntax : bash exec.sh
-		
-		name=«content.name»
 
-		for D in ./data/*;		# for each folder in directory
+		for D in ./data/«content.name»/*/		# for each folder in directory
 		do
 		
-		echo $D
+			output="result"
+			target=$D$output"_«content.name»_"${D:14:6}			# results' file		
 		
-		target=$D"/results"			# results' file
-		echo $target" -> target"
+			date >> $target
+			echo "" >> $target
+			echo "## «content.name» ##" >> $target
+			echo "" >> $target
+			
+			«FOR l : content.languages»
+				echo "# «l.name» #"
+				echo "# «l.name» #" >> $target
+				«bash_command(l.name)»./src-gen/«content.name»/«l.name»/«l.target».«file_extension(l.name)» $D >> $target
+				echo "# END «l.name» #" >> $target
+				echo "# END «l.name» #"
+				echo ""
+				echo "----------------------------------------" >> $target
+				
+			«ENDFOR»
 		
-		
-		echo "<< $name >>" >> $target
-		echo "" >> $target
-		
-«««		«FOR l : content.languages»
-«««			echo "< «l.name» >"
-«««			echo "< «l.name» >" >> $target
-«««			«bash_command(l.name)»$path_2«l.name»/«l.target».«file_extension(l.name)» >> $target
-«««			pwd
-«««			echo "<END «l.name» >" >> $target
-«««			echo "<END «l.name» >"
-«««			echo ""
-«««			echo "----------------------------------------" >> $target
-«««			
-«««		«ENDFOR»
-		
-		done;
+		done
 		''')
 	}
 	

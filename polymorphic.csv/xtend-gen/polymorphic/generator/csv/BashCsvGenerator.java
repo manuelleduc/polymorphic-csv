@@ -52,7 +52,7 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cat ");
+    _builder.append("cat $1");
     String _file = print.getOpen().getFile();
     _builder.append(_file);
     _builder.newLineIfNotEmpty();
@@ -61,7 +61,7 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final NbRow nbrow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("echo $[$(wc -l < ");
+    _builder.append("echo $[$(wc -l < $1");
     String _file = nbrow.getOpen().getFile();
     _builder.append(_file);
     _builder.append(")-1]");
@@ -71,7 +71,7 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final NbCol nbcol) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("head -1 ");
+    _builder.append("head -1 $1");
     String _file = nbcol.getOpen().getFile();
     _builder.append(_file);
     _builder.append(" | sed \'s/[^,]//g\' | wc -c");
@@ -81,10 +81,10 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cat ");
+    _builder.append("cat $1");
     String _file = save.getOpen().getFile();
     _builder.append(_file);
-    _builder.append(" > ");
+    _builder.append(" > $1");
     String _file_1 = save.getFile();
     _builder.append(_file_1);
     _builder.newLineIfNotEmpty();

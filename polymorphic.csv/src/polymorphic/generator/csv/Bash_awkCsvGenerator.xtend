@@ -23,19 +23,19 @@ class Bash_awkCsvGenerator implements ICsvGenerator {
 	private def dispatch CharSequence bashAction(OpenCSV open) ''''''
 	
 	private def dispatch CharSequence bashAction(PrintCSV print) '''
-		awk '{ print $0 }' «print.open.file»
+		awk '{ print $0 }' $1«print.open.file»
 	'''
 	
 	private def dispatch CharSequence bashAction(NbRow nbrow) '''
-		awk 'END { print NR-1 }' «nbrow.open.file»
+		awk 'END { print NR-1 }' $1«nbrow.open.file»
 	'''
 	
 	private def dispatch CharSequence bashAction(NbCol nbcol) '''
-		awk 'BEGIN { FS = "," } ; END { print NF }' «nbcol.open.file»
+		awk 'BEGIN { FS = "," } ; END { print NF }' $1«nbcol.open.file»
 	'''
 	
 	private def dispatch CharSequence bashAction(SaveCSV save) '''
-		awk '{ print $0 }' «save.open.file» > «save.file»
+		awk '{ print $0 }' $1«save.open.file» > $1«save.file»
 	'''
 
 	override properties() {

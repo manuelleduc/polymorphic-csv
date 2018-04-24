@@ -57,6 +57,8 @@ public class PythonCsvGenerator implements ICsvGenerator {
     StringConcatenation _builder_3 = new StringConcatenation();
     _builder_3.append("#!/usr/bin/env python3");
     _builder_3.newLine();
+    _builder_3.append("import sys");
+    _builder_3.newLine();
     _builder_3.append("import csv");
     _builder_3.newLine();
     {
@@ -114,7 +116,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(\"");
+    _builder.append("with open(sys.argv[1]+\"");
     String _target = this.target(print);
     _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
@@ -136,7 +138,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   private CharSequence _pythonAction(final NbRow nbRow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(\"");
+    _builder.append("with open(sys.argv[1]+\"");
     String _target = this.target(nbRow);
     _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
@@ -155,7 +157,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   private CharSequence _pythonAction(final NbCol nbCol) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(\"");
+    _builder.append("with open(sys.argv[1]+\"");
     String _target = this.target(nbCol);
     _builder.append(_target);
     _builder.append("\", \"r\", encoding=\"");
@@ -177,7 +179,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   private CharSequence _pythonAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(\"");
+    _builder.append("with open(sys.argv[1]+\"");
     String _file = save.getFile();
     _builder.append(_file);
     _builder.append("\", \"w\", encoding=\"");
@@ -189,7 +191,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder.append("read_W = csv.writer(read_file)");
     _builder.newLine();
     _builder.append("    ");
-    _builder.append("with open(\"");
+    _builder.append("with open(sys.argv[1]+\"");
     String _target = this.target(save);
     _builder.append(_target, "    ");
     _builder.append("\", \"r\", encoding=\"");

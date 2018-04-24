@@ -25,6 +25,7 @@ class PythonCsvGenerator implements ICsvGenerator {
 
 		fsa.generateFile('''«content.name»/«language.name»/«language.target».py''','''
 			#!/usr/bin/env python3
+			import sys
 			import csv
 			«FOR action : content.actions»
 				«action.pythonAction»
@@ -55,29 +56,29 @@ class PythonCsvGenerator implements ICsvGenerator {
 	'''
 
 	private def dispatch CharSequence pythonAction(PrintCSV print) '''
-		with open("«print.target»", "r", encoding="«print.encoding»") as CSV_file:
+		with open(sys.argv[1]+"«print.target»", "r", encoding="«print.encoding»") as CSV_file:
 			read = csv.reader(CSV_file)
 			for elt in read:
 				print(elt)
 	'''
 
 	private def dispatch CharSequence pythonAction(NbRow nbRow) '''
-		with open("«nbRow.target»", "r", encoding="«nbRow.encoding»") as CSV_file:
+		with open(sys.argv[1]+"«nbRow.target»", "r", encoding="«nbRow.encoding»") as CSV_file:
 			read = csv.reader(CSV_file)
 			print(sum(1 for elt in read) -1)
 	'''
 	
 	private def dispatch CharSequence pythonAction(NbCol nbCol) '''
-		with open("«nbCol.target»", "r", encoding="«nbCol.encoding»") as CSV_file:
+		with open(sys.argv[1]+"«nbCol.target»", "r", encoding="«nbCol.encoding»") as CSV_file:
 			read = csv.reader(CSV_file)
 			first_line = next(read)
 			print(sum(1 for elt in first_line))
 	'''
 
 	private def dispatch CharSequence pythonAction(SaveCSV save) { '''
-		with open("«save.file»", "w", encoding="«save.encoding»") as read_file:
+		with open(sys.argv[1]+"«save.file»", "w", encoding="«save.encoding»") as read_file:
 		    read_W = csv.writer(read_file)
-		    with open("«save.target»", "r", encoding="«save.encoding»") as write_file:
+		    with open(sys.argv[1]+"«save.target»", "r", encoding="«save.encoding»") as write_file:
 		        read_R = csv.reader(write_file)
 		        read_W.writerows(read_R)
 	'''

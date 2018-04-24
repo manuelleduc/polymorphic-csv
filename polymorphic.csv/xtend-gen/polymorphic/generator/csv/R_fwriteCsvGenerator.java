@@ -36,6 +36,10 @@ public class R_fwriteCsvGenerator implements ICsvGenerator {
     _builder_1.newLine();
     _builder_1.append("library(data.table)");
     _builder_1.newLine();
+    _builder_1.append("args <- commandArgs(trailingOnly=TRUE)");
+    _builder_1.newLine();
+    _builder_1.append("root <- args[1]");
+    _builder_1.newLine();
     {
       EList<Action> _actions = content.getActions();
       for(final Action action : _actions) {
@@ -51,10 +55,10 @@ public class R_fwriteCsvGenerator implements ICsvGenerator {
     StringConcatenation _builder = new StringConcatenation();
     String _name = open.getName();
     _builder.append(_name);
-    _builder.append(" = read.csv(\"");
+    _builder.append(" = read.csv(paste(root,\"");
     String _file = open.getFile();
     _builder.append(_file);
-    _builder.append("\", header=TRUE, sep=\",\")");
+    _builder.append("\",sep=\"\"), header=TRUE, sep=\",\")");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
@@ -89,13 +93,13 @@ public class R_fwriteCsvGenerator implements ICsvGenerator {
   
   private CharSequence _RAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("fwrite(");
+    _builder.append("fwrite( ");
     String _name = save.getOpen().getName();
     _builder.append(_name);
-    _builder.append(", file = \"");
+    _builder.append(", file = \"paste(root,\"");
     String _file = save.getFile();
     _builder.append(_file);
-    _builder.append("\", quote = \"auto\")");
+    _builder.append("\",sep=\"\")\", quote = \"auto\" )");
     _builder.newLineIfNotEmpty();
     return _builder;
   }

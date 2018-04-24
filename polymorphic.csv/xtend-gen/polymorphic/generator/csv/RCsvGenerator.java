@@ -32,6 +32,10 @@ public class RCsvGenerator implements ICsvGenerator {
     _builder.append(_replaceAll);
     _builder.append(".R");
     StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("args <- commandArgs(trailingOnly=TRUE)");
+    _builder_1.newLine();
+    _builder_1.append("root <- args[1]");
+    _builder_1.newLine();
     {
       EList<Action> _actions = content.getActions();
       for(final Action action : _actions) {
@@ -47,10 +51,10 @@ public class RCsvGenerator implements ICsvGenerator {
     StringConcatenation _builder = new StringConcatenation();
     String _name = open.getName();
     _builder.append(_name);
-    _builder.append(" = read.csv(\"");
+    _builder.append(" = read.csv(paste(root,\"");
     String _file = open.getFile();
     _builder.append(_file);
-    _builder.append("\", header=TRUE, sep=\",\")");
+    _builder.append("\",sep=\"\"), header=TRUE, sep=\",\")");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
@@ -85,13 +89,13 @@ public class RCsvGenerator implements ICsvGenerator {
   
   private CharSequence _RAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("write.csv(");
-    String _name = save.getOpen().getName();
-    _builder.append(_name);
-    _builder.append(", \"");
-    String _file = save.getFile();
+    _builder.append("write.csv( ");
+    String _file = save.getOpen().getFile();
     _builder.append(_file);
-    _builder.append("\", quote=FALSE, row.names=FALSE)");
+    _builder.append(", paste(root,\"");
+    String _file_1 = save.getFile();
+    _builder.append(_file_1);
+    _builder.append("\",sep=\"\"), quote=FALSE, row.names=FALSE )");
     _builder.newLineIfNotEmpty();
     return _builder;
   }

@@ -52,7 +52,7 @@ public class Bash_awkCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("awk \'{ print $0 }\' ");
+    _builder.append("awk \'{ print $0 }\' $1");
     String _file = print.getOpen().getFile();
     _builder.append(_file);
     _builder.newLineIfNotEmpty();
@@ -61,7 +61,7 @@ public class Bash_awkCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final NbRow nbrow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("awk \'END { print NR-1 }\' ");
+    _builder.append("awk \'END { print NR-1 }\' $1");
     String _file = nbrow.getOpen().getFile();
     _builder.append(_file);
     _builder.newLineIfNotEmpty();
@@ -70,7 +70,7 @@ public class Bash_awkCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final NbCol nbcol) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("awk \'BEGIN { FS = \",\" } ; END { print NF }\' ");
+    _builder.append("awk \'BEGIN { FS = \",\" } ; END { print NF }\' $1");
     String _file = nbcol.getOpen().getFile();
     _builder.append(_file);
     _builder.newLineIfNotEmpty();
@@ -79,10 +79,10 @@ public class Bash_awkCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("awk \'{ print $0 }\' ");
+    _builder.append("awk \'{ print $0 }\' $1");
     String _file = save.getOpen().getFile();
     _builder.append(_file);
-    _builder.append(" > ");
+    _builder.append(" > $1");
     String _file_1 = save.getFile();
     _builder.append(_file_1);
     _builder.newLineIfNotEmpty();
