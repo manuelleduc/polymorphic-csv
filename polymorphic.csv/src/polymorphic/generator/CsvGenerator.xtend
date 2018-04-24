@@ -54,8 +54,14 @@ class CsvGenerator extends AbstractGenerator {
 		fsa.generateFile('''«content.name»/exec.sh''', '''
 		#!/bin/bash
 		
-		# local exec.sh
+		# local exec.sh «content.name»
 		# syntax : bash exec.sh
+		
+«««		if [ "$1" = "main" ] ; then path="." ; else path="../../.." ; fi
+«««		
+«««		path+=/data/«content.name»/
+«««		
+«««		for D in $path*/		# for each folder in directory
 
 		for D in ./data/«content.name»/*/		# for each folder in directory
 		do
@@ -63,7 +69,9 @@ class CsvGenerator extends AbstractGenerator {
 			output="result"
 			target=$D$output"_«content.name»_"${D:14:6}			# results' file		
 		
+			printf "////////////////////////////// " >> $target
 			date >> $target
+			uname -a >> $target
 			echo "" >> $target
 			echo "## «content.name» ##" >> $target
 			echo "" >> $target
@@ -71,7 +79,9 @@ class CsvGenerator extends AbstractGenerator {
 			«FOR l : content.languages»
 				echo "# «l.name» #"
 				echo "# «l.name» #" >> $target
+				echo "" >> $target
 				«bash_command(l.name)»./src-gen/«content.name»/«l.name»/«l.target».«file_extension(l.name)» $D >> $target
+				echo "" >> $target
 				echo "# END «l.name» #" >> $target
 				echo "# END «l.name» #"
 				echo ""

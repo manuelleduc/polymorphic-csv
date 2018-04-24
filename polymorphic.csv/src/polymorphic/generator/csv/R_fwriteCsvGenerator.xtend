@@ -40,7 +40,7 @@ class R_fwriteCsvGenerator implements ICsvGenerator {
 	'''
 	
 	private def dispatch CharSequence RAction(SaveCSV save) '''
-	fwrite( «save.open.name», file = "paste(root,"«save.file»",sep="")", quote = "auto" )
+	fwrite( «save.open.name», file = paste(root,"«save.file»",sep=""), quote = "auto" )
 	'''
 
 	override properties() {

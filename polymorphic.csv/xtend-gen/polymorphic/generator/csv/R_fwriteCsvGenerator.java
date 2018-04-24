@@ -96,10 +96,10 @@ public class R_fwriteCsvGenerator implements ICsvGenerator {
     _builder.append("fwrite( ");
     String _name = save.getOpen().getName();
     _builder.append(_name);
-    _builder.append(", file = \"paste(root,\"");
+    _builder.append(", file = paste(root,\"");
     String _file = save.getFile();
     _builder.append(_file);
-    _builder.append("\",sep=\"\")\", quote = \"auto\" )");
+    _builder.append("\",sep=\"\"), quote = \"auto\" )");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
