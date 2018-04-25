@@ -90,11 +90,11 @@ public class RCsvGenerator implements ICsvGenerator {
   private CharSequence _RAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("write.csv( ");
-    String _file = save.getOpen().getFile();
-    _builder.append(_file);
+    String _name = save.getOpen().getName();
+    _builder.append(_name);
     _builder.append(", paste(root,\"");
-    String _file_1 = save.getFile();
-    _builder.append(_file_1);
+    String _file = save.getFile();
+    _builder.append(_file);
     _builder.append("\",sep=\"\"), quote=FALSE, row.names=FALSE )");
     _builder.newLineIfNotEmpty();
     return _builder;

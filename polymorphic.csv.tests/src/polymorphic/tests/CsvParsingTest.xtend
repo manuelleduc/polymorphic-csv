@@ -43,8 +43,8 @@ class CsvParsingTest {
 		File 1 : /myProject/./src-gen/mpackage/bash/a/b/java/C.sh
 		
 		#!/bin/bash
-		cat /tmp/test.csv
-		cat /tmp/test.csv > /tmp/test2.csv
+		cat $1/tmp/test.csv
+		cat $1/tmp/test.csv > $1/tmp/test2.csv
 		
 		File 2 : /myProject/./src-gen/mpackage/build.sh
 		
@@ -66,20 +66,37 @@ class CsvParsingTest {
 		
 		#!/bin/bash
 		
-		# local exec.sh
-		# syntax : exec.sh path data results
-		
-		echo "<< $1 >>" >> $3
-		echo "" >> $3
-		echo "< bash >"
-		echo "< bash >" >> $3
-		.$1/bash/a.b.java.C.sh $2 >> $3
-		echo "<END bash >" >> $3
-		echo "<END bash >"
-		echo ""
-		echo "----------------------------------------" >> $3
+		# local exec.sh mpackage
+		# syntax : bash exec.sh
 		
 		
+		for D in ./data/mpackage/*/		# for each folder in directory
+		do
+		
+			output="result"
+			target=$D$output"_mpackage_"${D:14:-1}			# results' file		
+		
+			printf "////////////////////////////// " >> $target
+			date >> $target
+			uname -a >> $target
+			echo "" >> $target
+			echo "## mpackage ##" >> $target
+			echo "" >> $target
+			echo "########## ${D:14:-1}"
+			
+			echo "# bash #"
+			echo "# bash #" >> $target
+			echo "" >> $target
+			./src-gen/mpackage/bash/a.b.java.C.sh $D >> $target
+			echo "" >> $target
+			echo "# END bash #" >> $target
+			echo "# END bash #"
+			echo ""
+			echo "----------------------------------------" >> $target
+			
+		
+		done
+
 		File 5 : /myProject/./src-gen/mpackage/run.sh
 		
 		#!/bin/bash
@@ -115,13 +132,13 @@ class CsvParsingTest {
 
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/bash_awk/truc.sh''' -> '''	
 		#!/bin/bash
-		awk '{ print $0 }' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv
-		awk 'END { print NR-1 }' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv
-		awk 'BEGIN { FS = "," } ; END { print NF }' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv
-		awk '{ print $0 }' /home/yannick/Bureau/dossier_test/Sans_nom_1.csv > /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
-		awk '{ print $0 }' /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
-		awk 'END { print NR-1 }' /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
-		awk 'BEGIN { FS = "," } ; END { print NF }' /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		awk '{ print $0 }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		awk 'END { print NR-1 }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		awk 'BEGIN { FS = "," } ; END { print NF }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		awk '{ print $0 }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv > $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		awk '{ print $0 }' $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		awk 'END { print NR-1 }' $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		awk 'BEGIN { FS = "," } ; END { print NF }' $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
 		'''}
 		)
 	}
@@ -151,13 +168,13 @@ class CsvParsingTest {
 
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/bash/truc.sh''' -> '''	
 		#!/bin/bash
-		cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv
-		echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]
-		head -1 /home/yannick/Bureau/dossier_test/Sans_nom_1.csv | sed 's/[^,]//g' | wc -c
-		cat /home/yannick/Bureau/dossier_test/Sans_nom_1.csv > /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
-		cat /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
-		echo $[$(wc -l < /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv)-1]
-		head -1 /home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv | sed 's/[^,]//g' | wc -c
+		cat $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		echo $[$(wc -l < $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]
+		head -1 $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv | sed 's/[^,]//g' | wc -c
+		cat $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv > $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		cat $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		echo $[$(wc -l < $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv)-1]
+		head -1 $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv | sed 's/[^,]//g' | wc -c
 		'''}
 		)
 	}
@@ -181,12 +198,14 @@ class CsvParsingTest {
 		nbcol aaa
 		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
 
-		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/R/file_R.R''' -> '''	
-		aaa = read.csv("/home/yannick/Bureau/dossier_test/Sans_nom_1.csv", header=TRUE, sep=",")
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/R/file_R.R''' -> '''
+		args <- commandArgs(trailingOnly=TRUE)
+		root <- args[1]
+		aaa = read.csv(paste(root,"/home/yannick/Bureau/dossier_test/Sans_nom_1.csv",sep=""), header=TRUE, sep=",")
 		aaa
 		cat( nrow(aaa),"\n" )
 		cat( ncol(aaa),"\n" )
-		write.csv(aaa, "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv", quote=FALSE, row.names=FALSE)
+		write.csv( /home/yannick/Bureau/dossier_test/Sans_nom_1.csv, paste(root,"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv",sep=""), quote=FALSE, row.names=FALSE )
 		'''}
 		)
 	}
@@ -213,11 +232,13 @@ class CsvParsingTest {
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/R_fwrite/file_R_fwrite.R''' -> '''
 		#install.packages("data.table")
 		library(data.table)
-		aaa = read.csv("/home/yannick/Bureau/dossier_test/Sans_nom_1.csv", header=TRUE, sep=",")
+		args <- commandArgs(trailingOnly=TRUE)
+		root <- args[1]
+		aaa = read.csv(paste(root,"/home/yannick/Bureau/dossier_test/Sans_nom_1.csv",sep=""), header=TRUE, sep=",")
 		aaa
 		cat( nrow(aaa),"\n" )
 		cat( ncol(aaa),"\n" )
-		fwrite(aaa, file = "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv", quote = "auto")
+		fwrite( aaa, file = paste(root,"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv",sep=""), quote = "auto" )
 		'''}
 		)
 	}
@@ -247,31 +268,32 @@ class CsvParsingTest {
 
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/python3/truc.py''' -> '''	
 		#!/usr/bin/env python3
+		import sys
 		import csv
-		with open("/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
 			read = csv.reader(CSV_file)
 			for elt in read:
 				print(elt)
-		with open("/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
 			read = csv.reader(CSV_file)
 			print(sum(1 for elt in read) -1)
-		with open("/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
 			read = csv.reader(CSV_file)
 			first_line = next(read)
 			print(sum(1 for elt in first_line))
-		with open("/udd/ynamour/Desktop/dossier_test/test_copy.csv", "w", encoding="utf-8") as read_file:
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "w", encoding="utf-8") as read_file:
 		    read_W = csv.writer(read_file)
-		    with open("/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as write_file:
+		    with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as write_file:
 		        read_R = csv.reader(write_file)
 		        read_W.writerows(read_R)
-		with open("/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
 			read = csv.reader(CSV_file)
 			for elt in read:
 				print(elt)
-		with open("/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
 			read = csv.reader(CSV_file)
 			print(sum(1 for elt in read) -1)
-		with open("/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
 			read = csv.reader(CSV_file)
 			first_line = next(read)
 			print(sum(1 for elt in first_line))
@@ -504,14 +526,15 @@ class CsvParsingTest {
 				ENTRYPOINT python3 python3_version.py
 			''', '''/myProject/./src-gen/uuu/python3/python3_version.py''' -> '''
 				#!/usr/bin/env python3
+				import sys
 				import csv
-				with open("/tmp/test.csv", "r", encoding="") as CSV_file:
+				with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as CSV_file:
 					read = csv.reader(CSV_file)
 					for elt in read:
 						print(elt)
-				with open("/tmp/test2.csv", "w", encoding="") as read_file:
+				with open(sys.argv[1]+"/tmp/test2.csv", "w", encoding="") as read_file:
 				    read_W = csv.writer(read_file)
-				    with open("/tmp/test.csv", "r", encoding="") as write_file:
+				    with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as write_file:
 				        read_R = csv.reader(write_file)
 				        read_W.writerows(read_R)
 			''', '''/myProject/./src-gen/uuu/run.sh''' -> '''
@@ -560,11 +583,12 @@ class CsvParsingTest {
 			ENTRYPOINT python3 a.py
 		''', '''/myProject/./src-gen/foo/python3/a.py''' -> '''
 			#!/usr/bin/env python3
+			import sys
 			import csv
-			with open("/tmp/test.csv", "r", encoding="") as CSV_file:
+			with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as CSV_file:
 				read = csv.reader(CSV_file)
 				print(sum(1 for elt in read) -1)
-			with open("/tmp/test2.csv", "r", encoding="") as CSV_file:
+			with open(sys.argv[1]+"/tmp/test2.csv", "r", encoding="") as CSV_file:
 				read = csv.reader(CSV_file)
 				print(sum(1 for elt in read) -1)
 		''', '''/myProject/./src-gen/foo/run.sh''' -> '''
@@ -789,8 +813,9 @@ class CsvParsingTest {
 			ENTRYPOINT python3 python3_version.py
 		''', '''/myProject/./src-gen/uuu/python3/python3_version.py''' -> '''
 			#!/usr/bin/env python3
+			import sys
 			import csv
-			with open("/tmp/test.csv", "r", encoding="") as CSV_file:
+			with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as CSV_file:
 				read = csv.reader(CSV_file)
 				print(sum(1 for elt in read) -1)
 		''', '''/myProject/./src-gen/uuu/run.sh''' -> '''

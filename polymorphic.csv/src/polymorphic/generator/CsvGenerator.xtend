@@ -57,17 +57,18 @@ class CsvGenerator extends AbstractGenerator {
 		# local exec.sh «content.name»
 		# syntax : bash exec.sh
 		
-«««		if [ "$1" = "main" ] ; then path="." ; else path="../../.." ; fi
-«««		
-«««		path+=/data/«content.name»/
-«««		
-«««		for D in $path*/		# for each folder in directory
-
-		for D in ./data/«content.name»/*/		# for each folder in directory
+		# path of "code_X"" for main call / local call
+		if [ "$1" = "main" ] ; then path1="./data/«content.name»/" ; else path1="../../data/«content.name»/" ; fi
+		
+		# for each folder in directory
+		for D in $path1*/
 		do
 		
-			output="result"
-			target=$D$output"_«content.name»_"${D:14:6}			# results' file		
+			# data's name for main call / local call
+			if [ "$1" = "main" ] ; then dataNb=${D:14:-1} ; else dataNb=${D:18:-1} ; fi
+
+			# path of the results' file	
+			target=$D"result_«content.name»_"$dataNb
 		
 			printf "////////////////////////////// " >> $target
 			date >> $target
@@ -75,12 +76,17 @@ class CsvGenerator extends AbstractGenerator {
 			echo "" >> $target
 			echo "## «content.name» ##" >> $target
 			echo "" >> $target
+			echo "########## $dataNb"
 			
+			# path for main call / path for local call
+			if [ "$1" = "main" ] ; then path2="./src-gen/«content.name»" ; else path2="./" ; fi
+
+			# for each mentioned language
 			«FOR l : content.languages»
 				echo "# «l.name» #"
 				echo "# «l.name» #" >> $target
 				echo "" >> $target
-				«bash_command(l.name)»./src-gen/«content.name»/«l.name»/«l.target».«file_extension(l.name)» $D >> $target
+				«bash_command(l.name)»"${path2}"/«l.name»/«l.target».«file_extension(l.name)» $D >> $target
 				echo "" >> $target
 				echo "# END «l.name» #" >> $target
 				echo "# END «l.name» #"

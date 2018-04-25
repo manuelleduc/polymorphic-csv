@@ -38,7 +38,7 @@ class RCsvGenerator implements ICsvGenerator {
 	'''
 	
 	private def dispatch CharSequence RAction(SaveCSV save) '''
-	write.csv( «save.open.file», paste(root,"«save.file»",sep=""), quote=FALSE, row.names=FALSE )
+	write.csv( «save.open.name», paste(root,"«save.file»",sep=""), quote=FALSE, row.names=FALSE )
 	'''
 
 	override properties() {
