@@ -194,7 +194,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder.append("final List<CSVRecord> ");
     String _name = open.getName();
     _builder.append(_name);
-    _builder.append(" = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader(\"");
+    _builder.append(" = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader(args[0]+\"");
     String _file = open.getFile();
     _builder.append(_file);
     _builder.append("\")).spliterator(), false).collect(Collectors.toList());");
@@ -276,7 +276,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("try (CSVPrinter tmp");
       _builder.append(varX);
-      _builder.append(" = new CSVPrinter(new FileWriter(new File(\"");
+      _builder.append(" = new CSVPrinter(new FileWriter(new File(args[0]+\"");
       _builder.append(file);
       _builder.append("\")), CSVFormat.RFC4180)) {");
       _builder.newLineIfNotEmpty();

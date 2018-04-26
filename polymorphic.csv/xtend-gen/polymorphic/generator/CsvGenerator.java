@@ -212,32 +212,68 @@ public class CsvGenerator extends AbstractGenerator {
         _builder_7.append("echo \"\" >> $target");
         _builder_7.newLine();
         _builder_7.append("\t");
-        String _bash_command = this.bash_command(l_2.getName());
-        _builder_7.append(_bash_command, "\t");
-        _builder_7.append("\"${path2}\"/");
+        String _switchResult = null;
         String _name_16 = l_2.getName();
-        _builder_7.append(_name_16, "\t");
-        _builder_7.append("/");
-        String _target = l_2.getTarget();
-        _builder_7.append(_target, "\t");
-        _builder_7.append(".");
-        String _file_extension = this.file_extension(l_2.getName());
-        _builder_7.append(_file_extension, "\t");
-        _builder_7.append(" $D >> $target");
+        if (_name_16 != null) {
+          switch (_name_16) {
+            case "java":
+              String _name_17 = l_2.getName();
+              String _plus = ("mvn compile exec:java -Dexec.mainClass=\"mycommons\" -Dexec.args=\"${path2}/" + _name_17);
+              String _plus_1 = (_plus + "/src/main/java/\" -f \"${path2}/");
+              String _name_18 = l_2.getName();
+              String _plus_2 = (_plus_1 + _name_18);
+              _switchResult = (_plus_2 + "\"");
+              break;
+            case "commons":
+              String _name_19 = l_2.getName();
+              String _plus_3 = ("mvn compile exec:java -Dexec.mainClass=\"mycommons\" -Dexec.args=\"${path2}/" + _name_19);
+              String _plus_4 = (_plus_3 + "/src/main/java/\" -f \"${path2}/");
+              String _name_20 = l_2.getName();
+              String _plus_5 = (_plus_4 + _name_20);
+              _switchResult = (_plus_5 + "\"");
+              break;
+            default:
+              String _bash_command = this.bash_command(l_2.getName());
+              String _plus_6 = (_bash_command + "\"${path2}\"/");
+              String _name_21 = l_2.getName();
+              String _plus_7 = (_plus_6 + _name_21);
+              String _plus_8 = (_plus_7 + "/");
+              String _target = l_2.getTarget();
+              String _plus_9 = (_plus_8 + _target);
+              String _plus_10 = (_plus_9 + ".");
+              String _file_extension = this.file_extension(l_2.getName());
+              String _plus_11 = (_plus_10 + _file_extension);
+              _switchResult = (_plus_11 + " $D >> $target");
+              break;
+          }
+        } else {
+          String _bash_command = this.bash_command(l_2.getName());
+          String _plus_6 = (_bash_command + "\"${path2}\"/");
+          String _name_21 = l_2.getName();
+          String _plus_7 = (_plus_6 + _name_21);
+          String _plus_8 = (_plus_7 + "/");
+          String _target = l_2.getTarget();
+          String _plus_9 = (_plus_8 + _target);
+          String _plus_10 = (_plus_9 + ".");
+          String _file_extension = this.file_extension(l_2.getName());
+          String _plus_11 = (_plus_10 + _file_extension);
+          _switchResult = (_plus_11 + " $D >> $target");
+        }
+        _builder_7.append(_switchResult, "\t");
         _builder_7.newLineIfNotEmpty();
         _builder_7.append("\t");
         _builder_7.append("echo \"\" >> $target");
         _builder_7.newLine();
         _builder_7.append("\t");
         _builder_7.append("echo \"# END ");
-        String _name_17 = l_2.getName();
-        _builder_7.append(_name_17, "\t");
+        String _name_22 = l_2.getName();
+        _builder_7.append(_name_22, "\t");
         _builder_7.append(" #\" >> $target");
         _builder_7.newLineIfNotEmpty();
         _builder_7.append("\t");
         _builder_7.append("echo \"# END ");
-        String _name_18 = l_2.getName();
-        _builder_7.append(_name_18, "\t");
+        String _name_23 = l_2.getName();
+        _builder_7.append(_name_23, "\t");
         _builder_7.append(" #\"");
         _builder_7.newLineIfNotEmpty();
         _builder_7.append("\t");

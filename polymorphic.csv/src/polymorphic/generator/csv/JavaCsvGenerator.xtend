@@ -39,8 +39,7 @@ class JavaCsvGenerator implements ICsvGenerator {
 			</project>
 		''')
 
-		fsa.
-			generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
+		fsa.generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
 				package «package»;
 				
 				import java.io.*;

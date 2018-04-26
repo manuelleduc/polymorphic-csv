@@ -69,12 +69,18 @@ class CsvParsingTest {
 		# local exec.sh mpackage
 		# syntax : bash exec.sh
 		
+		# path of "code_X"" for main call / local call
+		if [ "$1" = "main" ] ; then path1="./data/mpackage/" ; else path1="../../data/mpackage/" ; fi
 		
-		for D in ./data/mpackage/*/		# for each folder in directory
+		# for each folder in directory
+		for D in $path1*/
 		do
 		
-			output="result"
-			target=$D$output"_mpackage_"${D:14:-1}			# results' file		
+			# data's name for main call / local call
+			if [ "$1" = "main" ] ; then dataNb=${D:14:-1} ; else dataNb=${D:18:-1} ; fi
+		
+			# path of the results' file	
+			target=$D"result_mpackage_"$dataNb
 		
 			printf "////////////////////////////// " >> $target
 			date >> $target
@@ -82,12 +88,16 @@ class CsvParsingTest {
 			echo "" >> $target
 			echo "## mpackage ##" >> $target
 			echo "" >> $target
-			echo "########## ${D:14:-1}"
+			echo "########## $dataNb"
 			
+			# path for main call / path for local call
+			if [ "$1" = "main" ] ; then path2="./src-gen/mpackage" ; else path2="./" ; fi
+		
+			# for each mentioned language
 			echo "# bash #"
 			echo "# bash #" >> $target
 			echo "" >> $target
-			./src-gen/mpackage/bash/a.b.java.C.sh $D >> $target
+			"${path2}"/bash/a.b.java.C.sh $D >> $target
 			echo "" >> $target
 			echo "# END bash #" >> $target
 			echo "# END bash #"
@@ -205,7 +215,7 @@ class CsvParsingTest {
 		aaa
 		cat( nrow(aaa),"\n" )
 		cat( ncol(aaa),"\n" )
-		write.csv( /home/yannick/Bureau/dossier_test/Sans_nom_1.csv, paste(root,"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv",sep=""), quote=FALSE, row.names=FALSE )
+		write.csv( aaa, paste(root,"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv",sep=""), quote=FALSE, row.names=FALSE )
 		'''}
 		)
 	}

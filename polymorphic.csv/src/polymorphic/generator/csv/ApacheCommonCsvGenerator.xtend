@@ -57,59 +57,60 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 		''')
 
 		val ctx = new Context
-		fsa.
-			generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
-				package «package»;
-				
-				import java.io.*;
-				import java.util.*;
-				import org.apache.commons.csv.*;
-				import java.util.stream.StreamSupport;
-				import java.util.stream.Collectors;
-				
-				public class «className» {
-				 	public static void main(String[] args) throws  FileNotFoundException, IOException {
-					«FOR action : content.actions»
-						«action.javaAction(className, ctx)»
-					«ENDFOR»
-					}
+		fsa.generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
+			package «package»;
+			
+			import java.io.*;
+			import java.util.*;
+			import org.apache.commons.csv.*;
+			import java.util.stream.StreamSupport;
+			import java.util.stream.Collectors;
+			
+			public class «className» {
+			 	public static void main(String[] args) throws  FileNotFoundException, IOException {
+				«FOR action : content.actions»
+					«action.javaAction(className, ctx)»
+				«ENDFOR»
 				}
-			''')
+			}
+		''')
 	}
 
 	private def dispatch CharSequence javaAction(OpenCSV open, CharSequence className, Context ctx) {
 		'''
-			final List<CSVRecord> «open.name» = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader("«open.file»")).spliterator(), false).collect(Collectors.toList());
+		final List<CSVRecord> «open.name» = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader(args[0]+"«open.file»")).spliterator(), false).collect(Collectors.toList());
 		'''
 	}
 
 	private def dispatch CharSequence javaAction(PrintCSV print, CharSequence className, Context ctx) {
 		val varX = ctx.nextCptr
 		'''
-			«val sb = '''sb«varX»'''»
-			«val tmp = '''tmp«varX»'''»
-			final StringBuilder «sb» = new StringBuilder();
-			try (CSVPrinter «tmp» = new CSVPrinter(«sb», CSVFormat.RFC4180)) {
-				«tmp».printRecords(«print.open.name»);
-			}
-			System.out.println(«sb»);
+		«val sb = '''sb«varX»'''»
+		«val tmp = '''tmp«varX»'''»
+		final StringBuilder «sb» = new StringBuilder();
+		try (CSVPrinter «tmp» = new CSVPrinter(«sb», CSVFormat.RFC4180)) {
+			«tmp».printRecords(«print.open.name»);
+		}
+		System.out.println(«sb»);
 		'''
 	}
 
-	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className,
-		Context ctx) '''System.out.println(«nbRow.open.name».size());
+	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className, Context ctx)
+		'''
+		System.out.println(«nbRow.open.name».size());
 		'''
 		
-	private def dispatch CharSequence javaAction(NbCol nbCol, CharSequence className,
-		Context ctx) ''''''
+	private def dispatch CharSequence javaAction(NbCol nbCol, CharSequence className, Context ctx)
+		'''
+		'''
 
 	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {
 		val file = if(save.file !== null) save.file else save.open.file
 		val varX = ctx.nextCptr
 		'''
-			try (CSVPrinter tmp«varX» = new CSVPrinter(new FileWriter(new File("«file»")), CSVFormat.RFC4180)) {
-				tmp«varX».printRecords(«save.open.name»);
-			}
+		try (CSVPrinter tmp«varX» = new CSVPrinter(new FileWriter(new File(args[0]+"«file»")), CSVFormat.RFC4180)) {
+			tmp«varX».printRecords(«save.open.name»);
+		}
 		'''
 	}
 
