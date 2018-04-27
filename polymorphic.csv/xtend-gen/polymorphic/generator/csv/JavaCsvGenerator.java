@@ -111,9 +111,15 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_4.append(_replaceAll);
     _builder_4.append(".java");
     StringConcatenation _builder_5 = new StringConcatenation();
-    _builder_5.append("package ");
-    _builder_5.append(package_);
-    _builder_5.append(";");
+    {
+      int _length = package_.length();
+      boolean _greaterThan = (_length > 0);
+      if (_greaterThan) {
+        _builder_5.append("package ");
+        _builder_5.append(package_);
+        _builder_5.append(";");
+      }
+    }
     _builder_5.newLineIfNotEmpty();
     _builder_5.newLine();
     _builder_5.append("import java.io.*;");
@@ -369,6 +375,11 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_5.append("\t");
     _builder_5.newLine();
     _builder_5.append("\t");
+    _builder_5.append("public int cols() { return this._cols; }");
+    _builder_5.newLine();
+    _builder_5.append("\t");
+    _builder_5.newLine();
+    _builder_5.append("\t");
     _builder_5.append("public static void main(String[] args) {");
     _builder_5.newLine();
     _builder_5.append("\t\t");
@@ -412,7 +423,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder.newLineIfNotEmpty();
     String _name_1 = open.getName();
     _builder.append(_name_1);
-    _builder.append(".open(new File(\"");
+    _builder.append(".open(new File(args[0]+\"");
     String _file = open.getFile();
     _builder.append(_file);
     _builder.append("\"));");
@@ -435,13 +446,18 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder.append("System.out.println(");
     String _name = nbRow.getOpen().getName();
     _builder.append(_name);
-    _builder.append(".rows());");
+    _builder.append(".rows()-1);");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   private CharSequence _javaAction(final NbCol nbCol, final CharSequence className) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("System.out.println(");
+    String _name = nbCol.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(".cols());");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
@@ -460,7 +476,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
       StringConcatenation _builder = new StringConcatenation();
       String _name = save.getOpen().getName();
       _builder.append(_name);
-      _builder.append(".save(new File(\"");
+      _builder.append(".save(new File(args[0]+\"");
       _builder.append(file);
       _builder.append("\"));");
       _builder.newLineIfNotEmpty();

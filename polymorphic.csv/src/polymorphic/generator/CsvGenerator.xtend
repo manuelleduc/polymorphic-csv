@@ -87,8 +87,12 @@ class CsvGenerator extends AbstractGenerator {
 				echo "# «l.name» #" >> $target
 				echo "" >> $target
 				«switch l.name {
-					case 'java': 'mvn compile exec:java -Dexec.mainClass="mycommons" -Dexec.args="${path2}/'+l.name+'/src/main/java/" -f "${path2}/'+l.name+'"'
-					case 'commons': 'mvn compile exec:java -Dexec.mainClass="mycommons" -Dexec.args="${path2}/'+l.name+'/src/main/java/" -f "${path2}/'+l.name+'"'
+					case 'java': 'mvn compile exec:java -Dexec.mainClass="myjava" -Dexec.args="${D}" -f "${path2}/'+l.name+'"'
+									+' | tee >(grep -v [INFO] >> $target) '
+										+ '| grep [INFO]'
+					case 'commons': 'mvn compile exec:java -Dexec.mainClass="mycommons" -Dexec.args="${D}" -f "${path2}/'+l.name+'"'
+									+' | tee >(grep -v [INFO] >> $target) '
+										+ '| grep [INFO]'
 					default: bash_command(l.name)+'"${path2}"/'+l.name+'/'+l.target+'.'+file_extension(l.name)+' $D >> $target'
 				}»
 				echo "" >> $target

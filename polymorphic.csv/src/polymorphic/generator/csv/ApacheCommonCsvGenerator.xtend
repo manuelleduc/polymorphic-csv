@@ -58,7 +58,7 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 
 		val ctx = new Context
 		fsa.generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
-			package «package»;
+			«IF package.length > 0»package «package»;«ENDIF»
 			
 			import java.io.*;
 			import java.util.*;
@@ -97,11 +97,12 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 
 	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className, Context ctx)
 		'''
-		System.out.println(«nbRow.open.name».size());
+		System.out.println(«nbRow.open.name».size()-1);
 		'''
 		
 	private def dispatch CharSequence javaAction(NbCol nbCol, CharSequence className, Context ctx)
 		'''
+		System.out.println(«nbCol.open.name».size()-1);
 		'''
 
 	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {

@@ -218,25 +218,23 @@ public class CsvGenerator extends AbstractGenerator {
           switch (_name_16) {
             case "java":
               String _name_17 = l_2.getName();
-              String _plus = ("mvn compile exec:java -Dexec.mainClass=\"mycommons\" -Dexec.args=\"${path2}/" + _name_17);
-              String _plus_1 = (_plus + "/src/main/java/\" -f \"${path2}/");
-              String _name_18 = l_2.getName();
-              String _plus_2 = (_plus_1 + _name_18);
-              _switchResult = (_plus_2 + "\"");
+              String _plus = ("mvn compile exec:java -Dexec.mainClass=\"myjava\" -Dexec.args=\"${D}\" -f \"${path2}/" + _name_17);
+              String _plus_1 = (_plus + "\"");
+              String _plus_2 = (_plus_1 + " | tee >(grep -v [INFO] >> $target) ");
+              _switchResult = (_plus_2 + "| grep [INFO]");
               break;
             case "commons":
-              String _name_19 = l_2.getName();
-              String _plus_3 = ("mvn compile exec:java -Dexec.mainClass=\"mycommons\" -Dexec.args=\"${path2}/" + _name_19);
-              String _plus_4 = (_plus_3 + "/src/main/java/\" -f \"${path2}/");
-              String _name_20 = l_2.getName();
-              String _plus_5 = (_plus_4 + _name_20);
-              _switchResult = (_plus_5 + "\"");
+              String _name_18 = l_2.getName();
+              String _plus_3 = ("mvn compile exec:java -Dexec.mainClass=\"mycommons\" -Dexec.args=\"${D}\" -f \"${path2}/" + _name_18);
+              String _plus_4 = (_plus_3 + "\"");
+              String _plus_5 = (_plus_4 + " | tee >(grep -v [INFO] >> $target) ");
+              _switchResult = (_plus_5 + "| grep [INFO]");
               break;
             default:
               String _bash_command = this.bash_command(l_2.getName());
               String _plus_6 = (_bash_command + "\"${path2}\"/");
-              String _name_21 = l_2.getName();
-              String _plus_7 = (_plus_6 + _name_21);
+              String _name_19 = l_2.getName();
+              String _plus_7 = (_plus_6 + _name_19);
               String _plus_8 = (_plus_7 + "/");
               String _target = l_2.getTarget();
               String _plus_9 = (_plus_8 + _target);
@@ -249,8 +247,8 @@ public class CsvGenerator extends AbstractGenerator {
         } else {
           String _bash_command = this.bash_command(l_2.getName());
           String _plus_6 = (_bash_command + "\"${path2}\"/");
-          String _name_21 = l_2.getName();
-          String _plus_7 = (_plus_6 + _name_21);
+          String _name_19 = l_2.getName();
+          String _plus_7 = (_plus_6 + _name_19);
           String _plus_8 = (_plus_7 + "/");
           String _target = l_2.getTarget();
           String _plus_9 = (_plus_8 + _target);
@@ -266,14 +264,14 @@ public class CsvGenerator extends AbstractGenerator {
         _builder_7.newLine();
         _builder_7.append("\t");
         _builder_7.append("echo \"# END ");
-        String _name_22 = l_2.getName();
-        _builder_7.append(_name_22, "\t");
+        String _name_20 = l_2.getName();
+        _builder_7.append(_name_20, "\t");
         _builder_7.append(" #\" >> $target");
         _builder_7.newLineIfNotEmpty();
         _builder_7.append("\t");
         _builder_7.append("echo \"# END ");
-        String _name_23 = l_2.getName();
-        _builder_7.append(_name_23, "\t");
+        String _name_21 = l_2.getName();
+        _builder_7.append(_name_21, "\t");
         _builder_7.append(" #\"");
         _builder_7.newLineIfNotEmpty();
         _builder_7.append("\t");

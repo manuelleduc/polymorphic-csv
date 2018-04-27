@@ -149,9 +149,15 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_4.append(_replaceAll);
     _builder_4.append(".java");
     StringConcatenation _builder_5 = new StringConcatenation();
-    _builder_5.append("package ");
-    _builder_5.append(package_);
-    _builder_5.append(";");
+    {
+      int _length = package_.length();
+      boolean _greaterThan = (_length > 0);
+      if (_greaterThan) {
+        _builder_5.append("package ");
+        _builder_5.append(package_);
+        _builder_5.append(";");
+      }
+    }
     _builder_5.newLineIfNotEmpty();
     _builder_5.newLine();
     _builder_5.append("import java.io.*;");
@@ -250,13 +256,18 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder.append("System.out.println(");
     String _name = nbRow.getOpen().getName();
     _builder.append(_name);
-    _builder.append(".size());");
+    _builder.append(".size()-1);");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   private CharSequence _javaAction(final NbCol nbCol, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("System.out.println(");
+    String _name = nbCol.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(".size()-1);");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
