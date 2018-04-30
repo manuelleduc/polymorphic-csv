@@ -119,10 +119,9 @@ class CsvGenerator extends AbstractGenerator {
 			# data's name for main call / local call
 			if [ "$1" = "main" ] ; then dataName=${Data_folder_csv:7:-1} ; else dataName=${Data_folder_csv:11:-1} ; fi
 			dataName2=${dataName/"/"/_}
-			dataName=$( echo $dataName | cut -f2 -d/)
+			dataName=$( echo $dataName | cut -f2 -d/ )
 
 			# path of the results' file	
-			echo $target
 			target=$Data_folder_csv"result_"$dataName2
 		
 			printf "////////////////////////////// " >> $target

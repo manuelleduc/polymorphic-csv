@@ -102,7 +102,7 @@ class ApacheCommonCsvGenerator implements ICsvGenerator {
 		
 	private def dispatch CharSequence javaAction(NbCol nbCol, CharSequence className, Context ctx)
 		'''
-		System.out.println(«nbCol.open.name».size()-1);
+		System.out.println(«nbCol.open.name».get(0).size());
 		'''
 
 	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className, Context ctx) {

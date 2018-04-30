@@ -238,14 +238,11 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_11.append("dataName2=${dataName/\"/\"/_}");
     _builder_11.newLine();
     _builder_11.append("\t");
-    _builder_11.append("dataName=$( echo $dataName | cut -f2 -d/)");
+    _builder_11.append("dataName=$( echo $dataName | cut -f2 -d/ )");
     _builder_11.newLine();
     _builder_11.newLine();
     _builder_11.append("\t");
     _builder_11.append("# path of the results\' file\t");
-    _builder_11.newLine();
-    _builder_11.append("\t");
-    _builder_11.append("echo $target");
     _builder_11.newLine();
     _builder_11.append("\t");
     _builder_11.append("target=$Data_folder_csv\"result_\"$dataName2");
