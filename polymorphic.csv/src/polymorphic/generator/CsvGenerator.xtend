@@ -116,19 +116,22 @@ class CsvGenerator extends AbstractGenerator {
 		for Data_folder_csv in $path1*/
 		do
 		
-			# data's name for main call / local call
+			# data's name for main call / local call = code's name + data's name
 			if [ "$1" = "main" ] ; then dataName=${Data_folder_csv:7:-1} ; else dataName=${Data_folder_csv:11:-1} ; fi
+			# remove "/" for naming
 			dataName2=${dataName/"/"/_}
+			# only data's name
 			dataName=$( echo $dataName | cut -f2 -d/ )
 
-			# path of the results' file	
+			# path and name of the results' file	
 			target=$Data_folder_csv"result_"$dataName2
 		
-			printf "////////////////////////////// " >> $target
+			# creation of the results file as target
+			printf "////////////////////////////// " > $target
 			date >> $target
 			uname -a >> $target
 			echo "" >> $target
-			echo "## «content.name» ##" >> $target
+			echo "## «content.name» ## $dataName" >> $target
 			echo "" >> $target
 			echo "########## $dataName"
 			
@@ -138,8 +141,8 @@ class CsvGenerator extends AbstractGenerator {
 
 			# for each mentioned language
 			«FOR l : content.languages»
-				echo "# «l.name» #"
-				echo "# «l.name» #" >> $target
+				echo "# START «l.name» #"
+				echo "# START «l.name» #" >> $target
 				echo "" >> $target
 				# command line's syntax by language
 				«switch l.name {
