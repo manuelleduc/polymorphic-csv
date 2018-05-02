@@ -53,7 +53,16 @@ class CsvGenerator extends AbstractGenerator {
 		
 		// START // generate readme.txt in /data/... for each .pcsv // YANNICK
 		// generate the data folder and subfolders
-		fsa.generateFile('''../data/«content.name»/GRID.txt''', '''
+		fsa.generateFile('''../data/«content.name»/readme.txt''', '''
+		HOW TO ADD DATA :
+		
+		1. create a folder with the name of the .csv file
+			( whitout blank space or "/": new folder -> new_folder )
+		2. rename the .csv file in "file.csv"
+		3. move the file.csv into the folder
+		
+		The execution's result will be in the folder as 
+		result_"name of the .pcsv"_"name of the folder"
 		''')
 		// END //
 		
@@ -154,40 +163,6 @@ class CsvGenerator extends AbstractGenerator {
 			«ENDFOR»
 		
 		done
-		
-		# for each data folder in directory_pcsv -- PARSING --
-		for Data_folder_csv in $path1*/
-		do
-		
-			awk -v path=$path1 '
-			BEGIN { }
-			{
-			if ($0 ~ "^## ") { code_name = $2 }
-			if ($0 ~ "^## ") { data_name = $4 }
-			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 }
-			if (NR == target_result) { results[m++] = $1 }
-			}
-			END {
-			if ( system("test -s " path "GRID.txt") ) {
-				l1 = sprintf("%-20s",code_name)
-				i = 0
-				while ( languages[i] ) { l1 = l1 sprintf("|%-10s",languages[i]); i++ }
-
-				var = 20+(11*i)
-				for(c=0;c<var;c++) {printf "|"} ; print ""
-				print l1
-				for(c=0;c<var;c++) {printf "|"} ; print ""
-			}
-			l2 = sprintf("%-20s",data_name)
-			i = 0
-			while ( results[i] ) { l2 = l2 sprintf("|%-10s",results[i] ); i++ }
-			print l2
-			
-			} # END END
-			' $Data_folder_csv"result_"* >> $path1"GRID.txt"
-		
-		done
-		# END -- PARSING --
 		''')
 		// END //
 	}
