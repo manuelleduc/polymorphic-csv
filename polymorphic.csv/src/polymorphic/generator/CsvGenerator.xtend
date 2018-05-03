@@ -51,13 +51,19 @@ class CsvGenerator extends AbstractGenerator {
 		docker-compose up
 		''')
 		
-		// START // generate readme.txt in /data/... for each .pcsv // YANNICK
+		// START 1 // generate GRID.txt in /data/... for each .pcsv // YANNICK
 		// generate the data folder and subfolders
 		fsa.generateFile('''../data/«content.name»/GRID.txt''', '''
 		''')
-		// END //
+		// END 1 //
 		
-		// START // generate the exec_main.sh// YANNICK
+		// START 2 // generate GRID.html in /data/... for each .pcsv // YANNICK
+		// generate the data folder and subfolders
+		fsa.generateFile('''../data/«content.name»/GRID.html''', '''
+		''')
+		// END 3 //
+		
+		// START 4 // generate the exec_main.sh// YANNICK
 		// exec_main.sh launches the local exec.sh files
 		fsa.generateFile('''../exec_main.sh''', '''
 		#!/bin/bash
@@ -90,9 +96,11 @@ class CsvGenerator extends AbstractGenerator {
 		echo "### END OF EXEC_MAIN.SH ###"
 		echo "--------------------"
 		''')
-		// END //
+		// END 4 //
 		
-		// START // generate a exec.sh local for each .pcsv // YANNICK
+		// START 5 // generate a exec.sh local for each .pcsv // YANNICK
+		// produce results
+		// fill GRID.txt and GRID.html
 		fsa.generateFile('''«content.name»/exec.sh''', '''
 		#!/bin/bash
 		
@@ -155,19 +163,25 @@ class CsvGenerator extends AbstractGenerator {
 		
 		done
 		
-		# for each data folder in directory_pcsv -- PARSING --
+		# START PARSING results to fill GRID.txt
+		# for each data folder in directory_pcsv
 		for Data_folder_csv in $path1*/
 		do
 		
 			awk -v path=$path1 '
 			BEGIN { }
 			{
+			# name of the .pcsv
 			if ($0 ~ "^## ") { code_name = $2 }
+			# name of the data
 			if ($0 ~ "^## ") { data_name = $4 }
+			# languages generated
 			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 }
+			# results collect
 			if (NR == target_result) { results[m++] = $1 }
 			}
 			END {
+			# header already present
 			if ( system("test -s " path "GRID.txt") ) {
 				l1 = sprintf("%-20s",code_name)
 				i = 0
@@ -187,9 +201,29 @@ class CsvGenerator extends AbstractGenerator {
 			' $Data_folder_csv"result_"* >> $path1"GRID.txt"
 		
 		done
-		# END -- PARSING --
+		# END PARSING
+		
+		# START PARSING GRID.txt to fill GRID.html
+		awk -v path=$path1 '
+		BEGIN {
+		print "<!DOCTYPE html>"
+		print "<html>"
+		print "<head>"
+		print "<title>GRID.html</title>"
+		print "<meta charset="utf-8" />"
+		print "</head>"
+		print "<body>"
+		}
+		{
+		print $0
+		}
+		END {
+		print "</body>"
+		print "</html>"
+		}
+		' $path1"GRID.txt" >> $path1"GRID.html"
 		''')
-		// END //
+		// END 5 //
 	}
 	
 	private def bash_command(String language) {
