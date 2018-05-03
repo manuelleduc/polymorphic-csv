@@ -212,7 +212,9 @@ class CsvGenerator extends AbstractGenerator {
 		print "<title>GRID.html</title>"
 		print "<meta charset="utf-8" />"
 		print "</head>"
-		print "<body>"
+«««		print "<body style=\'font-family:\'Courier New\',\'Bitstream Vera Sans Mono\';white-space:pre;\'>"
+		print "<body style=\"font-family:Courier New,Bitstream Vera Sans Mono;white-space:pre\">"
+
 		}
 		{
 		print $0

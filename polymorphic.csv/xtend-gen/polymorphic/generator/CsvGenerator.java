@@ -510,7 +510,8 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_13.newLine();
     _builder_13.append("print \"</head>\"");
     _builder_13.newLine();
-    _builder_13.append("print \"<body>\"");
+    _builder_13.append("print \"<body style=\\\"font-family:Courier New,Bitstream Vera Sans Mono;white-space:pre\\\">\"");
+    _builder_13.newLine();
     _builder_13.newLine();
     _builder_13.append("}");
     _builder_13.newLine();
