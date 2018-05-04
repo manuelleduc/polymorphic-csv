@@ -266,7 +266,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder.append("System.out.println(");
     String _name = nbCol.getOpen().getName();
     _builder.append(_name);
-    _builder.append(".size()-1);");
+    _builder.append(".get(0).size());");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
