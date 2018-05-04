@@ -186,7 +186,6 @@ class CsvGenerator extends AbstractGenerator {
 				l1 = sprintf("%-20s",code_name)
 				i = 0
 				while ( languages[i] ) { l1 = l1 sprintf("|%-10s",languages[i]); i++ }
-
 				var = 20+(11*i)
 				for(c=0;c<var;c++) {printf "|"} ; print ""
 				print l1
@@ -196,7 +195,6 @@ class CsvGenerator extends AbstractGenerator {
 			i = 0
 			while ( results[i] ) { l2 = l2 sprintf("|%-10s",results[i] ); i++ }
 			print l2
-			
 			} # END END
 			' $Data_folder_csv"result_"* >> $path1"GRID.txt"
 		
@@ -212,7 +210,6 @@ class CsvGenerator extends AbstractGenerator {
 		print "<title>GRID.html</title>"
 		print "<meta charset="utf-8" />"
 		print "</head>"
-«««		print "<body style=\'font-family:\'Courier New\',\'Bitstream Vera Sans Mono\';white-space:pre;\'>"
 		print "<body style=\"font-family:Courier New,Bitstream Vera Sans Mono;white-space:pre\">"
 
 		}
@@ -223,7 +220,8 @@ class CsvGenerator extends AbstractGenerator {
 		print "</body>"
 		print "</html>"
 		}
-		' $path1"GRID.txt" >> $path1"GRID.html"
+		' $path1"GRID.txt" > $path1"GRID.html"
+		# END PARSING
 		''')
 		// END 5 //
 	}

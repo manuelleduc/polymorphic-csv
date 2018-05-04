@@ -450,7 +450,6 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_13.append("\t\t");
     _builder_13.append("while ( languages[i] ) { l1 = l1 sprintf(\"|%-10s\",languages[i]); i++ }");
     _builder_13.newLine();
-    _builder_13.newLine();
     _builder_13.append("\t\t");
     _builder_13.append("var = 20+(11*i)");
     _builder_13.newLine();
@@ -477,8 +476,6 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_13.newLine();
     _builder_13.append("\t");
     _builder_13.append("print l2");
-    _builder_13.newLine();
-    _builder_13.append("\t");
     _builder_13.newLine();
     _builder_13.append("\t");
     _builder_13.append("} # END END");
@@ -529,7 +526,9 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_13.newLine();
     _builder_13.append("}");
     _builder_13.newLine();
-    _builder_13.append("\' $path1\"GRID.txt\" >> $path1\"GRID.html\"");
+    _builder_13.append("\' $path1\"GRID.txt\" > $path1\"GRID.html\"");
+    _builder_13.newLine();
+    _builder_13.append("# END PARSING");
     _builder_13.newLine();
     fsa.generateFile(_builder_12.toString(), _builder_13);
   }
