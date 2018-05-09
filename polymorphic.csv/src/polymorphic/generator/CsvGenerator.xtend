@@ -61,6 +61,12 @@ class CsvGenerator extends AbstractGenerator {
 		// generate the data folder and subfolders
 		fsa.generateFile('''../data/«content.name»/GRID.html''', '''
 		''')
+		// END 2 //
+		
+		// START 3 // generate GRID.csv in /data/... for each .pcsv // YANNICK
+		// generate the data folder and subfolders
+		fsa.generateFile('''../data/«content.name»/GRID.csv''', '''
+		''')
 		// END 3 //
 		
 		// START 4 // generate the exec_main.sh// YANNICK
@@ -221,6 +227,41 @@ class CsvGenerator extends AbstractGenerator {
 		print "</html>"
 		}
 		' $path1"GRID.txt" > $path1"GRID.html"
+		# END PARSING
+		
+		# START PARSING results to fill GRID.csv
+		# for each data folder in directory_pcsv
+		for Data_folder_csv in $path1*/
+		do
+		
+			awk -v path=$path1 '
+			BEGIN { }
+			{
+			# name of the .pcsv
+			if ($0 ~ "^## ") { code_name = $2 }
+			# name of the data
+			if ($0 ~ "^## ") { data_name = $4 }
+			# languages generated
+			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 }
+			# results collect
+			if (NR == target_result) { results[m++] = $1 }
+			}
+			END {
+			# header already present
+			if ( system("test -s " path "GRID.csv") ) {
+				l1 = code_name
+				i = 0
+				while ( languages[i] ) { l1 = l1","languages[i]; i++ }
+				print l1
+			}
+			l2 = data_name
+			i = 0
+			while ( results[i] ) { l2 = l2","results[i]; i++ }
+			print l2
+			} # END END
+			' $Data_folder_csv"result_"* >> $path1"GRID.csv"
+		
+		done
 		# END PARSING
 		''')
 		// END 5 //
