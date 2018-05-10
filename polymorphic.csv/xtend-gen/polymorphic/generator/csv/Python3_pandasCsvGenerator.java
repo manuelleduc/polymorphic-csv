@@ -19,7 +19,7 @@ import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
-public class PythonCsvGenerator implements ICsvGenerator {
+public class Python3_pandasCsvGenerator implements ICsvGenerator {
   @Override
   public void generate(final Model content, final Language language, final IFileSystemAccess2 fsa) {
     StringConcatenation _builder = new StringConcatenation();
@@ -59,7 +59,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     _builder_3.newLine();
     _builder_3.append("import sys");
     _builder_3.newLine();
-    _builder_3.append("import csv");
+    _builder_3.append("import pandas");
     _builder_3.newLine();
     {
       EList<Action> _actions = content.getActions();
@@ -72,18 +72,18 @@ public class PythonCsvGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_2.toString(), _builder_3);
   }
   
-  protected OpenCSV _getRelatedOpen(final OpenCSV a) {
+  private OpenCSV _getRelatedOpen(final OpenCSV a) {
     return a;
   }
   
-  protected OpenCSV _getRelatedOpen(final RefOpenAction a) {
+  private OpenCSV _getRelatedOpen(final RefOpenAction a) {
     return a.getOpen();
   }
   
-  private String target(final RefOpenAction roa) {
+  private String target(final OpenCSV a) {
     String _xblockexpression = null;
     {
-      final String open = this.getRelatedOpen(roa).getFile();
+      final String open = this.getRelatedOpen(a).getFile();
       _xblockexpression = open;
     }
     return _xblockexpression;
@@ -111,100 +111,48 @@ public class PythonCsvGenerator implements ICsvGenerator {
   
   private CharSequence _pythonAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("df = pandas.read_csv(sys.argv[1]+\"");
+    String _target = this.target(open);
+    _builder.append(_target);
+    _builder.append("\", encoding=\"");
+    String _encoding = this.encoding(open);
+    _builder.append(_encoding);
+    _builder.append("\")");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   private CharSequence _pythonAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(sys.argv[1]+\"");
-    String _target = this.target(print);
-    _builder.append(_target);
-    _builder.append("\", \"r\", encoding=\"");
-    String _encoding = this.encoding(print);
-    _builder.append(_encoding);
-    _builder.append("\") as CSV_file:");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("read = csv.reader(CSV_file)");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("for elt in read:");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("print(elt)");
+    _builder.append("print(df)");
     _builder.newLine();
     return _builder;
   }
   
   private CharSequence _pythonAction(final NbRow nbRow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(sys.argv[1]+\"");
-    String _target = this.target(nbRow);
-    _builder.append(_target);
-    _builder.append("\", \"r\", encoding=\"");
-    String _encoding = this.encoding(nbRow);
-    _builder.append(_encoding);
-    _builder.append("\") as CSV_file:");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("read = csv.reader(CSV_file)");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("print(sum(1 for elt in read) -1)");
+    _builder.append("print(df.shape[0])");
     _builder.newLine();
     return _builder;
   }
   
   private CharSequence _pythonAction(final NbCol nbCol) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(sys.argv[1]+\"");
-    String _target = this.target(nbCol);
-    _builder.append(_target);
-    _builder.append("\", \"r\", encoding=\"");
-    String _encoding = this.encoding(nbCol);
-    _builder.append(_encoding);
-    _builder.append("\") as CSV_file:");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("read = csv.reader(CSV_file)");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("first_line = next(read)");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("print(sum(1 for elt in first_line))");
+    _builder.append("print(df.shape[1])");
     _builder.newLine();
     return _builder;
   }
   
   private CharSequence _pythonAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("with open(sys.argv[1]+\"");
+    _builder.append("df.to_csv(sys.argv[1]+\"");
     String _file = save.getFile();
     _builder.append(_file);
-    _builder.append("\", \"w\", encoding=\"");
+    _builder.append("\", index=False, encoding=\"");
     String _encoding = this.encoding(save);
     _builder.append(_encoding);
-    _builder.append("\") as read_file:");
+    _builder.append("\")");
     _builder.newLineIfNotEmpty();
-    _builder.append("    ");
-    _builder.append("read_W = csv.writer(read_file)");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("with open(sys.argv[1]+\"");
-    String _target = this.target(save);
-    _builder.append(_target, "    ");
-    _builder.append("\", \"r\", encoding=\"");
-    String _encoding_1 = this.encoding(save);
-    _builder.append(_encoding_1, "    ");
-    _builder.append("\") as write_file:");
-    _builder.newLineIfNotEmpty();
-    _builder.append("        ");
-    _builder.append("read_R = csv.reader(write_file)");
-    _builder.newLine();
-    _builder.append("        ");
-    _builder.append("read_W.writerows(read_R)");
-    _builder.newLine();
     return _builder;
   }
   
@@ -214,7 +162,7 @@ public class PythonCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  public OpenCSV getRelatedOpen(final Action a) {
+  private OpenCSV getRelatedOpen(final Action a) {
     if (a instanceof OpenCSV) {
       return _getRelatedOpen((OpenCSV)a);
     } else if (a instanceof RefOpenAction) {

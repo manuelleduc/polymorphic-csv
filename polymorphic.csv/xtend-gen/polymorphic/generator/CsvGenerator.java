@@ -329,9 +329,9 @@ public class CsvGenerator extends AbstractGenerator {
               String _plus_2 = (_plus_1 + " | tee >(grep -v \"^.INFO] \" >> $target) ");
               _switchResult = (_plus_2 + "| grep \"^.INFO] \"");
               break;
-            case "commons":
+            case "java_commons":
               String _name_20 = l_2.getName();
-              String _plus_3 = ("mvn compile exec:java -Dexec.mainClass=\"mycommons\" -Dexec.args=\"${Data_folder_csv}\" -f \"${path2}/" + _name_20);
+              String _plus_3 = ("mvn compile exec:java -Dexec.mainClass=\"myjava_commons\" -Dexec.args=\"${Data_folder_csv}\" -f \"${path2}/" + _name_20);
               String _plus_4 = (_plus_3 + "\"");
               String _plus_5 = (_plus_4 + " | tee >(grep -v \"^.INFO] \" >> $target) ");
               _switchResult = (_plus_5 + "| grep \"^.INFO] \"");
@@ -458,10 +458,10 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_15.append("i = 0");
     _builder_15.newLine();
     _builder_15.append("\t\t");
-    _builder_15.append("while ( languages[i] ) { l1 = l1 sprintf(\"|%-10s\",languages[i]); i++ }");
+    _builder_15.append("while ( languages[i] ) { l1 = l1 sprintf(\"|%-15s\",languages[i]); i++ }");
     _builder_15.newLine();
     _builder_15.append("\t\t");
-    _builder_15.append("var = 20+(11*i)");
+    _builder_15.append("var = 20+(16*i)");
     _builder_15.newLine();
     _builder_15.append("\t\t");
     _builder_15.append("for(c=0;c<var;c++) {printf \"|\"} ; print \"\"");
@@ -485,7 +485,7 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_15.append("i = 0");
     _builder_15.newLine();
     _builder_15.append("\t");
-    _builder_15.append("while ( results[i] ) { l2 = l2 sprintf(\"|%-10s\",results[i] ); i++ }");
+    _builder_15.append("while ( results[i] ) { l2 = l2 sprintf(\"|%-15s\",results[i] ); i++ }");
     _builder_15.newLine();
     _builder_15.append("\t");
     _builder_15.append("print l2");
@@ -503,7 +503,7 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_15.append("i = 0");
     _builder_15.newLine();
     _builder_15.append("\t\t");
-    _builder_15.append("while ( results2[i] ) { l3 = l3 sprintf(\"|%-10s\",results2[i] ); i++ }");
+    _builder_15.append("while ( results2[i] ) { l3 = l3 sprintf(\"|%-15s\",results2[i] ); i++ }");
     _builder_15.newLine();
     _builder_15.append("\t\t");
     _builder_15.append("print l3");
@@ -706,6 +706,9 @@ public class CsvGenerator extends AbstractGenerator {
           case "python3":
             _switchResult = "python3 ";
             break;
+          case "python3_pandas":
+            _switchResult = "python3 ";
+            break;
           default:
             _switchResult = "#";
             break;
@@ -738,6 +741,9 @@ public class CsvGenerator extends AbstractGenerator {
             _switchResult = "R";
             break;
           case "python3":
+            _switchResult = "py";
+            break;
+          case "python3_pandas":
             _switchResult = "py";
             break;
           default:

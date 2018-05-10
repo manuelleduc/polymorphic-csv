@@ -154,7 +154,7 @@ class CsvGenerator extends AbstractGenerator {
 					case 'java': 'mvn compile exec:java -Dexec.mainClass="myjava" -Dexec.args="${Data_folder_csv}" -f "${path2}/'+l.name+'"'
 									+' | tee >(grep -v "^.INFO] " >> $target) '
 										+'| grep "^.INFO] "'
-					case 'commons': 'mvn compile exec:java -Dexec.mainClass="mycommons" -Dexec.args="${Data_folder_csv}" -f "${path2}/'+l.name+'"'
+					case 'java_commons': 'mvn compile exec:java -Dexec.mainClass="myjava_commons" -Dexec.args="${Data_folder_csv}" -f "${path2}/'+l.name+'"'
 									+' | tee >(grep -v "^.INFO] " >> $target) '
 										+'| grep "^.INFO] "'
 					default: bash_command(l.name)+'"${path2}"/'+l.name+'/'+l.target+'.'+file_extension(l.name)+' $Data_folder_csv >> $target'
@@ -192,8 +192,8 @@ class CsvGenerator extends AbstractGenerator {
 			if ( system("test -s " path "GRID.txt") ) {
 				l1 = sprintf("%-20s",code_name)
 				i = 0
-				while ( languages[i] ) { l1 = l1 sprintf("|%-10s",languages[i]); i++ }
-				var = 20+(11*i)
+				while ( languages[i] ) { l1 = l1 sprintf("|%-15s",languages[i]); i++ }
+				var = 20+(16*i)
 				for(c=0;c<var;c++) {printf "|"} ; print ""
 				print l1
 				for(c=0;c<var;c++) {printf "|"} ; print ""
@@ -201,13 +201,13 @@ class CsvGenerator extends AbstractGenerator {
 			# results line
 			l2 = sprintf("%-20s",data_name)
 			i = 0
-			while ( results[i] ) { l2 = l2 sprintf("|%-10s",results[i] ); i++ }
+			while ( results[i] ) { l2 = l2 sprintf("|%-15s",results[i] ); i++ }
 			print l2
 			# if second line
 			if ( results2[0]) {
 				l3 = sprintf("%-20s",data_name"_copy")
 				i = 0
-				while ( results2[i] ) { l3 = l3 sprintf("|%-10s",results2[i] ); i++ }
+				while ( results2[i] ) { l3 = l3 sprintf("|%-15s",results2[i] ); i++ }
 				print l3
 			}
 			} # END END
@@ -292,6 +292,7 @@ class CsvGenerator extends AbstractGenerator {
 			case 'R': 'Rscript '
 			case 'R_fwrite': 'Rscript '
 			case 'python3': 'python3 '
+			case 'python3_pandas': 'python3 '
 			default: '#'
 		}
 	}
@@ -304,6 +305,7 @@ class CsvGenerator extends AbstractGenerator {
 			case 'R': 'R'
 			case 'R_fwrite': 'R'
 			case 'python3': 'py'
+			case 'python3_pandas': 'py'
 			default: '#'
 		}
 	}

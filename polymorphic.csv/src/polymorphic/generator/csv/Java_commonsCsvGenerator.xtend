@@ -9,7 +9,7 @@ import polymorphic.csv.PrintCSV
 import polymorphic.csv.SaveCSV
 import polymorphic.csv.NbCol
 
-class ApacheCommonCsvGenerator implements ICsvGenerator {
+class Java_commonsCsvGenerator implements ICsvGenerator {
 
 	private static final class Context {
 		var cptr = 0
