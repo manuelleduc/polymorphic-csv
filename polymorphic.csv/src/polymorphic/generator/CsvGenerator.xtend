@@ -182,9 +182,10 @@ class CsvGenerator extends AbstractGenerator {
 			# name of the data
 			if ($0 ~ "^## ") { data_name = $4 }
 			# languages generated
-			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 }
+			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 ; target_result2 = NR+3 }
 			# results collect
 			if (NR == target_result) { results[m++] = $1 }
+			if (NR == target_result2 && $0 != "") { results2[m-1] = $1 }
 			}
 			END {
 			# header already present
@@ -197,10 +198,18 @@ class CsvGenerator extends AbstractGenerator {
 				print l1
 				for(c=0;c<var;c++) {printf "|"} ; print ""
 			}
+			# results line
 			l2 = sprintf("%-20s",data_name)
 			i = 0
 			while ( results[i] ) { l2 = l2 sprintf("|%-10s",results[i] ); i++ }
 			print l2
+			# if second line
+			if ( results2[0]) {
+				l3 = sprintf("%-20s",data_name"_copy")
+				i = 0
+				while ( results2[i] ) { l3 = l3 sprintf("|%-10s",results2[i] ); i++ }
+				print l3
+			}
 			} # END END
 			' $Data_folder_csv"result_"* >> $path1"GRID.txt"
 		
@@ -242,9 +251,10 @@ class CsvGenerator extends AbstractGenerator {
 			# name of the data
 			if ($0 ~ "^## ") { data_name = $4 }
 			# languages generated
-			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 }
+			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 ; target_result2 = NR+3 }
 			# results collect
 			if (NR == target_result) { results[m++] = $1 }
+			if (NR == target_result2 && $0 != "") { results2[m-1] = $1 }
 			}
 			END {
 			# header already present
@@ -258,6 +268,13 @@ class CsvGenerator extends AbstractGenerator {
 			i = 0
 			while ( results[i] ) { l2 = l2","results[i]; i++ }
 			print l2
+			# if second line
+			if ( results2[0] ) {
+				l3 = data_name"_copy"
+				i = 0
+				while ( results2[i] ) { l3 = l3","results2[i]; i++ }
+				print l3
+			}
 			} # END END
 			' $Data_folder_csv"result_"* >> $path1"GRID.csv"
 		
