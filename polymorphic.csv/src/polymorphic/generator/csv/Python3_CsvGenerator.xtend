@@ -12,7 +12,7 @@ import polymorphic.csv.NbCol
 import polymorphic.csv.Action
 import polymorphic.csv.RefOpenAction
 
-class PythonCsvGenerator implements ICsvGenerator {
+class Python3_CsvGenerator implements ICsvGenerator {
 	
 	override void generate(Model content, Language language, IFileSystemAccess2 fsa) { // TODO Auto-generated method stub
 		fsa.generateFile('''«content.name»/«language.name»/Dockerfile''', '''

@@ -14,7 +14,7 @@ class RCsvGenerator implements ICsvGenerator {
 	override generate(Model content, Language language, IFileSystemAccess2 fsa) {
 		fsa.generateFile('''«content.name»/«language.name»/«language.target.replaceAll("\\.", "/")».R''', '''
 			args <- commandArgs(trailingOnly=TRUE)
-			root <- args[1]
+			path <- args[1]
 			«FOR action : content.actions»
 				«action.RAction»
 			«ENDFOR»
@@ -22,7 +22,7 @@ class RCsvGenerator implements ICsvGenerator {
 	}
 	
 	private def dispatch CharSequence RAction(OpenCSV open) '''
-	«open.name» = read.csv(paste(root,"«open.file»",sep=""), header=TRUE, sep=",")
+	«open.name» = read.csv(paste(path,"«open.file»",sep=""), header=TRUE, sep=",")
 	'''
 	
 	private def dispatch CharSequence RAction(PrintCSV print) '''
@@ -38,7 +38,7 @@ class RCsvGenerator implements ICsvGenerator {
 	'''
 	
 	private def dispatch CharSequence RAction(SaveCSV save) '''
-	write.csv( «save.open.name», paste(root,"«save.file»",sep=""), quote=FALSE, row.names=FALSE )
+	write.csv( «save.open.name», paste(path,"«save.file»",sep=""), quote=TRUE, row.names=FALSE )
 	'''
 
 	override properties() {

@@ -61,6 +61,12 @@ class CsvGenerator extends AbstractGenerator {
 		// generate the data folder and subfolders
 		fsa.generateFile('''../data/«content.name»/GRID.html''', '''
 		''')
+		// END 2 //
+		
+		// START 3 // generate GRID.csv in /data/... for each .pcsv // YANNICK
+		// generate the data folder and subfolders
+		fsa.generateFile('''../data/«content.name»/GRID.csv''', '''
+		''')
 		// END 3 //
 		
 		// START 4 // generate the exec_main.sh// YANNICK
@@ -148,7 +154,7 @@ class CsvGenerator extends AbstractGenerator {
 					case 'java': 'mvn compile exec:java -Dexec.mainClass="myjava" -Dexec.args="${Data_folder_csv}" -f "${path2}/'+l.name+'"'
 									+' | tee >(grep -v "^.INFO] " >> $target) '
 										+'| grep "^.INFO] "'
-					case 'commons': 'mvn compile exec:java -Dexec.mainClass="mycommons" -Dexec.args="${Data_folder_csv}" -f "${path2}/'+l.name+'"'
+					case 'java_commons': 'mvn compile exec:java -Dexec.mainClass="myjava_commons" -Dexec.args="${Data_folder_csv}" -f "${path2}/'+l.name+'"'
 									+' | tee >(grep -v "^.INFO] " >> $target) '
 										+'| grep "^.INFO] "'
 					default: bash_command(l.name)+'"${path2}"/'+l.name+'/'+l.target+'.'+file_extension(l.name)+' $Data_folder_csv >> $target'
@@ -169,32 +175,43 @@ class CsvGenerator extends AbstractGenerator {
 		do
 		
 			awk -v path=$path1 '
-			BEGIN { }
+			BEGIN { 
+			second_line = "false"
+			}
 			{
 			# name of the .pcsv
 			if ($0 ~ "^## ") { code_name = $2 }
 			# name of the data
 			if ($0 ~ "^## ") { data_name = $4 }
 			# languages generated
-			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 }
+			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 ; target_result2 = NR+3 }
 			# results collect
-			if (NR == target_result) { results[m++] = $1 }
+			if (NR == target_result) { results[m++] = "null" ; results[m-1] = $1 ; results2[m-1] = "null" }
+			if (NR == target_result2 && $0 != "") { results2[m-1] = $1 ; second_line = "true" }
 			}
 			END {
 			# header already present
 			if ( system("test -s " path "GRID.txt") ) {
 				l1 = sprintf("%-20s",code_name)
 				i = 0
-				while ( languages[i] ) { l1 = l1 sprintf("|%-10s",languages[i]); i++ }
-				var = 20+(11*i)
+				while ( languages[i] ) { l1 = l1 sprintf("|%-15s",languages[i]); i++ }
+				var = 20+(16*i)
 				for(c=0;c<var;c++) {printf "|"} ; print ""
 				print l1
 				for(c=0;c<var;c++) {printf "|"} ; print ""
 			}
+			# results line
 			l2 = sprintf("%-20s",data_name)
 			i = 0
-			while ( results[i] ) { l2 = l2 sprintf("|%-10s",results[i] ); i++ }
+			while ( results[i] ) { l2 = l2 sprintf("|%-15s",results[i] ); i++ }
 			print l2
+			# if second line
+			if ( second_line == "true") {
+				l3 = sprintf("%-20s",data_name"_copy")
+				i = 0
+				while ( results2[i] ) { l3 = l3 sprintf("|%-15s",results2[i] ); i++ }
+				print l3
+			}
 			} # END END
 			' $Data_folder_csv"result_"* >> $path1"GRID.txt"
 		
@@ -222,6 +239,49 @@ class CsvGenerator extends AbstractGenerator {
 		}
 		' $path1"GRID.txt" > $path1"GRID.html"
 		# END PARSING
+		
+		# START PARSING results to fill GRID.csv
+		# for each data folder in directory_pcsv
+		for Data_folder_csv in $path1*/
+		do
+		
+			awk -v path=$path1 '
+			BEGIN { }
+			{
+			# name of the .pcsv
+			if ($0 ~ "^## ") { code_name = $2 }
+			# name of the data
+			if ($0 ~ "^## ") { data_name = $4 }
+			# languages generated
+			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 ; target_result2 = NR+3 }
+			# results collect
+			if (NR == target_result) { results[m++] = $1 }
+			if (NR == target_result2 && $0 != "") { results2[m-1] = $1 }
+			}
+			END {
+			# header already present
+			if ( system("test -s " path "GRID.csv") ) {
+				l1 = code_name
+				i = 0
+				while ( languages[i] ) { l1 = l1","languages[i]; i++ }
+				print l1
+			}
+			l2 = data_name
+			i = 0
+			while ( results[i] ) { l2 = l2","results[i]; i++ }
+			print l2
+			# if second line
+			if ( results2[0] ) {
+				l3 = data_name"_copy"
+				i = 0
+				while ( results2[i] ) { l3 = l3","results2[i]; i++ }
+				print l3
+			}
+			} # END END
+			' $Data_folder_csv"result_"* >> $path1"GRID.csv"
+		
+		done
+		# END PARSING
 		''')
 		// END 5 //
 	}
@@ -233,7 +293,8 @@ class CsvGenerator extends AbstractGenerator {
 			case 'bash_awk': ''
 			case 'R': 'Rscript '
 			case 'R_fwrite': 'Rscript '
-			case 'python3': 'python3 '
+			case 'python3_csv': 'python3 '
+			case 'python3_pandas': 'python3 '
 			default: '#'
 		}
 	}
@@ -245,7 +306,8 @@ class CsvGenerator extends AbstractGenerator {
 			case 'bash_awk': 'sh'
 			case 'R': 'R'
 			case 'R_fwrite': 'R'
-			case 'python3': 'py'
+			case 'python3_csv': 'py'
+			case 'python3_pandas': 'py'
 			default: '#'
 		}
 	}

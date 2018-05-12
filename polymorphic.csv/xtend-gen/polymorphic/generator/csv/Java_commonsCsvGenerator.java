@@ -22,7 +22,7 @@ import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
-public class ApacheCommonCsvGenerator implements ICsvGenerator {
+public class Java_commonsCsvGenerator implements ICsvGenerator {
   private static final class Context {
     private int cptr = 0;
     
@@ -137,7 +137,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_3.append("</project>");
     _builder_3.newLine();
     fsa.generateFile(_builder_2.toString(), _builder_3);
-    final ApacheCommonCsvGenerator.Context ctx = new ApacheCommonCsvGenerator.Context();
+    final Java_commonsCsvGenerator.Context ctx = new Java_commonsCsvGenerator.Context();
     StringConcatenation _builder_4 = new StringConcatenation();
     String _name_5 = content.getName();
     _builder_4.append(_name_5);
@@ -195,7 +195,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_4.toString(), _builder_5);
   }
   
-  private CharSequence _javaAction(final OpenCSV open, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final OpenCSV open, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("final List<CSVRecord> ");
     String _name = open.getName();
@@ -208,7 +208,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
-  private CharSequence _javaAction(final PrintCSV print, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final PrintCSV print, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     CharSequence _xblockexpression = null;
     {
       final int varX = ctx.nextCptr();
@@ -251,7 +251,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _xblockexpression;
   }
   
-  private CharSequence _javaAction(final NbRow nbRow, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final NbRow nbRow, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("System.out.println(");
     String _name = nbRow.getOpen().getName();
@@ -261,7 +261,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
-  private CharSequence _javaAction(final NbCol nbCol, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final NbCol nbCol, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("System.out.println(");
     String _name = nbCol.getOpen().getName();
@@ -271,7 +271,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
-  private CharSequence _javaAction(final SaveCSV save, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final SaveCSV save, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     CharSequence _xblockexpression = null;
     {
       String _xifexpression = null;
@@ -313,7 +313,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo, _mappedTo_1);
   }
   
-  private CharSequence javaAction(final Action nbCol, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence javaAction(final Action nbCol, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     if (nbCol instanceof NbCol) {
       return _javaAction((NbCol)nbCol, className, ctx);
     } else if (nbCol instanceof NbRow) {
