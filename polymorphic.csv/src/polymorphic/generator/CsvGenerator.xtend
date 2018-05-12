@@ -175,7 +175,9 @@ class CsvGenerator extends AbstractGenerator {
 		do
 		
 			awk -v path=$path1 '
-			BEGIN { }
+			BEGIN { 
+			second_line = "false"
+			}
 			{
 			# name of the .pcsv
 			if ($0 ~ "^## ") { code_name = $2 }
@@ -184,8 +186,8 @@ class CsvGenerator extends AbstractGenerator {
 			# languages generated
 			if ($0 ~ "^# START ") { languages[n++] = $3 ; target_result = NR+2 ; target_result2 = NR+3 }
 			# results collect
-			if (NR == target_result) { results[m++] = $1 }
-			if (NR == target_result2 && $0 != "") { results2[m-1] = $1 }
+			if (NR == target_result) { results[m++] = "null" ; results[m-1] = $1 ; results2[m-1] = "null" }
+			if (NR == target_result2 && $0 != "") { results2[m-1] = $1 ; second_line = "true" }
 			}
 			END {
 			# header already present
@@ -204,7 +206,7 @@ class CsvGenerator extends AbstractGenerator {
 			while ( results[i] ) { l2 = l2 sprintf("|%-15s",results[i] ); i++ }
 			print l2
 			# if second line
-			if ( results2[0]) {
+			if ( second_line == "true") {
 				l3 = sprintf("%-20s",data_name"_copy")
 				i = 0
 				while ( results2[i] ) { l3 = l3 sprintf("|%-15s",results2[i] ); i++ }
@@ -291,7 +293,7 @@ class CsvGenerator extends AbstractGenerator {
 			case 'bash_awk': ''
 			case 'R': 'Rscript '
 			case 'R_fwrite': 'Rscript '
-			case 'python3': 'python3 '
+			case 'python3_csv': 'python3 '
 			case 'python3_pandas': 'python3 '
 			default: '#'
 		}
@@ -304,7 +306,7 @@ class CsvGenerator extends AbstractGenerator {
 			case 'bash_awk': 'sh'
 			case 'R': 'R'
 			case 'R_fwrite': 'R'
-			case 'python3': 'py'
+			case 'python3_csv': 'py'
 			case 'python3_pandas': 'py'
 			default: '#'
 		}

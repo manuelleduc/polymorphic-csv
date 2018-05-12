@@ -407,7 +407,13 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_15.append("awk -v path=$path1 \'");
     _builder_15.newLine();
     _builder_15.append("\t");
-    _builder_15.append("BEGIN { }");
+    _builder_15.append("BEGIN { ");
+    _builder_15.newLine();
+    _builder_15.append("\t");
+    _builder_15.append("second_line = \"false\"");
+    _builder_15.newLine();
+    _builder_15.append("\t");
+    _builder_15.append("}");
     _builder_15.newLine();
     _builder_15.append("\t");
     _builder_15.append("{");
@@ -434,10 +440,10 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_15.append("# results collect");
     _builder_15.newLine();
     _builder_15.append("\t");
-    _builder_15.append("if (NR == target_result) { results[m++] = $1 }");
+    _builder_15.append("if (NR == target_result) { results[m++] = \"null\" ; results[m-1] = $1 ; results2[m-1] = \"null\" }");
     _builder_15.newLine();
     _builder_15.append("\t");
-    _builder_15.append("if (NR == target_result2 && $0 != \"\") { results2[m-1] = $1 }");
+    _builder_15.append("if (NR == target_result2 && $0 != \"\") { results2[m-1] = $1 ; second_line = \"true\" }");
     _builder_15.newLine();
     _builder_15.append("\t");
     _builder_15.append("}");
@@ -494,7 +500,7 @@ public class CsvGenerator extends AbstractGenerator {
     _builder_15.append("# if second line");
     _builder_15.newLine();
     _builder_15.append("\t");
-    _builder_15.append("if ( results2[0]) {");
+    _builder_15.append("if ( second_line == \"true\") {");
     _builder_15.newLine();
     _builder_15.append("\t\t");
     _builder_15.append("l3 = sprintf(\"%-20s\",data_name\"_copy\")");
@@ -703,7 +709,7 @@ public class CsvGenerator extends AbstractGenerator {
           case "R_fwrite":
             _switchResult = "Rscript ";
             break;
-          case "python3":
+          case "python3_csv":
             _switchResult = "python3 ";
             break;
           case "python3_pandas":
@@ -740,7 +746,7 @@ public class CsvGenerator extends AbstractGenerator {
           case "R_fwrite":
             _switchResult = "R";
             break;
-          case "python3":
+          case "python3_csv":
             _switchResult = "py";
             break;
           case "python3_pandas":

@@ -35,7 +35,7 @@ class BashCsvGenerator implements ICsvGenerator {
 	'''
 	
 	private def dispatch CharSequence bashAction(SaveCSV save) '''
-		cp $1«save.open.file» $1«save.file»
+		cat $1«save.open.file» > $1«save.file»
 	'''
 
 	override properties() {
