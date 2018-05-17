@@ -483,11 +483,20 @@ ruleRefOpenAction returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getRefOpenActionAccess().getSaveCSVParserRuleCall_2());
+			newCompositeNode(grammarAccess.getRefOpenActionAccess().getNbColParserRuleCall_2());
 		}
-		this_SaveCSV_2=ruleSaveCSV
+		this_NbCol_2=ruleNbCol
 		{
-			$current = $this_SaveCSV_2.current;
+			$current = $this_NbCol_2.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getRefOpenActionAccess().getSaveCSVParserRuleCall_3());
+		}
+		this_SaveCSV_3=ruleSaveCSV
+		{
+			$current = $this_SaveCSV_3.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
@@ -573,6 +582,49 @@ ruleNbRow returns [EObject current=null]
 				otherlv_2=RULE_ID
 				{
 					newLeafNode(otherlv_2, grammarAccess.getNbRowAccess().getOpenOpenCSVCrossReference_2_0());
+				}
+			)
+		)
+	)
+;
+
+// Entry rule entryRuleNbCol
+entryRuleNbCol returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getNbColRule()); }
+	iv_ruleNbCol=ruleNbCol
+	{ $current=$iv_ruleNbCol.current; }
+	EOF;
+
+// Rule NbCol
+ruleNbCol returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			{
+				$current = forceCreateModelElement(
+					grammarAccess.getNbColAccess().getNbColAction_0(),
+					$current);
+			}
+		)
+		otherlv_1='nbcol'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getNbColAccess().getNbcolKeyword_1());
+		}
+		(
+			(
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getNbColRule());
+					}
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getNbColAccess().getOpenOpenCSVCrossReference_2_0());
 				}
 			)
 		)

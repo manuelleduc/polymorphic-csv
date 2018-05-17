@@ -46,6 +46,7 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getOpenCSVAccess().getGroup(), "rule__OpenCSV__Group__0");
 					put(grammarAccess.getPrintCSVAccess().getGroup(), "rule__PrintCSV__Group__0");
 					put(grammarAccess.getNbRowAccess().getGroup(), "rule__NbRow__Group__0");
+					put(grammarAccess.getNbColAccess().getGroup(), "rule__NbCol__Group__0");
 					put(grammarAccess.getSaveCSVAccess().getGroup(), "rule__SaveCSV__Group__0");
 					put(grammarAccess.getJvmTypeReferenceAccess().getGroup_0(), "rule__JvmTypeReference__Group_0__0");
 					put(grammarAccess.getJvmTypeReferenceAccess().getGroup_0_1(), "rule__JvmTypeReference__Group_0_1__0");
@@ -91,6 +92,7 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getOpenCSVAccess().getCharsetAssignment_4(), "rule__OpenCSV__CharsetAssignment_4");
 					put(grammarAccess.getPrintCSVAccess().getOpenAssignment_2(), "rule__PrintCSV__OpenAssignment_2");
 					put(grammarAccess.getNbRowAccess().getOpenAssignment_2(), "rule__NbRow__OpenAssignment_2");
+					put(grammarAccess.getNbColAccess().getOpenAssignment_2(), "rule__NbCol__OpenAssignment_2");
 					put(grammarAccess.getSaveCSVAccess().getOpenAssignment_2(), "rule__SaveCSV__OpenAssignment_2");
 					put(grammarAccess.getSaveCSVAccess().getFileAssignment_3(), "rule__SaveCSV__FileAssignment_3");
 					put(grammarAccess.getXFunctionTypeRefAccess().getParamTypesAssignment_0_1_0(), "rule__XFunctionTypeRef__ParamTypesAssignment_0_1_0");

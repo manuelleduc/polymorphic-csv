@@ -16,6 +16,7 @@ import polymorphic.csv.CsvFactory;
 import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -85,6 +86,13 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
    * @generated
    */
   private EClass nbRowEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass nbColEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -361,6 +369,16 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getNbCol()
+  {
+    return nbColEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getSaveCSV()
   {
     return saveCSVEClass;
@@ -434,6 +452,8 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
 
     nbRowEClass = createEClass(NB_ROW);
 
+    nbColEClass = createEClass(NB_COL);
+
     saveCSVEClass = createEClass(SAVE_CSV);
     createEAttribute(saveCSVEClass, SAVE_CSV__FILE);
   }
@@ -471,6 +491,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     refOpenActionEClass.getESuperTypes().add(this.getAction());
     printCSVEClass.getESuperTypes().add(this.getRefOpenAction());
     nbRowEClass.getESuperTypes().add(this.getRefOpenAction());
+    nbColEClass.getESuperTypes().add(this.getRefOpenAction());
     saveCSVEClass.getESuperTypes().add(this.getRefOpenAction());
 
     // Initialize classes and features; add operations and parameters
@@ -501,6 +522,8 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     initEClass(printCSVEClass, PrintCSV.class, "PrintCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(nbRowEClass, NbRow.class, "NbRow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(nbColEClass, NbCol.class, "NbCol", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(saveCSVEClass, SaveCSV.class, "SaveCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getSaveCSV_File(), ecorePackage.getEString(), "file", null, 0, 1, SaveCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

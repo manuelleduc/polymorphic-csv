@@ -14,6 +14,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -21,7 +22,7 @@ import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
-public class ApacheCommonCsvGenerator implements ICsvGenerator {
+public class Java_commonsCsvGenerator implements ICsvGenerator {
   private static final class Context {
     private int cptr = 0;
     
@@ -136,7 +137,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_3.append("</project>");
     _builder_3.newLine();
     fsa.generateFile(_builder_2.toString(), _builder_3);
-    final ApacheCommonCsvGenerator.Context ctx = new ApacheCommonCsvGenerator.Context();
+    final Java_commonsCsvGenerator.Context ctx = new Java_commonsCsvGenerator.Context();
     StringConcatenation _builder_4 = new StringConcatenation();
     String _name_5 = content.getName();
     _builder_4.append(_name_5);
@@ -148,9 +149,15 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     _builder_4.append(_replaceAll);
     _builder_4.append(".java");
     StringConcatenation _builder_5 = new StringConcatenation();
-    _builder_5.append("package ");
-    _builder_5.append(package_);
-    _builder_5.append(";");
+    {
+      int _length = package_.length();
+      boolean _greaterThan = (_length > 0);
+      if (_greaterThan) {
+        _builder_5.append("package ");
+        _builder_5.append(package_);
+        _builder_5.append(";");
+      }
+    }
     _builder_5.newLineIfNotEmpty();
     _builder_5.newLine();
     _builder_5.append("import java.io.*;");
@@ -188,12 +195,12 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     fsa.generateFile(_builder_4.toString(), _builder_5);
   }
   
-  private CharSequence _javaAction(final OpenCSV open, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final OpenCSV open, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("final List<CSVRecord> ");
     String _name = open.getName();
     _builder.append(_name);
-    _builder.append(" = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader(\"");
+    _builder.append(" = StreamSupport.stream(CSVFormat.RFC4180.parse(new FileReader(args[0]+\"");
     String _file = open.getFile();
     _builder.append(_file);
     _builder.append("\")).spliterator(), false).collect(Collectors.toList());");
@@ -201,7 +208,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _builder;
   }
   
-  private CharSequence _javaAction(final PrintCSV print, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final PrintCSV print, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     CharSequence _xblockexpression = null;
     {
       final int varX = ctx.nextCptr();
@@ -244,16 +251,27 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return _xblockexpression;
   }
   
-  private CharSequence _javaAction(final NbRow nbRow, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final NbRow nbRow, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("System.out.println(");
     String _name = nbRow.getOpen().getName();
     _builder.append(_name);
-    _builder.append(".size());");
+    _builder.append(".size()-1);");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  private CharSequence _javaAction(final SaveCSV save, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
+  private CharSequence _javaAction(final NbCol nbCol, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("System.out.println(");
+    String _name = nbCol.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(".get(0).size());");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  private CharSequence _javaAction(final SaveCSV save, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
     CharSequence _xblockexpression = null;
     {
       String _xifexpression = null;
@@ -269,7 +287,7 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("try (CSVPrinter tmp");
       _builder.append(varX);
-      _builder.append(" = new CSVPrinter(new FileWriter(new File(\"");
+      _builder.append(" = new CSVPrinter(new FileWriter(new File(args[0]+\"");
       _builder.append(file);
       _builder.append("\")), CSVFormat.RFC4180)) {");
       _builder.newLineIfNotEmpty();
@@ -295,18 +313,20 @@ public class ApacheCommonCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo, _mappedTo_1);
   }
   
-  private CharSequence javaAction(final Action nbRow, final CharSequence className, final ApacheCommonCsvGenerator.Context ctx) {
-    if (nbRow instanceof NbRow) {
-      return _javaAction((NbRow)nbRow, className, ctx);
-    } else if (nbRow instanceof PrintCSV) {
-      return _javaAction((PrintCSV)nbRow, className, ctx);
-    } else if (nbRow instanceof SaveCSV) {
-      return _javaAction((SaveCSV)nbRow, className, ctx);
-    } else if (nbRow instanceof OpenCSV) {
-      return _javaAction((OpenCSV)nbRow, className, ctx);
+  private CharSequence javaAction(final Action nbCol, final CharSequence className, final Java_commonsCsvGenerator.Context ctx) {
+    if (nbCol instanceof NbCol) {
+      return _javaAction((NbCol)nbCol, className, ctx);
+    } else if (nbCol instanceof NbRow) {
+      return _javaAction((NbRow)nbCol, className, ctx);
+    } else if (nbCol instanceof PrintCSV) {
+      return _javaAction((PrintCSV)nbCol, className, ctx);
+    } else if (nbCol instanceof SaveCSV) {
+      return _javaAction((SaveCSV)nbCol, className, ctx);
+    } else if (nbCol instanceof OpenCSV) {
+      return _javaAction((OpenCSV)nbCol, className, ctx);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbRow, className, ctx).toString());
+        Arrays.<Object>asList(nbCol, className, ctx).toString());
     }
   }
 }

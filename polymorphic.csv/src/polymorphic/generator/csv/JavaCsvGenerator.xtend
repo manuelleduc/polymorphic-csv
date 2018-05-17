@@ -6,8 +6,8 @@ import polymorphic.csv.Model
 import polymorphic.csv.NbRow
 import polymorphic.csv.OpenCSV
 import polymorphic.csv.PrintCSV
-import polymorphic.csv.RefOpenAction
 import polymorphic.csv.SaveCSV
+import polymorphic.csv.NbCol
 
 class JavaCsvGenerator implements ICsvGenerator {
 
@@ -39,9 +39,8 @@ class JavaCsvGenerator implements ICsvGenerator {
 			</project>
 		''')
 
-		fsa.
-			generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
-				package «package»;
+		fsa.generateFile('''«content.name»/«language.name»/src/main/java/«language.target.replaceAll("\\.", "/")».java''', '''
+				«IF package.length > 0»package «package»;«ENDIF»
 				
 				import java.io.*;
 				import java.awt.Point;
@@ -136,6 +135,8 @@ class JavaCsvGenerator implements ICsvGenerator {
 					
 					public int rows() { return this._rows; }
 					
+					public int cols() { return this._cols; }
+					
 					public static void main(String[] args) {
 						try {
 						     	«FOR action : content.actions»
@@ -153,7 +154,7 @@ class JavaCsvGenerator implements ICsvGenerator {
 	private def dispatch CharSequence javaAction(OpenCSV open, CharSequence className) {
 		'''
 			«className» «open.name» = new «className»();
-			«open.name».open(new File("«open.file»"));
+			«open.name».open(new File(args[0]+"«open.file»"));
 		'''
 	}
 
@@ -165,14 +166,20 @@ class JavaCsvGenerator implements ICsvGenerator {
 
 	private def dispatch CharSequence javaAction(NbRow nbRow, CharSequence className) {
 		'''
-			System.out.println(«nbRow.open.name».rows());
+			System.out.println(«nbRow.open.name».rows()-1);
+		'''
+	}
+	
+	private def dispatch CharSequence javaAction(NbCol nbCol, CharSequence className) {
+		'''
+			System.out.println(«nbCol.open.name».cols());
 		'''
 	}
 
 	private def dispatch CharSequence javaAction(SaveCSV save, CharSequence className) {
 		val file = if(save.file !== null) save.file else save.open.file
 		'''
-			«save.open.name».save(new File("«file»"));
+			«save.open.name».save(new File(args[0]+"«file»"));
 		'''
 	}
 

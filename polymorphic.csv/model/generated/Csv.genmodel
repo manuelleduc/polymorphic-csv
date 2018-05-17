@@ -31,6 +31,7 @@
     </genClasses>
     <genClasses ecoreClass="Csv.ecore#//PrintCSV"/>
     <genClasses ecoreClass="Csv.ecore#//NbRow"/>
+    <genClasses ecoreClass="Csv.ecore#//NbCol"/>
     <genClasses ecoreClass="Csv.ecore#//SaveCSV">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//SaveCSV/file"/>
     </genClasses>

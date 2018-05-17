@@ -14,6 +14,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import polymorphic.csv.Action;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
+import polymorphic.csv.NbCol;
 import polymorphic.csv.NbRow;
 import polymorphic.csv.OpenCSV;
 import polymorphic.csv.PrintCSV;
@@ -110,9 +111,15 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_4.append(_replaceAll);
     _builder_4.append(".java");
     StringConcatenation _builder_5 = new StringConcatenation();
-    _builder_5.append("package ");
-    _builder_5.append(package_);
-    _builder_5.append(";");
+    {
+      int _length = package_.length();
+      boolean _greaterThan = (_length > 0);
+      if (_greaterThan) {
+        _builder_5.append("package ");
+        _builder_5.append(package_);
+        _builder_5.append(";");
+      }
+    }
     _builder_5.newLineIfNotEmpty();
     _builder_5.newLine();
     _builder_5.append("import java.io.*;");
@@ -368,6 +375,11 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder_5.append("\t");
     _builder_5.newLine();
     _builder_5.append("\t");
+    _builder_5.append("public int cols() { return this._cols; }");
+    _builder_5.newLine();
+    _builder_5.append("\t");
+    _builder_5.newLine();
+    _builder_5.append("\t");
     _builder_5.append("public static void main(String[] args) {");
     _builder_5.newLine();
     _builder_5.append("\t\t");
@@ -411,7 +423,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder.newLineIfNotEmpty();
     String _name_1 = open.getName();
     _builder.append(_name_1);
-    _builder.append(".open(new File(\"");
+    _builder.append(".open(new File(args[0]+\"");
     String _file = open.getFile();
     _builder.append(_file);
     _builder.append("\"));");
@@ -434,7 +446,17 @@ public class JavaCsvGenerator implements ICsvGenerator {
     _builder.append("System.out.println(");
     String _name = nbRow.getOpen().getName();
     _builder.append(_name);
-    _builder.append(".rows());");
+    _builder.append(".rows()-1);");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  private CharSequence _javaAction(final NbCol nbCol, final CharSequence className) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("System.out.println(");
+    String _name = nbCol.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(".cols());");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
@@ -454,7 +476,7 @@ public class JavaCsvGenerator implements ICsvGenerator {
       StringConcatenation _builder = new StringConcatenation();
       String _name = save.getOpen().getName();
       _builder.append(_name);
-      _builder.append(".save(new File(\"");
+      _builder.append(".save(new File(args[0]+\"");
       _builder.append(file);
       _builder.append("\"));");
       _builder.newLineIfNotEmpty();
@@ -469,18 +491,20 @@ public class JavaCsvGenerator implements ICsvGenerator {
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  private CharSequence javaAction(final Action nbRow, final CharSequence className) {
-    if (nbRow instanceof NbRow) {
-      return _javaAction((NbRow)nbRow, className);
-    } else if (nbRow instanceof PrintCSV) {
-      return _javaAction((PrintCSV)nbRow, className);
-    } else if (nbRow instanceof SaveCSV) {
-      return _javaAction((SaveCSV)nbRow, className);
-    } else if (nbRow instanceof OpenCSV) {
-      return _javaAction((OpenCSV)nbRow, className);
+  private CharSequence javaAction(final Action nbCol, final CharSequence className) {
+    if (nbCol instanceof NbCol) {
+      return _javaAction((NbCol)nbCol, className);
+    } else if (nbCol instanceof NbRow) {
+      return _javaAction((NbRow)nbCol, className);
+    } else if (nbCol instanceof PrintCSV) {
+      return _javaAction((PrintCSV)nbCol, className);
+    } else if (nbCol instanceof SaveCSV) {
+      return _javaAction((SaveCSV)nbCol, className);
+    } else if (nbCol instanceof OpenCSV) {
+      return _javaAction((OpenCSV)nbCol, className);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(nbRow, className).toString());
+        Arrays.<Object>asList(nbCol, className).toString());
     }
   }
 }

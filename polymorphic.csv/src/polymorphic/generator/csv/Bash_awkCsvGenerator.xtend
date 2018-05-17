@@ -9,7 +9,7 @@ import polymorphic.csv.NbRow
 import polymorphic.csv.SaveCSV
 import polymorphic.csv.NbCol
 
-class BashCsvGenerator implements ICsvGenerator {
+class Bash_awkCsvGenerator implements ICsvGenerator {
 
 	override generate(Model content, Language language, IFileSystemAccess2 fsa) {
 		fsa.generateFile('''«content.name»/«language.name»/«language.target.replaceAll("\\.", "/")».sh''', '''
@@ -23,23 +23,23 @@ class BashCsvGenerator implements ICsvGenerator {
 	private def dispatch CharSequence bashAction(OpenCSV open) ''''''
 	
 	private def dispatch CharSequence bashAction(PrintCSV print) '''
-		cat $1«print.open.file»
+		awk '{ print $0 }' $1«print.open.file»
 	'''
 	
 	private def dispatch CharSequence bashAction(NbRow nbrow) '''
-		echo $[$(wc -l < $1«nbrow.open.file»)-1]
+		awk 'END { print NR-1 }' $1«nbrow.open.file»
 	'''
 	
 	private def dispatch CharSequence bashAction(NbCol nbcol) '''
-		head -1 $1«nbcol.open.file» | sed 's/[^,]//g' | wc -c
+		awk 'BEGIN { FS = "," } ; END { print NF }' $1«nbcol.open.file»
 	'''
 	
 	private def dispatch CharSequence bashAction(SaveCSV save) '''
-		cat $1«save.open.file» > $1«save.file»
+		awk '{ print $0 }' $1«save.open.file» > $1«save.file»
 	'''
 
 	override properties() {
-		newHashMap("bash" -> true)
+		newHashMap("bash_awk" -> true)
 	}
 
 }

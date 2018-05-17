@@ -18,7 +18,7 @@ import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
-public class BashCsvGenerator implements ICsvGenerator {
+public class R_fwriteCsvGenerator implements ICsvGenerator {
   @Override
   public void generate(final Model content, final Language language, final IFileSystemAccess2 fsa) {
     StringConcatenation _builder = new StringConcatenation();
@@ -30,84 +30,97 @@ public class BashCsvGenerator implements ICsvGenerator {
     _builder.append("/");
     String _replaceAll = language.getTarget().replaceAll("\\.", "/");
     _builder.append(_replaceAll);
-    _builder.append(".sh");
+    _builder.append(".R");
     StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append("#!/bin/bash");
+    _builder_1.append("#install.packages(\"data.table\")");
+    _builder_1.newLine();
+    _builder_1.append("library(data.table)");
+    _builder_1.newLine();
+    _builder_1.append("args <- commandArgs(trailingOnly=TRUE)");
+    _builder_1.newLine();
+    _builder_1.append("root <- args[1]");
     _builder_1.newLine();
     {
       EList<Action> _actions = content.getActions();
       for(final Action action : _actions) {
-        CharSequence _bashAction = this.bashAction(action);
-        _builder_1.append(_bashAction);
+        CharSequence _RAction = this.RAction(action);
+        _builder_1.append(_RAction);
         _builder_1.newLineIfNotEmpty();
       }
     }
     fsa.generateFile(_builder.toString(), _builder_1);
   }
   
-  private CharSequence _bashAction(final OpenCSV open) {
+  private CharSequence _RAction(final OpenCSV open) {
     StringConcatenation _builder = new StringConcatenation();
-    return _builder;
-  }
-  
-  private CharSequence _bashAction(final PrintCSV print) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cat $1");
-    String _file = print.getOpen().getFile();
+    String _name = open.getName();
+    _builder.append(_name);
+    _builder.append(" = read.csv(paste(root,\"");
+    String _file = open.getFile();
     _builder.append(_file);
+    _builder.append("\",sep=\"\"), header=TRUE, sep=\",\")");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  private CharSequence _bashAction(final NbRow nbrow) {
+  private CharSequence _RAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("echo $[$(wc -l < $1");
-    String _file = nbrow.getOpen().getFile();
-    _builder.append(_file);
-    _builder.append(")-1]");
+    String _name = print.getOpen().getName();
+    _builder.append(_name);
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  private CharSequence _bashAction(final NbCol nbcol) {
+  private CharSequence _RAction(final NbRow nbrow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("head -1 $1");
-    String _file = nbcol.getOpen().getFile();
-    _builder.append(_file);
-    _builder.append(" | sed \'s/[^,]//g\' | wc -c");
+    _builder.append("cat( nrow(");
+    String _name = nbrow.getOpen().getName();
+    _builder.append(_name);
+    _builder.append("),\"\\n\" )");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  private CharSequence _bashAction(final SaveCSV save) {
+  private CharSequence _RAction(final NbCol nbcol) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cat $1");
-    String _file = save.getOpen().getFile();
+    _builder.append("cat( ncol(");
+    String _name = nbcol.getOpen().getName();
+    _builder.append(_name);
+    _builder.append("),\"\\n\" )");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  private CharSequence _RAction(final SaveCSV save) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("fwrite( ");
+    String _name = save.getOpen().getName();
+    _builder.append(_name);
+    _builder.append(", file = paste(root,\"");
+    String _file = save.getFile();
     _builder.append(_file);
-    _builder.append(" > $1");
-    String _file_1 = save.getFile();
-    _builder.append(_file_1);
+    _builder.append("\",sep=\"\"), quote = \"auto\" )");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   @Override
   public Map<String, Boolean> properties() {
-    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("bash", Boolean.valueOf(true));
+    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("R_fwrite", Boolean.valueOf(true));
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   
-  private CharSequence bashAction(final Action nbcol) {
+  private CharSequence RAction(final Action nbcol) {
     if (nbcol instanceof NbCol) {
-      return _bashAction((NbCol)nbcol);
+      return _RAction((NbCol)nbcol);
     } else if (nbcol instanceof NbRow) {
-      return _bashAction((NbRow)nbcol);
+      return _RAction((NbRow)nbcol);
     } else if (nbcol instanceof PrintCSV) {
-      return _bashAction((PrintCSV)nbcol);
+      return _RAction((PrintCSV)nbcol);
     } else if (nbcol instanceof SaveCSV) {
-      return _bashAction((SaveCSV)nbcol);
+      return _RAction((SaveCSV)nbcol);
     } else if (nbcol instanceof OpenCSV) {
-      return _bashAction((OpenCSV)nbcol);
+      return _RAction((OpenCSV)nbcol);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(nbcol).toString());

@@ -18,7 +18,7 @@ import polymorphic.csv.SaveCSV;
 import polymorphic.generator.csv.ICsvGenerator;
 
 @SuppressWarnings("all")
-public class BashCsvGenerator implements ICsvGenerator {
+public class Bash_awkCsvGenerator implements ICsvGenerator {
   @Override
   public void generate(final Model content, final Language language, final IFileSystemAccess2 fsa) {
     StringConcatenation _builder = new StringConcatenation();
@@ -52,7 +52,7 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final PrintCSV print) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cat $1");
+    _builder.append("awk \'{ print $0 }\' $1");
     String _file = print.getOpen().getFile();
     _builder.append(_file);
     _builder.newLineIfNotEmpty();
@@ -61,27 +61,25 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   private CharSequence _bashAction(final NbRow nbrow) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("echo $[$(wc -l < $1");
+    _builder.append("awk \'END { print NR-1 }\' $1");
     String _file = nbrow.getOpen().getFile();
     _builder.append(_file);
-    _builder.append(")-1]");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   private CharSequence _bashAction(final NbCol nbcol) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("head -1 $1");
+    _builder.append("awk \'BEGIN { FS = \",\" } ; END { print NF }\' $1");
     String _file = nbcol.getOpen().getFile();
     _builder.append(_file);
-    _builder.append(" | sed \'s/[^,]//g\' | wc -c");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   private CharSequence _bashAction(final SaveCSV save) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("cat $1");
+    _builder.append("awk \'{ print $0 }\' $1");
     String _file = save.getOpen().getFile();
     _builder.append(_file);
     _builder.append(" > $1");
@@ -93,7 +91,7 @@ public class BashCsvGenerator implements ICsvGenerator {
   
   @Override
   public Map<String, Boolean> properties() {
-    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("bash", Boolean.valueOf(true));
+    Pair<String, Boolean> _mappedTo = Pair.<String, Boolean>of("bash_awk", Boolean.valueOf(true));
     return CollectionLiterals.<String, Boolean>newHashMap(_mappedTo);
   }
   

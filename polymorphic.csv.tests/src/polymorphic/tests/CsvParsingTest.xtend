@@ -21,11 +21,9 @@ class CsvParsingTest {
 	@Inject extension ParseHelper<Model>
 	@Inject extension PolymorphicCsvCompilationTestHelper
 	@Inject extension ValidationTestHelper
-	
-
 
 	@Test
-	def bashTest1(){
+	def bashTest_old(){
 		'''
 		package mpackage;
 					
@@ -38,7 +36,6 @@ class CsvParsingTest {
 		}
 		read a "/tmp/test.csv"
 		print a
-		//save a
 		save a "/tmp/test2.csv"
 		'''.assertCompilesTo('''
 		MULTIPLE FILES WERE GENERATED
@@ -46,11 +43,12 @@ class CsvParsingTest {
 		File 1 : /myProject/./src-gen/mpackage/bash/a/b/java/C.sh
 		
 		#!/bin/bash
-		cat /tmp/test.csv
-		cp /tmp/test.csv /tmp/test2.csv
+		cat $1/tmp/test.csv
+		cat $1/tmp/test.csv > $1/tmp/test2.csv
 		
 		File 2 : /myProject/./src-gen/mpackage/build.sh
 		
+		#!/bin/bash
 		mkdir -p ./inputs
 		rm -r ./bash/inputs
 		cp -r ./inputs ./bash/inputs
@@ -64,15 +62,255 @@ class CsvParsingTest {
 		    build:
 		      context: ./bash
 		
-		File 4 : /myProject/./src-gen/mpackage/run.sh
+		File 4 : /myProject/./src-gen/mpackage/exec.sh
 		
+		#!/bin/bash
+		
+		# local exec.sh mpackage
+		# syntax : bash exec.sh
+		
+		# path of "code_X"" for main call / local call
+		if [ "$1" = "main" ] ; then path1="./data/mpackage/" ; else path1="../../data/mpackage/" ; fi
+		
+		# for each folder in directory
+		for D in $path1*/
+		do
+		
+			# data's name for main call / local call
+			if [ "$1" = "main" ] ; then dataNb=${D:14:-1} ; else dataNb=${D:18:-1} ; fi
+		
+			# path of the results' file	
+			target=$D"result_mpackage_"$dataNb
+		
+			printf "////////////////////////////// " >> $target
+			date >> $target
+			uname -a >> $target
+			echo "" >> $target
+			echo "## mpackage ##" >> $target
+			echo "" >> $target
+			echo "########## $dataNb"
+			
+			# path for main call / path for local call
+			if [ "$1" = "main" ] ; then path2="./src-gen/mpackage" ; else path2="./" ; fi
+		
+			# for each mentioned language
+			echo "# bash #"
+			echo "# bash #" >> $target
+			echo "" >> $target
+			"${path2}"/bash/a.b.java.C.sh $D >> $target
+			echo "" >> $target
+			echo "# END bash #" >> $target
+			echo "# END bash #"
+			echo ""
+			echo "----------------------------------------" >> $target
+			
+		
+		done
+
+		File 5 : /myProject/./src-gen/mpackage/run.sh
+		
+		#!/bin/bash
 		rm -r ./logs
 		mkdir -p ./logs
 		docker-compose up
 		
 		''')
-		
 	}
+	
+	@Test
+	def bashTest_awk(){
+		'''
+		package important;
+		
+		constraints {
+			
+		}
+		
+		languages {
+			bash_awk (truc)
+		}
+		
+		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
+		print aaa
+		nbrow aaa
+		nbcol aaa
+		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
+		read bbb "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv" utf8
+		print bbb
+		nbrow bbb
+		nbcol bbb
+
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/bash_awk/truc.sh''' -> '''	
+		#!/bin/bash
+		awk '{ print $0 }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		awk 'END { print NR-1 }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		awk 'BEGIN { FS = "," } ; END { print NF }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		awk '{ print $0 }' $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv > $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		awk '{ print $0 }' $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		awk 'END { print NR-1 }' $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		awk 'BEGIN { FS = "," } ; END { print NF }' $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		'''}
+		)
+	}
+	
+	@Test
+	def bashTest(){
+		'''
+		package important;
+		
+		constraints {
+			
+		}
+		
+		languages {
+			bash (truc)
+		}
+		
+		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
+		print aaa
+		nbrow aaa
+		nbcol aaa
+		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
+		read bbb "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv" utf8
+		print bbb
+		nbrow bbb
+		nbcol bbb
+
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/bash/truc.sh''' -> '''	
+		#!/bin/bash
+		cat $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv
+		echo $[$(wc -l < $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv)-1]
+		head -1 $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv | sed 's/[^,]//g' | wc -c
+		cat $1/home/yannick/Bureau/dossier_test/Sans_nom_1.csv > $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		cat $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv
+		echo $[$(wc -l < $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv)-1]
+		head -1 $1/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv | sed 's/[^,]//g' | wc -c
+		'''}
+		)
+	}
+	
+	@Test
+	def RTest(){
+		'''
+		package important;
+		
+		constraints {
+			
+		}
+		
+		languages {
+			R (file_R)
+		}
+		
+		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
+		print aaa
+		nbrow aaa
+		nbcol aaa
+		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
+
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/R/file_R.R''' -> '''
+		args <- commandArgs(trailingOnly=TRUE)
+		root <- args[1]
+		aaa = read.csv(paste(root,"/home/yannick/Bureau/dossier_test/Sans_nom_1.csv",sep=""), header=TRUE, sep=",")
+		aaa
+		cat( nrow(aaa),"\n" )
+		cat( ncol(aaa),"\n" )
+		write.csv( aaa, paste(root,"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv",sep=""), quote=FALSE, row.names=FALSE )
+		'''}
+		)
+	}
+	
+	@Test
+	def RTest_fwrite(){
+		'''
+		package important;
+		
+		constraints {
+			
+		}
+		
+		languages {
+			R_fwrite (file_R_fwrite)
+		}
+		
+		read aaa "/home/yannick/Bureau/dossier_test/Sans_nom_1.csv" utf8
+		print aaa
+		nbrow aaa
+		nbcol aaa
+		save aaa "/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv"
+
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/R_fwrite/file_R_fwrite.R''' -> '''
+		#install.packages("data.table")
+		library(data.table)
+		args <- commandArgs(trailingOnly=TRUE)
+		root <- args[1]
+		aaa = read.csv(paste(root,"/home/yannick/Bureau/dossier_test/Sans_nom_1.csv",sep=""), header=TRUE, sep=",")
+		aaa
+		cat( nrow(aaa),"\n" )
+		cat( ncol(aaa),"\n" )
+		fwrite( aaa, file = paste(root,"/home/yannick/Bureau/dossier_test/Copy_Sans_nom_1.csv",sep=""), quote = "auto" )
+		'''}
+		)
+	}
+
+	@Test
+	def pythonTest(){
+		'''
+		package important;
+		
+		constraints {
+			
+		}
+		
+		languages {
+			python3 (truc)
+		}
+		
+		read aaa "/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv" utf8
+		print aaa
+		nbrow aaa
+		nbcol aaa
+		save aaa "/udd/ynamour/Desktop/dossier_test/test_copy.csv"
+		read bbb "/udd/ynamour/Desktop/dossier_test/test_copy.csv" latin1
+		print bbb
+		nbrow bbb
+		nbcol bbb
+
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/important/python3/truc.py''' -> '''	
+		#!/usr/bin/env python3
+		import sys
+		import csv
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
+			read = csv.reader(CSV_file)
+			for elt in read:
+				print(elt)
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
+			read = csv.reader(CSV_file)
+			print(sum(1 for elt in read) -1)
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as CSV_file:
+			read = csv.reader(CSV_file)
+			first_line = next(read)
+			print(sum(1 for elt in first_line))
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "w", encoding="utf-8") as read_file:
+		    read_W = csv.writer(read_file)
+		    with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/Sans_nom_1.csv", "r", encoding="utf-8") as write_file:
+		        read_R = csv.reader(write_file)
+		        read_W.writerows(read_R)
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
+			read = csv.reader(CSV_file)
+			for elt in read:
+				print(elt)
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
+			read = csv.reader(CSV_file)
+			print(sum(1 for elt in read) -1)
+		with open(sys.argv[1]+"/udd/ynamour/Desktop/dossier_test/test_copy.csv", "r", encoding="latin-1") as CSV_file:
+			read = csv.reader(CSV_file)
+			first_line = next(read)
+			print(sum(1 for elt in first_line))
+		'''}
+		)
+	}
+	
 	@Test
 	def void loadModel() {
 		'''
@@ -85,21 +323,21 @@ class CsvParsingTest {
 			languages {
 				java (a.b.java.C)
 				commons (a.b.commons.C)
-				python (python_version)
+				python3 (python3_version)
 			}
 			read a "/tmp/test.csv"
 			print a
 			//save a
 			save a "/tmp/test2.csv"
-		'''.assertFileCompilesTo(
-			#{'''/myProject/./src-gen/uuu/build.sh''' -> '''
+		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/uuu/build.sh''' -> '''
+				#!/bin/bash
 				mkdir -p ./inputs
 				rm -r ./java/inputs
 				cp -r ./inputs ./java/inputs
 				rm -r ./commons/inputs
 				cp -r ./inputs ./commons/inputs
-				rm -r ./python/inputs
-				cp -r ./inputs ./python/inputs
+				rm -r ./python3/inputs
+				cp -r ./inputs ./python3/inputs
 				docker-compose build
 			''', '''/myProject/./src-gen/uuu/commons/Dockerfile''' -> '''
 				FROM maven
@@ -109,26 +347,27 @@ class CsvParsingTest {
 				RUN mvn compile
 				ENTRYPOINT  mvn -q exec:java -Dexec.mainClass="a.b.commons.C"
 			''', '''/myProject/./src-gen/uuu/commons/pom.xml''' -> '''
-			<project>
-			    <modelVersion>4.0.0</modelVersion>
-			    <groupId>uuu</groupId>
-			    <artifactId>a.b.commons.C</artifactId>
-			    <version>1</version>
-			    
-			      <properties>
-			        <maven.compiler.source>1.8</maven.compiler.source>
-			        <maven.compiler.target>1.8</maven.compiler.target>
-			         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-			      </properties>
-			    
-			    <dependencies>
-					<dependency>
-						<groupId>org.apache.commons</groupId>
-						<artifactId>commons-csv</artifactId>
-						<version>1.5</version>
-					</dependency>
-				</dependencies>
-			</project>''', '''/myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java''' -> '''
+				<project>
+				    <modelVersion>4.0.0</modelVersion>
+				    <groupId>uuu</groupId>
+				    <artifactId>a.b.commons.C</artifactId>
+				    <version>1</version>
+				    
+				      <properties>
+				        <maven.compiler.source>1.8</maven.compiler.source>
+				        <maven.compiler.target>1.8</maven.compiler.target>
+				         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+				      </properties>
+				    
+				    <dependencies>
+						<dependency>
+							<groupId>org.apache.commons</groupId>
+							<artifactId>commons-csv</artifactId>
+							<version>1.5</version>
+						</dependency>
+					</dependencies>
+				</project>
+			''', '''/myProject/./src-gen/uuu/commons/src/main/java/a/b/commons/C.java''' -> '''
 				package a.b.commons;
 				
 				import java.io.*;
@@ -159,9 +398,9 @@ class CsvParsingTest {
 				  commons:
 				    build:
 				      context: ./commons
-				  python:
+				  python3:
 				    build:
-				      context: ./python
+				      context: ./python3
 			''', '''/myProject/./src-gen/uuu/java/Dockerfile''' -> '''
 				FROM maven
 				COPY . /project
@@ -289,21 +528,27 @@ class CsvParsingTest {
 						}
 					}
 				}
-			''', '''/myProject/./src-gen/uuu/python/Dockerfile''' -> '''
-				FROM python
+			''', '''/myProject/./src-gen/uuu/python3/Dockerfile''' -> '''
+				FROM python3
 				COPY . /project
 				COPY ./inputs /inputs
 				WORKDIR project
-				ENTRYPOINT python python_version.py
-			''', '''/myProject/./src-gen/uuu/python/python_version.py''' -> '''
+				ENTRYPOINT python3 python3_version.py
+			''', '''/myProject/./src-gen/uuu/python3/python3_version.py''' -> '''
+				#!/usr/bin/env python3
+				import sys
 				import csv
-				for a_e in csv.reader(open('/tmp/test.csv', 'rt', encoding='')):
-				  print(', '.join(a_e))
-				with open('/tmp/test2.csv', 'wt') as output_file:
-				  a_write = csv.writer(output_file)
-				  for a_e in csv.reader(open('/tmp/test.csv', 'rt', encoding='')):
-				    a_write.writerow(tuple(a_e))
+				with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as CSV_file:
+					read = csv.reader(CSV_file)
+					for elt in read:
+						print(elt)
+				with open(sys.argv[1]+"/tmp/test2.csv", "w", encoding="") as read_file:
+				    read_W = csv.writer(read_file)
+				    with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as write_file:
+				        read_R = csv.reader(write_file)
+				        read_W.writerows(read_R)
 			''', '''/myProject/./src-gen/uuu/run.sh''' -> '''
+				#!/bin/bash
 				rm -r ./logs
 				mkdir -p ./logs
 				docker-compose up
@@ -313,7 +558,6 @@ class CsvParsingTest {
 
 	@Test
 	def void loadModelPython() {
-
 		'''
 			package foo;
 			constraints {
@@ -321,7 +565,7 @@ class CsvParsingTest {
 			    maven = true
 			}
 			languages {
-			    python (a)
+			    python3 (a)
 			}
 			read a "/tmp/test.csv"
 			nbrow a
@@ -330,32 +574,40 @@ class CsvParsingTest {
 			nbrow b
 			//print b
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/foo/build.sh''' -> '''
+			#!/bin/bash
 			mkdir -p ./inputs
-			rm -r ./python/inputs
-			cp -r ./inputs ./python/inputs
+			rm -r ./python3/inputs
+			cp -r ./inputs ./python3/inputs
 			docker-compose build
 		''', '''/myProject/./src-gen/foo/docker-compose.yml''' -> '''
 			version: '3'
 			services:
-			  python:
+			  python3:
 			    build:
-			      context: ./python
-		''', '''/myProject/./src-gen/foo/python/Dockerfile''' -> '''
-			FROM python
+			      context: ./python3
+		''', '''/myProject/./src-gen/foo/python3/Dockerfile''' -> '''
+			FROM python3
 			COPY . /project
 			COPY ./inputs /inputs
 			WORKDIR project
-			ENTRYPOINT python a.py
-		''', '''/myProject/./src-gen/foo/python/a.py''' -> '''
+			ENTRYPOINT python3 a.py
+		''', '''/myProject/./src-gen/foo/python3/a.py''' -> '''
+			#!/usr/bin/env python3
+			import sys
 			import csv
-			print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt', encoding=''))))
-			print(sum(1 for row in csv.reader(open('/tmp/test2.csv', 'rt', encoding=''))))
+			with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as CSV_file:
+				read = csv.reader(CSV_file)
+				print(sum(1 for elt in read) -1)
+			with open(sys.argv[1]+"/tmp/test2.csv", "r", encoding="") as CSV_file:
+				read = csv.reader(CSV_file)
+				print(sum(1 for elt in read) -1)
 		''', '''/myProject/./src-gen/foo/run.sh''' -> '''
+			#!/bin/bash
 			rm -r ./logs
 			mkdir -p ./logs
 			docker-compose up
-		'''})
-
+		'''}
+		)
 	}
 
 	@Test
@@ -368,18 +620,19 @@ class CsvParsingTest {
 			languages {
 				java (a.b.java.C)
 				commons (a.b.commons.C)
-				python (python_version)
+				python3 (python3_version)
 			}
 			read a "/tmp/test.csv"
 			nbrow a
 		'''.assertFileCompilesTo(#{'''/myProject/./src-gen/uuu/build.sh''' -> '''
+			#!/bin/bash
 			mkdir -p ./inputs
 			rm -r ./java/inputs
 			cp -r ./inputs ./java/inputs
 			rm -r ./commons/inputs
 			cp -r ./inputs ./commons/inputs
-			rm -r ./python/inputs
-			cp -r ./inputs ./python/inputs
+			rm -r ./python3/inputs
+			cp -r ./inputs ./python3/inputs
 			docker-compose build
 		''', '''/myProject/./src-gen/uuu/commons/Dockerfile''' -> '''
 			FROM maven
@@ -433,9 +686,9 @@ class CsvParsingTest {
 			  commons:
 			    build:
 			      context: ./commons
-			  python:
+			  python3:
 			    build:
-			      context: ./python
+			      context: ./python3
 		''', '''/myProject/./src-gen/uuu/java/Dockerfile''' -> '''
 			FROM maven
 			COPY . /project
@@ -561,21 +814,25 @@ class CsvParsingTest {
 					System.out.println(e);
 				}
 			}
-		}''', '''/myProject/./src-gen/uuu/python/Dockerfile''' -> '''
-			FROM python
+		}
+		''', '''/myProject/./src-gen/uuu/python3/Dockerfile''' -> '''
+			FROM python3
 			COPY . /project
 			COPY ./inputs /inputs
 			WORKDIR project
-			ENTRYPOINT python python_version.py
-		''', '''/myProject/./src-gen/uuu/python/python_version.py''' -> '''
+			ENTRYPOINT python3 python3_version.py
+		''', '''/myProject/./src-gen/uuu/python3/python3_version.py''' -> '''
+			#!/usr/bin/env python3
+			import sys
 			import csv
-			print(sum(1 for row in csv.reader(open('/tmp/test.csv', 'rt', encoding=''))))
-			
+			with open(sys.argv[1]+"/tmp/test.csv", "r", encoding="") as CSV_file:
+				read = csv.reader(CSV_file)
+				print(sum(1 for elt in read) -1)
 		''', '''/myProject/./src-gen/uuu/run.sh''' -> '''
+			#!/bin/bash
 			rm -r ./logs
 			mkdir -p ./logs
 			docker-compose up
-			
 		'''})
 	}
 
