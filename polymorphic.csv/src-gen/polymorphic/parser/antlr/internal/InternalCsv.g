@@ -109,9 +109,9 @@ ruleModel returns [EObject current=null]
 		{
 			newLeafNode(otherlv_3, grammarAccess.getModelAccess().getSemicolonKeyword_3());
 		}
-		otherlv_4='constraints'
+		otherlv_4='languages'
 		{
-			newLeafNode(otherlv_4, grammarAccess.getModelAccess().getConstraintsKeyword_4());
+			newLeafNode(otherlv_4, grammarAccess.getModelAccess().getLanguagesKeyword_4());
 		}
 		otherlv_5='{'
 		{
@@ -120,18 +120,18 @@ ruleModel returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getConstraintsConstraintParserRuleCall_6_0());
+					newCompositeNode(grammarAccess.getModelAccess().getLanguagesLanguageParserRuleCall_6_0());
 				}
-				lv_constraints_6_0=ruleConstraint
+				lv_languages_6_0=ruleLanguage
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
 					}
 					add(
 						$current,
-						"constraints",
-						lv_constraints_6_0,
-						"polymorphic.Csv.Constraint");
+						"languages",
+						lv_languages_6_0,
+						"polymorphic.Csv.Language");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -140,43 +140,12 @@ ruleModel returns [EObject current=null]
 		{
 			newLeafNode(otherlv_7, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_7());
 		}
-		otherlv_8='languages'
-		{
-			newLeafNode(otherlv_8, grammarAccess.getModelAccess().getLanguagesKeyword_8());
-		}
-		otherlv_9='{'
-		{
-			newLeafNode(otherlv_9, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_9());
-		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getLanguagesLanguageParserRuleCall_10_0());
+					newCompositeNode(grammarAccess.getModelAccess().getActionsActionParserRuleCall_8_0());
 				}
-				lv_languages_10_0=ruleLanguage
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getModelRule());
-					}
-					add(
-						$current,
-						"languages",
-						lv_languages_10_0,
-						"polymorphic.Csv.Language");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)*
-		otherlv_11='}'
-		{
-			newLeafNode(otherlv_11, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_11());
-		}
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getModelAccess().getActionsActionParserRuleCall_12_0());
-				}
-				lv_actions_12_0=ruleAction
+				lv_actions_8_0=ruleAction
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
@@ -184,74 +153,12 @@ ruleModel returns [EObject current=null]
 					add(
 						$current,
 						"actions",
-						lv_actions_12_0,
+						lv_actions_8_0,
 						"polymorphic.Csv.Action");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
-	)
-;
-
-// Entry rule entryRuleConstraint
-entryRuleConstraint returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getConstraintRule()); }
-	iv_ruleConstraint=ruleConstraint
-	{ $current=$iv_ruleConstraint.current; }
-	EOF;
-
-// Rule Constraint
-ruleConstraint returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		(
-			(
-				lv_name_0_0=RULE_ID
-				{
-					newLeafNode(lv_name_0_0, grammarAccess.getConstraintAccess().getNameIDTerminalRuleCall_0_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getConstraintRule());
-					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_0_0,
-						"org.eclipse.xtext.xbase.Xtype.ID");
-				}
-			)
-		)
-		otherlv_1='='
-		{
-			newLeafNode(otherlv_1, grammarAccess.getConstraintAccess().getEqualsSignKeyword_1());
-		}
-		(
-			(
-				(
-					lv_true_2_0='true'
-					{
-						newLeafNode(lv_true_2_0, grammarAccess.getConstraintAccess().getTrueTrueKeyword_2_0_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getConstraintRule());
-						}
-						setWithLastConsumed($current, "true", true, "true");
-					}
-				)
-			)
-			    |
-			otherlv_3='false'
-			{
-				newLeafNode(otherlv_3, grammarAccess.getConstraintAccess().getFalseKeyword_2_1());
-			}
-		)
 	)
 ;
 
@@ -444,6 +351,35 @@ ruleOpenCSV returns [EObject current=null]
 					}
 				)
 			)
+		)
+		otherlv_5='header'
+		{
+			newLeafNode(otherlv_5, grammarAccess.getOpenCSVAccess().getHeaderKeyword_5());
+		}
+		otherlv_6='='
+		{
+			newLeafNode(otherlv_6, grammarAccess.getOpenCSVAccess().getEqualsSignKeyword_6());
+		}
+		(
+			(
+				(
+					lv_header_7_0='true'
+					{
+						newLeafNode(lv_header_7_0, grammarAccess.getOpenCSVAccess().getHeaderTrueKeyword_7_0_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getOpenCSVRule());
+						}
+						setWithLastConsumed($current, "header", true, "true");
+					}
+				)
+			)
+			    |
+			otherlv_8='false'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getOpenCSVAccess().getFalseKeyword_7_1());
+			}
 		)
 	)
 ;

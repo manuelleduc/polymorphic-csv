@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link polymorphic.csv.Model#getName <em>Name</em>}</li>
- *   <li>{@link polymorphic.csv.Model#getConstraints <em>Constraints</em>}</li>
  *   <li>{@link polymorphic.csv.Model#getLanguages <em>Languages</em>}</li>
  *   <li>{@link polymorphic.csv.Model#getActions <em>Actions</em>}</li>
  * </ul>
@@ -53,22 +52,6 @@ public interface Model extends EObject
    * @generated
    */
   void setName(String value);
-
-  /**
-   * Returns the value of the '<em><b>Constraints</b></em>' containment reference list.
-   * The list contents are of type {@link polymorphic.csv.Constraint}.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Constraints</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Constraints</em>' containment reference list.
-   * @see polymorphic.csv.CsvPackage#getModel_Constraints()
-   * @model containment="true"
-   * @generated
-   */
-  EList<Constraint> getConstraints();
 
   /**
    * Returns the value of the '<em><b>Languages</b></em>' containment reference list.

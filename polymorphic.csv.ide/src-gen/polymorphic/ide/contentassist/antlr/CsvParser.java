@@ -31,9 +31,9 @@ public class CsvParser extends AbstractContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
-					put(grammarAccess.getConstraintAccess().getAlternatives_2(), "rule__Constraint__Alternatives_2");
 					put(grammarAccess.getActionAccess().getAlternatives(), "rule__Action__Alternatives");
 					put(grammarAccess.getOpenCSVAccess().getCharsetAlternatives_4_0(), "rule__OpenCSV__CharsetAlternatives_4_0");
+					put(grammarAccess.getOpenCSVAccess().getAlternatives_7(), "rule__OpenCSV__Alternatives_7");
 					put(grammarAccess.getRefOpenActionAccess().getAlternatives(), "rule__RefOpenAction__Alternatives");
 					put(grammarAccess.getJvmTypeReferenceAccess().getAlternatives(), "rule__JvmTypeReference__Alternatives");
 					put(grammarAccess.getJvmArgumentTypeReferenceAccess().getAlternatives(), "rule__JvmArgumentTypeReference__Alternatives");
@@ -41,7 +41,6 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1(), "rule__XImportDeclaration__Alternatives_1");
 					put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1_0_3(), "rule__XImportDeclaration__Alternatives_1_0_3");
 					put(grammarAccess.getModelAccess().getGroup(), "rule__Model__Group__0");
-					put(grammarAccess.getConstraintAccess().getGroup(), "rule__Constraint__Group__0");
 					put(grammarAccess.getLanguageAccess().getGroup(), "rule__Language__Group__0");
 					put(grammarAccess.getOpenCSVAccess().getGroup(), "rule__OpenCSV__Group__0");
 					put(grammarAccess.getPrintCSVAccess().getGroup(), "rule__PrintCSV__Group__0");
@@ -80,16 +79,14 @@ public class CsvParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXImportDeclarationAccess().getGroup_1_0(), "rule__XImportDeclaration__Group_1_0__0");
 					put(grammarAccess.getQualifiedNameInStaticImportAccess().getGroup(), "rule__QualifiedNameInStaticImport__Group__0");
 					put(grammarAccess.getModelAccess().getNameAssignment_2(), "rule__Model__NameAssignment_2");
-					put(grammarAccess.getModelAccess().getConstraintsAssignment_6(), "rule__Model__ConstraintsAssignment_6");
-					put(grammarAccess.getModelAccess().getLanguagesAssignment_10(), "rule__Model__LanguagesAssignment_10");
-					put(grammarAccess.getModelAccess().getActionsAssignment_12(), "rule__Model__ActionsAssignment_12");
-					put(grammarAccess.getConstraintAccess().getNameAssignment_0(), "rule__Constraint__NameAssignment_0");
-					put(grammarAccess.getConstraintAccess().getTrueAssignment_2_0(), "rule__Constraint__TrueAssignment_2_0");
+					put(grammarAccess.getModelAccess().getLanguagesAssignment_6(), "rule__Model__LanguagesAssignment_6");
+					put(grammarAccess.getModelAccess().getActionsAssignment_8(), "rule__Model__ActionsAssignment_8");
 					put(grammarAccess.getLanguageAccess().getNameAssignment_0(), "rule__Language__NameAssignment_0");
 					put(grammarAccess.getLanguageAccess().getTargetAssignment_2(), "rule__Language__TargetAssignment_2");
 					put(grammarAccess.getOpenCSVAccess().getNameAssignment_2(), "rule__OpenCSV__NameAssignment_2");
 					put(grammarAccess.getOpenCSVAccess().getFileAssignment_3(), "rule__OpenCSV__FileAssignment_3");
 					put(grammarAccess.getOpenCSVAccess().getCharsetAssignment_4(), "rule__OpenCSV__CharsetAssignment_4");
+					put(grammarAccess.getOpenCSVAccess().getHeaderAssignment_7_0(), "rule__OpenCSV__HeaderAssignment_7_0");
 					put(grammarAccess.getPrintCSVAccess().getOpenAssignment_2(), "rule__PrintCSV__OpenAssignment_2");
 					put(grammarAccess.getNbRowAccess().getOpenAssignment_2(), "rule__NbRow__OpenAssignment_2");
 					put(grammarAccess.getNbColAccess().getOpenAssignment_2(), "rule__NbCol__OpenAssignment_2");

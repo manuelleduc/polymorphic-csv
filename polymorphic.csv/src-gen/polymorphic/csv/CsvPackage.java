@@ -77,22 +77,13 @@ public interface CsvPackage extends EPackage
   int MODEL__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Constraints</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MODEL__CONSTRAINTS = 1;
-
-  /**
    * The feature id for the '<em><b>Languages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__LANGUAGES = 2;
+  int MODEL__LANGUAGES = 1;
 
   /**
    * The feature id for the '<em><b>Actions</b></em>' containment reference list.
@@ -101,7 +92,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL__ACTIONS = 3;
+  int MODEL__ACTIONS = 2;
 
   /**
    * The number of structural features of the '<em>Model</em>' class.
@@ -110,44 +101,7 @@ public interface CsvPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL_FEATURE_COUNT = 4;
-
-  /**
-   * The meta object id for the '{@link polymorphic.csv.impl.ConstraintImpl <em>Constraint</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see polymorphic.csv.impl.ConstraintImpl
-   * @see polymorphic.csv.impl.CsvPackageImpl#getConstraint()
-   * @generated
-   */
-  int CONSTRAINT = 1;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int CONSTRAINT__NAME = 0;
-
-  /**
-   * The feature id for the '<em><b>True</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int CONSTRAINT__TRUE = 1;
-
-  /**
-   * The number of structural features of the '<em>Constraint</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int CONSTRAINT_FEATURE_COUNT = 2;
+  int MODEL_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.LanguageImpl <em>Language</em>}' class.
@@ -157,7 +111,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getLanguage()
    * @generated
    */
-  int LANGUAGE = 2;
+  int LANGUAGE = 1;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -194,7 +148,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getAction()
    * @generated
    */
-  int ACTION = 3;
+  int ACTION = 2;
 
   /**
    * The number of structural features of the '<em>Action</em>' class.
@@ -213,7 +167,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getOpenCSV()
    * @generated
    */
-  int OPEN_CSV = 4;
+  int OPEN_CSV = 3;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -243,13 +197,22 @@ public interface CsvPackage extends EPackage
   int OPEN_CSV__CHARSET = ACTION_FEATURE_COUNT + 2;
 
   /**
+   * The feature id for the '<em><b>Header</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OPEN_CSV__HEADER = ACTION_FEATURE_COUNT + 3;
+
+  /**
    * The number of structural features of the '<em>Open CSV</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OPEN_CSV_FEATURE_COUNT = ACTION_FEATURE_COUNT + 3;
+  int OPEN_CSV_FEATURE_COUNT = ACTION_FEATURE_COUNT + 4;
 
   /**
    * The meta object id for the '{@link polymorphic.csv.impl.RefOpenActionImpl <em>Ref Open Action</em>}' class.
@@ -259,7 +222,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getRefOpenAction()
    * @generated
    */
-  int REF_OPEN_ACTION = 5;
+  int REF_OPEN_ACTION = 4;
 
   /**
    * The feature id for the '<em><b>Open</b></em>' reference.
@@ -287,7 +250,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getPrintCSV()
    * @generated
    */
-  int PRINT_CSV = 6;
+  int PRINT_CSV = 5;
 
   /**
    * The feature id for the '<em><b>Open</b></em>' reference.
@@ -315,7 +278,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getNbRow()
    * @generated
    */
-  int NB_ROW = 7;
+  int NB_ROW = 6;
 
   /**
    * The feature id for the '<em><b>Open</b></em>' reference.
@@ -343,7 +306,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getNbCol()
    * @generated
    */
-  int NB_COL = 8;
+  int NB_COL = 7;
 
   /**
    * The feature id for the '<em><b>Open</b></em>' reference.
@@ -371,7 +334,7 @@ public interface CsvPackage extends EPackage
    * @see polymorphic.csv.impl.CsvPackageImpl#getSaveCSV()
    * @generated
    */
-  int SAVE_CSV = 9;
+  int SAVE_CSV = 8;
 
   /**
    * The feature id for the '<em><b>Open</b></em>' reference.
@@ -423,17 +386,6 @@ public interface CsvPackage extends EPackage
   EAttribute getModel_Name();
 
   /**
-   * Returns the meta object for the containment reference list '{@link polymorphic.csv.Model#getConstraints <em>Constraints</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Constraints</em>'.
-   * @see polymorphic.csv.Model#getConstraints()
-   * @see #getModel()
-   * @generated
-   */
-  EReference getModel_Constraints();
-
-  /**
    * Returns the meta object for the containment reference list '{@link polymorphic.csv.Model#getLanguages <em>Languages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -454,38 +406,6 @@ public interface CsvPackage extends EPackage
    * @generated
    */
   EReference getModel_Actions();
-
-  /**
-   * Returns the meta object for class '{@link polymorphic.csv.Constraint <em>Constraint</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Constraint</em>'.
-   * @see polymorphic.csv.Constraint
-   * @generated
-   */
-  EClass getConstraint();
-
-  /**
-   * Returns the meta object for the attribute '{@link polymorphic.csv.Constraint#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see polymorphic.csv.Constraint#getName()
-   * @see #getConstraint()
-   * @generated
-   */
-  EAttribute getConstraint_Name();
-
-  /**
-   * Returns the meta object for the attribute '{@link polymorphic.csv.Constraint#isTrue <em>True</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>True</em>'.
-   * @see polymorphic.csv.Constraint#isTrue()
-   * @see #getConstraint()
-   * @generated
-   */
-  EAttribute getConstraint_True();
 
   /**
    * Returns the meta object for class '{@link polymorphic.csv.Language <em>Language</em>}'.
@@ -571,6 +491,17 @@ public interface CsvPackage extends EPackage
    * @generated
    */
   EAttribute getOpenCSV_Charset();
+
+  /**
+   * Returns the meta object for the attribute '{@link polymorphic.csv.OpenCSV#isHeader <em>Header</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Header</em>'.
+   * @see polymorphic.csv.OpenCSV#isHeader()
+   * @see #getOpenCSV()
+   * @generated
+   */
+  EAttribute getOpenCSV_Header();
 
   /**
    * Returns the meta object for class '{@link polymorphic.csv.RefOpenAction <em>Ref Open Action</em>}'.
@@ -686,14 +617,6 @@ public interface CsvPackage extends EPackage
     EAttribute MODEL__NAME = eINSTANCE.getModel_Name();
 
     /**
-     * The meta object literal for the '<em><b>Constraints</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MODEL__CONSTRAINTS = eINSTANCE.getModel_Constraints();
-
-    /**
      * The meta object literal for the '<em><b>Languages</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -708,32 +631,6 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EReference MODEL__ACTIONS = eINSTANCE.getModel_Actions();
-
-    /**
-     * The meta object literal for the '{@link polymorphic.csv.impl.ConstraintImpl <em>Constraint</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see polymorphic.csv.impl.ConstraintImpl
-     * @see polymorphic.csv.impl.CsvPackageImpl#getConstraint()
-     * @generated
-     */
-    EClass CONSTRAINT = eINSTANCE.getConstraint();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute CONSTRAINT__NAME = eINSTANCE.getConstraint_Name();
-
-    /**
-     * The meta object literal for the '<em><b>True</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute CONSTRAINT__TRUE = eINSTANCE.getConstraint_True();
 
     /**
      * The meta object literal for the '{@link polymorphic.csv.impl.LanguageImpl <em>Language</em>}' class.
@@ -804,6 +701,14 @@ public interface CsvPackage extends EPackage
      * @generated
      */
     EAttribute OPEN_CSV__CHARSET = eINSTANCE.getOpenCSV_Charset();
+
+    /**
+     * The meta object literal for the '<em><b>Header</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute OPEN_CSV__HEADER = eINSTANCE.getOpenCSV_Header();
 
     /**
      * The meta object literal for the '{@link polymorphic.csv.impl.RefOpenActionImpl <em>Ref Open Action</em>}' class.

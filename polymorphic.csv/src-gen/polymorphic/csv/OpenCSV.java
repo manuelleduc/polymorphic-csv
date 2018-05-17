@@ -16,6 +16,7 @@ package polymorphic.csv;
  *   <li>{@link polymorphic.csv.OpenCSV#getName <em>Name</em>}</li>
  *   <li>{@link polymorphic.csv.OpenCSV#getFile <em>File</em>}</li>
  *   <li>{@link polymorphic.csv.OpenCSV#getCharset <em>Charset</em>}</li>
+ *   <li>{@link polymorphic.csv.OpenCSV#isHeader <em>Header</em>}</li>
  * </ul>
  *
  * @see polymorphic.csv.CsvPackage#getOpenCSV()
@@ -101,5 +102,31 @@ public interface OpenCSV extends Action
    * @generated
    */
   void setCharset(String value);
+
+  /**
+   * Returns the value of the '<em><b>Header</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Header</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Header</em>' attribute.
+   * @see #setHeader(boolean)
+   * @see polymorphic.csv.CsvPackage#getOpenCSV_Header()
+   * @model
+   * @generated
+   */
+  boolean isHeader();
+
+  /**
+   * Sets the value of the '{@link polymorphic.csv.OpenCSV#isHeader <em>Header</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Header</em>' attribute.
+   * @see #isHeader()
+   * @generated
+   */
+  void setHeader(boolean value);
 
 } // OpenCSV

@@ -26,7 +26,6 @@ import org.eclipse.xtext.xtype.XFunctionTypeRef;
 import org.eclipse.xtext.xtype.XImportDeclaration;
 import org.eclipse.xtext.xtype.XImportSection;
 import org.eclipse.xtext.xtype.XtypePackage;
-import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
@@ -51,9 +50,6 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
 		if (epackage == CsvPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
-			case CsvPackage.CONSTRAINT:
-				sequence_Constraint(context, (Constraint) semanticObject); 
-				return; 
 			case CsvPackage.LANGUAGE:
 				sequence_Language(context, (Language) semanticObject); 
 				return; 
@@ -142,18 +138,6 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     Constraint returns Constraint
-	 *
-	 * Constraint:
-	 *     (name=ID true?='true'?)
-	 */
-	protected void sequence_Constraint(ISerializationContext context, Constraint semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     Language returns Language
 	 *
 	 * Constraint:
@@ -178,7 +162,7 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     (name=ID constraints+=Constraint* languages+=Language* actions+=Action*)
+	 *     (name=ID languages+=Language* actions+=Action*)
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -231,7 +215,7 @@ public class CsvSemanticSequencer extends XtypeSemanticSequencer {
 	 *     OpenCSV returns OpenCSV
 	 *
 	 * Constraint:
-	 *     (name=ID file=STRING (charset='latin1' | charset='utf8'))
+	 *     (name=ID file=STRING (charset='latin1' | charset='utf8') header?='true'?)
 	 */
 	protected void sequence_OpenCSV(ISerializationContext context, OpenCSV semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

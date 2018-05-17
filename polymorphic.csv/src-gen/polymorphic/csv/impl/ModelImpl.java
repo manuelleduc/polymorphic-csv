@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import polymorphic.csv.Action;
-import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
@@ -34,7 +33,6 @@ import polymorphic.csv.Model;
  * </p>
  * <ul>
  *   <li>{@link polymorphic.csv.impl.ModelImpl#getName <em>Name</em>}</li>
- *   <li>{@link polymorphic.csv.impl.ModelImpl#getConstraints <em>Constraints</em>}</li>
  *   <li>{@link polymorphic.csv.impl.ModelImpl#getLanguages <em>Languages</em>}</li>
  *   <li>{@link polymorphic.csv.impl.ModelImpl#getActions <em>Actions</em>}</li>
  * </ul>
@@ -62,16 +60,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
-
-  /**
-   * The cached value of the '{@link #getConstraints() <em>Constraints</em>}' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getConstraints()
-   * @generated
-   * @ordered
-   */
-  protected EList<Constraint> constraints;
 
   /**
    * The cached value of the '{@link #getLanguages() <em>Languages</em>}' containment reference list.
@@ -142,20 +130,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Constraint> getConstraints()
-  {
-    if (constraints == null)
-    {
-      constraints = new EObjectContainmentEList<Constraint>(Constraint.class, this, CsvPackage.MODEL__CONSTRAINTS);
-    }
-    return constraints;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EList<Language> getLanguages()
   {
     if (languages == null)
@@ -189,8 +163,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case CsvPackage.MODEL__CONSTRAINTS:
-        return ((InternalEList<?>)getConstraints()).basicRemove(otherEnd, msgs);
       case CsvPackage.MODEL__LANGUAGES:
         return ((InternalEList<?>)getLanguages()).basicRemove(otherEnd, msgs);
       case CsvPackage.MODEL__ACTIONS:
@@ -211,8 +183,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case CsvPackage.MODEL__NAME:
         return getName();
-      case CsvPackage.MODEL__CONSTRAINTS:
-        return getConstraints();
       case CsvPackage.MODEL__LANGUAGES:
         return getLanguages();
       case CsvPackage.MODEL__ACTIONS:
@@ -234,10 +204,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case CsvPackage.MODEL__NAME:
         setName((String)newValue);
-        return;
-      case CsvPackage.MODEL__CONSTRAINTS:
-        getConstraints().clear();
-        getConstraints().addAll((Collection<? extends Constraint>)newValue);
         return;
       case CsvPackage.MODEL__LANGUAGES:
         getLanguages().clear();
@@ -264,9 +230,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
       case CsvPackage.MODEL__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case CsvPackage.MODEL__CONSTRAINTS:
-        getConstraints().clear();
-        return;
       case CsvPackage.MODEL__LANGUAGES:
         getLanguages().clear();
         return;
@@ -289,8 +252,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case CsvPackage.MODEL__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case CsvPackage.MODEL__CONSTRAINTS:
-        return constraints != null && !constraints.isEmpty();
       case CsvPackage.MODEL__LANGUAGES:
         return languages != null && !languages.isEmpty();
       case CsvPackage.MODEL__ACTIONS:

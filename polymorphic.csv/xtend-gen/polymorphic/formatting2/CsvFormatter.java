@@ -18,7 +18,6 @@ import org.eclipse.xtext.xtype.XFunctionTypeRef;
 import org.eclipse.xtext.xtype.XImportDeclaration;
 import org.eclipse.xtext.xtype.XImportSection;
 import polymorphic.csv.Action;
-import polymorphic.csv.Constraint;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
 import polymorphic.services.CsvGrammarAccess;
@@ -30,10 +29,6 @@ public class CsvFormatter extends XtypeFormatter {
   private CsvGrammarAccess _csvGrammarAccess;
   
   protected void _format(final Model model, @Extension final IFormattableDocument document) {
-    EList<Constraint> _constraints = model.getConstraints();
-    for (final Constraint constraint : _constraints) {
-      document.<Constraint>format(constraint);
-    }
     EList<Language> _languages = model.getLanguages();
     for (final Language language : _languages) {
       document.<Language>format(language);

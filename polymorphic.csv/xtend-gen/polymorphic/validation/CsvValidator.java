@@ -11,7 +11,6 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
 import polymorphic.csv.Model;
@@ -34,34 +33,6 @@ public class CsvValidator extends AbstractCsvValidator {
   public final static String LANGUAGE_DOES_NOT_EXIST = "LANGUAGE_DOES_NOT_EXIST";
   
   public final static GeneratorCollection generators = new GeneratorCollection();
-  
-  @Check
-  public void matchConstraints(final Language language) {
-    final Function1<Constraint, Boolean> _function = (Constraint it) -> {
-      boolean _xblockexpression = false;
-      {
-        final Boolean prop = CsvValidator.generators.getMap().get(language.getName()).properties().get(it.getName());
-        _xblockexpression = (!((prop == null) || (it.isTrue() == (prop).booleanValue())));
-      }
-      return Boolean.valueOf(_xblockexpression);
-    };
-    final Function1<Constraint, String> _function_1 = (Constraint it) -> {
-      return it.getName();
-    };
-    final Iterable<String> names = IterableExtensions.<Constraint, String>map(IterableExtensions.<Constraint>filter(EcoreUtil2.<Model>getContainerOfType(language, Model.class).getConstraints(), _function), _function_1);
-    boolean _isEmpty = IterableExtensions.isEmpty(names);
-    boolean _not = (!_isEmpty);
-    if (_not) {
-      StringConcatenation _builder = new StringConcatenation();
-      String _name = language.getName();
-      _builder.append(_name);
-      _builder.append(" does not conform to rules ");
-      String _join = IterableExtensions.join(names, ", ");
-      _builder.append(_join);
-      this.error(_builder.toString(), 
-        CsvPackage.eINSTANCE.getLanguage_Name(), CsvValidator.LANGUAGE_CONSTRAINTS_ERROR);
-    }
-  }
   
   @Check
   public void checkDuplicateOpen(final OpenCSV openCSV) {

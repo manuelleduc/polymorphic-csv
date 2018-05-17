@@ -5,16 +5,10 @@ generate csv "http://www.Csv.polymorphic"
 Model:
 	{Model}
 	'package' name=ID ';'
-	'constraints' '{'
-	constraints+=Constraint*
-	'}'
 	'languages' '{'
 	languages+=Language*
 	'}'
 	(actions+=Action)*;
-
-Constraint:
-	name=ID '=' (true?='true' | 'false');
 
 Language:
 	name=ID '(' target=QualifiedName ')';
@@ -23,7 +17,7 @@ Action:
 	OpenCSV | RefOpenAction;
 
 OpenCSV:
-	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8');
+	{OpenCSV} 'read' name=ID file=STRING charset=('latin1' | 'utf8') 'header' '=' (header?='true'|'false');
 
 RefOpenAction:
 	PrintCSV | NbRow | NbCol | SaveCSV;

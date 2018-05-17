@@ -7,7 +7,6 @@ import com.google.inject.Inject
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.formatting2.XtypeFormatter
 import polymorphic.csv.Action
-import polymorphic.csv.Constraint
 import polymorphic.csv.Language
 import polymorphic.csv.Model
 import polymorphic.services.CsvGrammarAccess
@@ -18,9 +17,6 @@ class CsvFormatter extends XtypeFormatter {
 
 	def dispatch void format(Model model, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (Constraint constraint : model.getConstraints()) {
-			constraint.format;
-		}
 		for (Language language : model.getLanguages()) {
 			language.format;
 		}

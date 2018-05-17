@@ -23,6 +23,7 @@ import polymorphic.csv.OpenCSV;
  *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getName <em>Name</em>}</li>
  *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getFile <em>File</em>}</li>
  *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#getCharset <em>Charset</em>}</li>
+ *   <li>{@link polymorphic.csv.impl.OpenCSVImpl#isHeader <em>Header</em>}</li>
  * </ul>
  *
  * @generated
@@ -88,6 +89,26 @@ public class OpenCSVImpl extends ActionImpl implements OpenCSV
    * @ordered
    */
   protected String charset = CHARSET_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isHeader() <em>Header</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isHeader()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean HEADER_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isHeader() <em>Header</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isHeader()
+   * @generated
+   * @ordered
+   */
+  protected boolean header = HEADER_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -184,6 +205,29 @@ public class OpenCSVImpl extends ActionImpl implements OpenCSV
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isHeader()
+  {
+    return header;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setHeader(boolean newHeader)
+  {
+    boolean oldHeader = header;
+    header = newHeader;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, CsvPackage.OPEN_CSV__HEADER, oldHeader, header));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
@@ -195,6 +239,8 @@ public class OpenCSVImpl extends ActionImpl implements OpenCSV
         return getFile();
       case CsvPackage.OPEN_CSV__CHARSET:
         return getCharset();
+      case CsvPackage.OPEN_CSV__HEADER:
+        return isHeader();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -217,6 +263,9 @@ public class OpenCSVImpl extends ActionImpl implements OpenCSV
         return;
       case CsvPackage.OPEN_CSV__CHARSET:
         setCharset((String)newValue);
+        return;
+      case CsvPackage.OPEN_CSV__HEADER:
+        setHeader((Boolean)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -241,6 +290,9 @@ public class OpenCSVImpl extends ActionImpl implements OpenCSV
       case CsvPackage.OPEN_CSV__CHARSET:
         setCharset(CHARSET_EDEFAULT);
         return;
+      case CsvPackage.OPEN_CSV__HEADER:
+        setHeader(HEADER_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -261,6 +313,8 @@ public class OpenCSVImpl extends ActionImpl implements OpenCSV
         return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
       case CsvPackage.OPEN_CSV__CHARSET:
         return CHARSET_EDEFAULT == null ? charset != null : !CHARSET_EDEFAULT.equals(charset);
+      case CsvPackage.OPEN_CSV__HEADER:
+        return header != HEADER_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -282,6 +336,8 @@ public class OpenCSVImpl extends ActionImpl implements OpenCSV
     result.append(file);
     result.append(", charset: ");
     result.append(charset);
+    result.append(", header: ");
+    result.append(header);
     result.append(')');
     return result.toString();
   }

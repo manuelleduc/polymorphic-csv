@@ -33,15 +33,6 @@ public interface CsvFactory extends EFactory
   Model createModel();
 
   /**
-   * Returns a new object of class '<em>Constraint</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Constraint</em>'.
-   * @generated
-   */
-  Constraint createConstraint();
-
-  /**
    * Returns a new object of class '<em>Language</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import polymorphic.csv.Action;
-import polymorphic.csv.Constraint;
 import polymorphic.csv.CsvFactory;
 import polymorphic.csv.CsvPackage;
 import polymorphic.csv.Language;
@@ -37,13 +36,6 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
    * @generated
    */
   private EClass modelEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass constraintEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -189,7 +181,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getModel_Constraints()
+  public EReference getModel_Languages()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(1);
   }
@@ -199,49 +191,9 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getModel_Languages()
-  {
-    return (EReference)modelEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EReference getModel_Actions()
   {
-    return (EReference)modelEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getConstraint()
-  {
-    return constraintEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getConstraint_Name()
-  {
-    return (EAttribute)constraintEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getConstraint_True()
-  {
-    return (EAttribute)constraintEClass.getEStructuralFeatures().get(1);
+    return (EReference)modelEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -322,6 +274,16 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
   public EAttribute getOpenCSV_Charset()
   {
     return (EAttribute)openCSVEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getOpenCSV_Header()
+  {
+    return (EAttribute)openCSVEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -426,13 +388,8 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     // Create classes and their features
     modelEClass = createEClass(MODEL);
     createEAttribute(modelEClass, MODEL__NAME);
-    createEReference(modelEClass, MODEL__CONSTRAINTS);
     createEReference(modelEClass, MODEL__LANGUAGES);
     createEReference(modelEClass, MODEL__ACTIONS);
-
-    constraintEClass = createEClass(CONSTRAINT);
-    createEAttribute(constraintEClass, CONSTRAINT__NAME);
-    createEAttribute(constraintEClass, CONSTRAINT__TRUE);
 
     languageEClass = createEClass(LANGUAGE);
     createEAttribute(languageEClass, LANGUAGE__NAME);
@@ -444,6 +401,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     createEAttribute(openCSVEClass, OPEN_CSV__NAME);
     createEAttribute(openCSVEClass, OPEN_CSV__FILE);
     createEAttribute(openCSVEClass, OPEN_CSV__CHARSET);
+    createEAttribute(openCSVEClass, OPEN_CSV__HEADER);
 
     refOpenActionEClass = createEClass(REF_OPEN_ACTION);
     createEReference(refOpenActionEClass, REF_OPEN_ACTION__OPEN);
@@ -497,13 +455,8 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getModel_Constraints(), this.getConstraint(), null, "constraints", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Languages(), this.getLanguage(), null, "languages", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Actions(), this.getAction(), null, "actions", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getConstraint_Name(), ecorePackage.getEString(), "name", null, 0, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getConstraint_True(), ecorePackage.getEBoolean(), "true", null, 0, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(languageEClass, Language.class, "Language", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getLanguage_Name(), ecorePackage.getEString(), "name", null, 0, 1, Language.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -515,6 +468,7 @@ public class CsvPackageImpl extends EPackageImpl implements CsvPackage
     initEAttribute(getOpenCSV_Name(), ecorePackage.getEString(), "name", null, 0, 1, OpenCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getOpenCSV_File(), ecorePackage.getEString(), "file", null, 0, 1, OpenCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getOpenCSV_Charset(), ecorePackage.getEString(), "charset", null, 0, 1, OpenCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getOpenCSV_Header(), ecorePackage.getEBoolean(), "header", null, 0, 1, OpenCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(refOpenActionEClass, RefOpenAction.class, "RefOpenAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getRefOpenAction_Open(), this.getOpenCSV(), null, "open", null, 0, 1, RefOpenAction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

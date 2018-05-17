@@ -3,15 +3,15 @@
  */
 package polymorphic.validation
 
-import polymorphic.csv.OpenCSV
-
-import static extension org.eclipse.xtext.EcoreUtil2.*
-import polymorphic.csv.Model
-import polymorphic.csv.CsvPackage
 import org.eclipse.xtext.validation.Check
+import polymorphic.csv.CsvPackage
 import polymorphic.csv.Language
-import polymorphic.generator.GeneratorCollection
+import polymorphic.csv.Model
+import polymorphic.csv.OpenCSV
 import polymorphic.csv.RefOpenAction
+import polymorphic.generator.GeneratorCollection
+
+import static org.eclipse.xtext.EcoreUtil2.*
 
 /**
  * This class contains custom validation rules. 
@@ -26,18 +26,6 @@ class CsvValidator extends AbstractCsvValidator {
 
 	public static val generators = new GeneratorCollection
 
-	@Check
-	def matchConstraints(Language language) {
-		val names = getContainerOfType(language, Model).constraints.filter [
-			val prop = generators.map.get(language.name).properties.get(it.name)
-			!(prop === null || it.^true == prop)
-		].map[it.name]
-
-		if (!names.empty) {
-			error('''«language.name» does not conform to rules «names.join(', ')»''',
-				CsvPackage::eINSTANCE.language_Name, LANGUAGE_CONSTRAINTS_ERROR)
-		}
-	}
 
 	@Check
 	def checkDuplicateOpen(OpenCSV openCSV) {

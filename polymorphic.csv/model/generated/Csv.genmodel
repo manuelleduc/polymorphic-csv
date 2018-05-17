@@ -8,13 +8,8 @@
       fileExtensions="pcsv" ecorePackage="Csv.ecore#/">
     <genClasses ecoreClass="Csv.ecore#//Model">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Model/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Csv.ecore#//Model/constraints"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Csv.ecore#//Model/languages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Csv.ecore#//Model/actions"/>
-    </genClasses>
-    <genClasses ecoreClass="Csv.ecore#//Constraint">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Constraint/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Constraint/true"/>
     </genClasses>
     <genClasses ecoreClass="Csv.ecore#//Language">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//Language/name"/>
@@ -25,6 +20,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/file"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/charset"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Csv.ecore#//OpenCSV/header"/>
     </genClasses>
     <genClasses ecoreClass="Csv.ecore#//RefOpenAction">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Csv.ecore#//RefOpenAction/open"/>
